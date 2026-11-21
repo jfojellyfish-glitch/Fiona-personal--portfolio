@@ -34,7 +34,7 @@ jobs:
           origin="https://drive.google.com/drive/folders/1XMhj2YmQ-0lQ0zoSerIL0idsY4_e_Dc4?usp=sharing"
           try:
               print("Attempting original slnc Behance download source")
-              gdown.download_folder(url=origin,output=str(directory),quiet=False,remaining_ok=True,use_cookies=False)
+              gdown.download_folder(url=origin,output=str(directory),quiet=False)
           except Exception as ex:
               print("Artist folder unavailable:",str(ex)[:300])
           zips=list(directory.rglob("*.zip"))
