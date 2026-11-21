@@ -54,7 +54,7 @@ for(const [origin,url] of sources){
     console.log('CONTACT_AUDIT '+origin+' '+name+' '+JSON.stringify({status:response?.status(),...result,errors}));
     if(origin==='published' || (origin==='local' && name==='ipad-portrait')){
       console.log('CONTACT_IMAGE_'+origin+'_'+name+'_BEGIN');
-      console.log(screenshot.toString('base64'));
+      console.log(Buffer.from(screenshot).toString('base64'));
       console.log('CONTACT_IMAGE_'+origin+'_'+name+'_END');
     }
     if(response?.status()!==200||result.peakCanvasAlpha===0||result.titleEmailOverlap||result.textOverflow)
