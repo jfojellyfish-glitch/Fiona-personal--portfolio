@@ -1,0 +1,82 @@
+/* v60 — Section-to-section motion: archival paper stack.
+   Progressive enhancement only. Keeps the existing sections, images, links,
+   3D entrance and content, unlike the fixed-height concept review. */
+@media (prefers-reduced-motion: no-preference) {
+  html.paper-stack-enabled body {
+    background-color:#e8e3dc;
+  }
+  html.paper-stack-enabled .site {
+    isolation:isolate;
+  }
+  html.paper-stack-enabled .site > section.paper-stack-panel {
+    position:sticky;
+    top:var(--paper-stick-top,0px);
+    z-index:var(--paper-z,1);
+    min-height:100svh;
+    background-color:var(--theme-bg,#f8f5f1);
+    background-image:
+      radial-gradient(ellipse 65% 58% at 53% 43%,rgba(255,255,255,.21),transparent 91%),
+      linear-gradient(114deg,rgba(156,132,119,.036),transparent 39%,rgba(117,96,84,.038));
+    background-repeat:no-repeat;
+    transform:translate3d(0,var(--paper-enter-y,0px),0) scale(var(--paper-scale,1));
+    transform-origin:center top;
+    border-radius:var(--paper-radius,0px) var(--paper-radius,0px) 0 0;
+    box-shadow:0 -14px 45px rgba(66,51,44,.075);
+    backface-visibility:hidden;
+    scroll-margin-top:0;
+  }
+  html.paper-stack-enabled .site > section.paper-stack-panel.paper-stack-active {
+    will-change:transform;
+  }
+  html.paper-stack-enabled .site > section.paper-stack-panel.note-band {
+    background-color:var(--lilac,#ead8e5);
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:stretch;
+  }
+  html.paper-stack-enabled .site > section.paper-stack-panel.note-band > .inner {
+    width:100%;
+  }
+  html.paper-stack-enabled .site > footer {
+    position:relative;
+    z-index:12;
+    background-color:var(--theme-bg,#f8f5f1);
+  }
+
+  /* Section transitions are primary; do not also stagger paragraphs and rows.
+     Keep the existing line wrappers block-level so intentional breaks remain. */
+  html.paper-stack-enabled .motion-lines .motion-line-mask,
+  html.paper-stack-enabled .motion-lines .motion-line-text { display:block; }
+  html.paper-stack-enabled .motion-lines .motion-line-text {
+    opacity:1!important;
+    transform:none!important;
+    transition:none!important;
+  }
+  html.paper-stack-enabled .works .work-list details[data-row-reveal] {
+    opacity:1!important;
+    translate:0 0!important;
+    transition:none!important;
+  }
+  html.paper-stack-enabled [data-reveal] {
+    opacity:1!important;
+    transform:none!important;
+    transition:none!important;
+  }
+  @media (max-width:700px) {
+    html.paper-stack-enabled .site > section.paper-stack-panel {
+      box-shadow:0 -9px 30px rgba(66,51,44,.060);
+      border-radius:0;
+    }
+  }
+}
+
+/* Explicit accessibility fallback: natural uninterrupted document flow. */
+@media (prefers-reduced-motion:reduce) {
+  .site > section.paper-stack-panel {
+    position:relative!important;
+    top:auto!important;
+    transform:none!important;
+    border-radius:0!important;
+  }
+}
