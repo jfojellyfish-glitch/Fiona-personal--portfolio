@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 declare global { interface Window { __fionaPortfolioBooted?: boolean; } }
 const prefix = process.env.NEXT_PUBLIC_BASE_PATH ?? '/Fiona-personal--portfolio';
 const scripts: Array<[string,'module'|'classic']> = [
-  ['intro-webgl.js','module'], ['main.js','classic'], ['scroll-motion.js','classic']
+  ['intro-webgl.js','module'], ['main.js','classic'], ['scroll-motion.js','classic'], ['paper-stack.js','classic']
 ];
 /** Boot the original custom WebGL intro and archive after React hydration.
  *  Archive drawers are now React components, not a DOM-mutation script.
