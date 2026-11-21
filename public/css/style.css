@@ -790,3 +790,26 @@ html[data-theme='dark'] .notes h2::selection {
 
 body.intro-locked #portfolio-site>.site{visibility:hidden}
 body:not(.intro-locked) #portfolio-site>.site{visibility:visible}
+
+/* v52: iOS and Android should treat navigation arrows as text, never emoji. */
+@media (max-width: 700px) {
+  .archive-entry-arrow,
+  .pearl-card-arrow,
+  .archive-page a,
+  .contact-email > span,
+  .contact-social > span[aria-hidden="true"],
+  .about-links a,
+  .work-list a,
+  #photo-prev,
+  #photo-next {
+    font-variant-emoji: text;
+  }
+  .archive-entry-arrow,
+  .pearl-card-arrow,
+  #photo-prev,
+  #photo-next,
+  .contact-email > span,
+  .contact-social > span[aria-hidden="true"] {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+}
