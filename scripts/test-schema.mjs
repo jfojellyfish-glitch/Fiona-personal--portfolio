@@ -1,0 +1,13 @@
+import assert from 'node:assert/strict';
+import {safePath,validateManifest,isValidDate,safeUrl} from '../js/catalogue.js';
+assert.equal(safePath('assets/models/model-01.glb'),true);
+assert.equal(safePath('../secrets.txt'),false);
+assert.equal(safePath('/etc/passwd'),false);
+assert.equal(safeUrl('javascript:alert(1)'),false);
+assert.equal(safeUrl('https://sketchfab.com/models/example'),true);
+assert.equal(isValidDate('2026-02-29'),false);
+assert.equal(isValidDate('2024-02-29'),true);
+assert.equal(validateManifest('pearls',{entries:[{slug:'first',title:'one',file:'content/pearls/first.md'},{slug:'first',title:'two',file:'content/pearls/second.md'}]}).some(x=>x.message==='Duplicate slug'),true);
+assert.equal(validateManifest('objects',{models:[{title:'work',file:'assets/models/a.glb',year:'2025'}]}).length,0);
+assert.equal(validateManifest('photography',{photos:[{title:'photo',file:'assets/photography/a.webp'}]}).length,0);
+console.log('✓ 9 schema checks passed');

@@ -57,3 +57,9 @@ Brand SVG icons now appear before LinkedIn, GitHub and Instagram labels. This in
 
 ## v48 update
 The example title from the supplied code was not the model’s actual name. It is now labelled **old water Mark / 2025**. The page shows the model directly on an unboxed transparent canvas once visitors enter **02 / 3d objects**. The asset is still the same web-optimised GLB; the original upload is not modified.
+
+## v50 — reliability and TypeScript
+
+Added a typed archive schema (`src/catalogue.ts`), optional keyboard-friendly collection search (`src/archive-tools.ts`), and GitHub Actions checks to compile TypeScript and validate content paths and GLB size. The deployed site remains HTML + CSS + compiled JavaScript on GitHub Pages. The visual layout and original 3D introduction are unchanged.
+
+Run `npm install` and `npm run check` to check changes. See `HOW_TO_ADD_WORKS.md` for updating entries. The old large standalone preview was removed from the live branch but preserved in `backup-before-v50-2026-11-21`.

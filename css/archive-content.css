@@ -100,3 +100,12 @@
 
 /* A programmatically focused page heading is not an interactive control. */
 .archive-page-heading h1[tabindex="-1"]:focus {outline:none;}
+
+/* v50: unobtrusive collection search, appears only with four or more works. */
+.archive-search[hidden],.archive-search-empty[hidden],.pearl-card[hidden],.model-card[hidden],.photo-card[hidden]{display:none!important}
+.archive-search{display:flex;justify-content:space-between;align-items:end;gap:20px;padding:15px 0 22px;border-bottom:1px solid var(--theme-line,#ddd);margin-bottom:24px}
+.archive-search-label{font:400 12px/1.6 Arial,sans-serif;color:var(--theme-secondary,#67615f)}
+.archive-search-label input{display:block;width:min(44vw,330px);margin-top:7px;border:0;border-bottom:1px solid #aaa1a8;background:transparent;color:var(--theme-ink,#171616);font:400 clamp(18px,2vw,27px)/1.35 var(--title-face,'Arial Narrow',Arial,sans-serif);padding:5px 0 7px;border-radius:0;outline-offset:5px}
+.archive-search-count,.archive-search-empty{font:400 12px/1.6 Arial,sans-serif;color:var(--theme-secondary,#67615f)}
+.archive-search-empty{text-align:center;margin:80px 0}
+@media(max-width:700px){.archive-search-label input{width:min(60vw,260px)}}

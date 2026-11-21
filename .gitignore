@@ -1,0 +1,7 @@
+node_modules/
+.DS_Store
+*.log
+.cache/
+coverage/
+# Local standalone previews are not published.
+Fiona_Qian_Portfolio_v*_Single_File_Preview.html

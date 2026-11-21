@@ -110,3 +110,15 @@ Your intro 3D logo (`assets/fiona-logo.glb`) is independent and unchanged.
 
 ## v48 update
 The example title from the supplied code was not the model’s actual name. It is now labelled **old water Mark / 2025**. The page shows the model directly on an unboxed transparent canvas once visitors enter **02 / 3d objects**. The asset is still the same web-optimised GLB; the original upload is not modified.
+
+## v50 — build checks and search
+
+This site still runs on GitHub Pages **without** a framework. TypeScript is added for optional content search and data schema, rather than rewriting the 3D introduction.
+
+- `npm install` installs TypeScript.
+- `npm run check` compiles `src/*.ts`, checks content JSON, missing files, and self-hosted GLB headers/size.
+- GitHub Actions runs checks on pull requests and `main` pushes.
+- After a collection has **4 or more works**, a search field appears. Press `/` to focus and `Esc` to clear.
+- Compiled `js/archive-tools.js` and `js/catalogue.js` are committed, so GitHub Pages requires no Node backend or build.
+
+If Pages publishes from `main`, that setting does not change. The workflow checks the site but does not deploy or overwrite it.

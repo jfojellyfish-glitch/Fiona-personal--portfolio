@@ -1,0 +1,17 @@
+{
+  "name": "fiona-personal-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Static GitHub Pages portfolio with typed archive enhancements",
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "validate": "node scripts/validate-content.mjs",
+    "test": "node scripts/test-schema.mjs",
+    "check": "npm run build && npm run test && npm run validate",
+    "preview": "python3 -m http.server 8000"
+  },
+  "devDependencies": {
+    "typescript": "5.8.3"
+  }
+}
