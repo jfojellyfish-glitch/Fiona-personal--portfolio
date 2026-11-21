@@ -1,3 +1,4 @@
+import {PlainArrow} from '@/components/PlainArrow';
 'use client';
 import { createElement,useEffect,useMemo,useState } from 'react';
 import { CollectionSearch } from './CollectionSearch';
@@ -43,7 +44,7 @@ function Viewer({model,active}:{model:Model;active:boolean}){
  const retryButton=()=>{setRetry(x=>x+1);setError(false);};
  return <article className="model-card model-card-direct">
    {(id||local)&&<div className="model-stage">
-     {!active||!ready?error?<button type="button" className="model-stage-retry" onClick={retryButton}>viewer unavailable · retry ↗︎</button>:
+     {!active||!ready?error?<button type="button" className="model-stage-retry" onClick={retryButton}>viewer unavailable · retry <PlainArrow direction="up-right" /></button>:
        <p className="model-stage-status">loading 3d…</p>:
        local?createElement('model-viewer',{
          className:'model-interactive',src:assetUrl(model.file!),alt:model.alt||'3D artwork',
@@ -58,7 +59,7 @@ function Viewer({model,active}:{model:Model;active:boolean}){
    {model.description&&<p className="model-description">{model.description}</p>}
    {model.year&&<p className="model-meta">{model.year}</p>}
    {(id||validExternal(model.url))&&<a className="model-link" target="_blank" rel="noopener noreferrer"
-       href={id?'https://sketchfab.com/models/'+id:validExternal(model.url)}>{id?'open on sketchfab ↗︎':'view project ↗︎'}</a>}
+       href={id?'https://sketchfab.com/models/'+id:validExternal(model.url)}>{id?'open on sketchfab':'view project'} <PlainArrow direction="up-right" /></a>}
  </article>;
 }
 export function ObjectsDrawer({models,active}:{models:Model[];active:boolean}){
@@ -67,7 +68,7 @@ export function ObjectsDrawer({models,active}:{models:Model[];active:boolean}){
      .includes(query.trim().toLocaleLowerCase())),[models,query]);
  return <section aria-label="3D Objects" className="archive-page" data-archive-page="objects" id="objects-page" hidden={!active}>
    <div className="archive-page-inner">
-     <div className="archive-page-top"><a className="archive-back" href="#notes">←︎ back to index</a><span>fᵢₒₙₐ / 02</span></div>
+     <div className="archive-page-top"><a className="archive-back" href="#notes"><PlainArrow direction="left" /> back to index</a><span>fᵢₒₙₐ / 02</span></div>
      <header className="archive-page-heading"><p className="archive-overline">drawer no. 02 / objects</p>
        <h1 tabIndex={-1}>made in<br/>three dimensions.</h1><p>little objects, experiments, and digital sculptures.</p></header>
      {models.length===0?<div aria-label="Space reserved for original 3D objects" className="archive-object-stage">
@@ -77,7 +78,7 @@ export function ObjectsDrawer({models,active}:{models:Model[];active:boolean}){
          <div className="model-list">{shown.map((m,i)=><Viewer key={m.file||m.sketchfabId||m.title+i} model={m} active={active}/>)}</div>
          {query&&shown.length===0&&<p className="archive-search-empty">nothing found.</p>}
        </div>}
-     <nav aria-label="Archive pages" className="archive-page-bottom"><a href="#writing">←︎ pearls</a><a href="#photography">photography ↗︎</a></nav>
+     <nav aria-label="Archive pages" className="archive-page-bottom"><a href="#writing"><PlainArrow direction="left" /> pearls</a><a href="#photography">photography <PlainArrow direction="up-right" /></a></nav>
    </div>
  </section>;
 }
