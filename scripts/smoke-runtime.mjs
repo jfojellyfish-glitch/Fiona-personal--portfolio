@@ -4,9 +4,11 @@ import assert from 'node:assert/strict';
 const executablePath=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable','/usr/bin/chromium','/usr/bin/chromium-browser'].find(x=>fs.existsSync(x));
 if(!executablePath)throw new Error('Chrome executable not found');
 const browser=await puppeteer.launch({headless:true,executablePath,args:['--no-sandbox','--disable-dev-shm-usage','--disable-gpu','--use-gl=swiftshader','--enable-unsafe-swiftshader']});
+const [owner, repository] = (process.env.GITHUB_REPOSITORY || 'jfojellyfish-glitch/Fiona-personal--portfolio').split('/');
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '/' + repository;
 const urls=[
- ['local','http://127.0.0.1:4173/Fiona-personal--portfolio/'],
- ['live','https://jfojellyfish-glitch.github.io/Fiona-personal--portfolio/']
+ ['local', 'http://127.0.0.1:4173' + basePath + '/'],
+ ['live', 'https://' + owner + '.github.io' + basePath + '/']
 ];
 let fails=0;
 for(const [label,url] of urls) {
