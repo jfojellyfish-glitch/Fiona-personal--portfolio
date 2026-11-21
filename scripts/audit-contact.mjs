@@ -22,7 +22,7 @@ for(const [origin,url] of sources){
     await page.evaluate(()=>{
       document.body.classList.remove('intro-locked');
       document.documentElement.classList.remove('intro-locked');
-      document.querySelector('#intro-screen')?.setAttribute('hidden','');
+      document.querySelector('#intro-screen')?.remove();
       document.querySelector('.site')?.removeAttribute('inert');
       document.getElementById('contact')?.scrollIntoView({block:'start',behavior:'instant'});
     });
@@ -41,6 +41,8 @@ for(const [origin,url] of sources){
         firstLine:bbox('.contact-line-one'),secondLine:bbox('.contact-line-two'),
         email,emailSection:details,canvas:bbox('#contact-angel-canvas'),
         canvasPixelWidth:canvas?.width,nonZeroCanvasSamplePixels:nonZero,peakCanvasAlpha:peak,
+        canvasCssOpacity:canvas?parseFloat(getComputedStyle(canvas).opacity):null,
+        effectivePeakOpacity:canvas?+(peak/255*parseFloat(getComputedStyle(canvas).opacity)).toFixed(4):null,
         angelImgLoaded:!!document.querySelector('.contact-mark')?.naturalWidth,
         angelImgNaturalWidth:document.querySelector('.contact-mark')?.naturalWidth,
         arrowCount:document.querySelectorAll('#contact .plain-arrow,#contact .contact-plain-arrow').length,
