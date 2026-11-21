@@ -32,6 +32,8 @@ jobs:
         run: node scripts/smoke-runtime.mjs
       - name: Audit Contact appearance across desktop and iPad
         run: node scripts/audit-contact.mjs
+      - name: Verify Retrogression webfont on desktop and mobile
+        run: node scripts/audit-intro-font.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
