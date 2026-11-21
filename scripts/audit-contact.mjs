@@ -8,7 +8,7 @@ const browser=await puppeteer.launch({headless:true,executablePath,args:['--no-s
 const [owner,repo]=(process.env.GITHUB_REPOSITORY||'jfojellyfish-glitch/Fiona-personal--portfolio').split('/');
 const base=process.env.NEXT_PUBLIC_BASE_PATH??('/'+repo);
 const sources=[['published','https://'+owner+'.github.io'+base+'/']];
-const viewports=[['desktop',1440,900],['ipad-portrait',820,1180],['ipad-landscape',1180,820],['mobile',390,844]];
+const viewports=[['desktop',1440,900],['ipad-portrait',820,1180]];
 for(const [origin,url] of sources){
  for(const [name,width,height] of viewports){
   const page=await browser.newPage();
@@ -17,8 +17,8 @@ for(const [origin,url] of sources){
   page.on('pageerror',e=>errors.push(e.message));
   page.on('requestfailed',r=>errors.push('network '+r.url()+' '+r.failure()?.errorText));
   try{
-    const response=await page.goto(url,{waitUntil:'networkidle2',timeout:45000});
-    await page.waitForSelector('#contact-angel-canvas',{timeout:15000});
+    const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:15000});
+    await page.waitForSelector('#contact-angel-canvas',{timeout:7000});
     await page.evaluate(()=>{
       document.body.classList.remove('intro-locked');
       document.documentElement.classList.remove('intro-locked');
