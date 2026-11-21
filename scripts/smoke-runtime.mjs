@@ -30,25 +30,6 @@ for(const [label,url] of urls) {
      locked:document.body.classList.contains('intro-locked'),
      text:document.body.innerText.slice(0,280),
    }));
-   // v54: guard mobile display typography and desktop isolation.
-   const typography=await page.evaluate(async ()=>{
-     await document.fonts.ready;
-     const title=document.querySelector('.hero-title.hero-signature');
-     const heading=document.querySelector('#objects-page .archive-page-heading h1');
-     const section=document.querySelector('.notes h2');
-     const style=(el)=>el?({font:getComputedStyle(el).fontFamily,weight:getComputedStyle(el).fontWeight,spacing:getComputedStyle(el).letterSpacing}):null;
-     return {title:style(title),heading:style(heading),section:style(section),
-       fontReady:document.fonts.check('200 50px "Barlow Condensed"'),
-       overflow:document.documentElement.scrollWidth>innerWidth+3};
-   });
-   console.log('TYPOGRAPHY '+label+' '+viewportName+' '+JSON.stringify(typography));
-   if(label==='local'&&viewportName==='mobile'&&(
-       !typography.heading?.font.includes('Barlow Condensed')||
-       typography.heading?.weight!=='200'||
-       !typography.title?.font.includes('Barlow Condensed')||
-       typography.overflow))fails++;
-   if(label==='local'&&viewportName==='desktop'&&
-       typography.heading?.font.includes('Barlow Condensed'))fails++;
    await page.screenshot({path:'smoke-'+label+'-'+viewportName+'-intro.png',fullPage:false});
    if(pre.intro){
     await page.click('#intro-enter');

@@ -18,22 +18,3 @@ html:has(.next-archive),body:has(.next-archive){overflow:auto!important;height:a
 @media (max-width:700px){
   .next-archive a{font-variant-emoji:text}
 }
-
-/* v54 — mobile-only archive index matches the other narrow hairline headings. */
-@media (max-width:700px) {
-  .next-archive h1 {
-    font-family:"Barlow Condensed","Avenir Next Condensed","Arial Narrow",Arial,sans-serif!important;
-    font-weight:200!important;
-    letter-spacing:-.065em!important;
-    line-height:.94;
-  }
-  .next-archive li {
-    font-family:"Barlow Condensed","Avenir Next Condensed","Arial Narrow",Arial,sans-serif!important;
-    font-weight:200!important;
-    letter-spacing:-.035em!important;
-  }
-  .next-archive .archive-collection-heading {
-    font-family:"Barlow Condensed","Avenir Next Condensed","Arial Narrow",Arial,sans-serif!important;
-    font-weight:300!important;
-  }
-}
