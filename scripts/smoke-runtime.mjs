@@ -49,7 +49,7 @@ for(const [label,url] of urls) {
    }));
    await page.screenshot({path:'smoke-'+label+'-'+viewportName+'-objects.png',fullPage:false});
    console.log(JSON.stringify({label,viewportName,url,status:response?.status(),title,pre,post,errors,failed:failed.slice(0,8),bad:bad.slice(0,12)},null,2));
-   if(response?.status()!==200||!pre.intro||!pre.portfolio||!pre.obj||!post.objPage||post.locked||!post.modelTitle){fails++;}
+   if(![200,304].includes(response?.status())||!pre.intro||!pre.portfolio||!pre.obj||!post.objPage||post.locked||!post.modelTitle){fails++;}
   }catch(e){fails++;console.error('BROWSER FAILURE '+label+' '+viewportName+': '+e.stack);}
   await page.close();
  }
