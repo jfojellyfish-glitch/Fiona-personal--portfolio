@@ -1,0 +1,87 @@
+name: Vendor licensed Retrogression WOFF2
+on:
+  push:
+    branches: [mobile-retrogression-arial-narrow]
+    paths:
+      - .github/workflows/vendor-retrogression.yml
+permissions:
+  contents: write
+jobs:
+  vendor-font:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install --disable-pip-version-check gdown fonttools brotli requests
+      - name: Download artist font and produce WOFF2
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import hashlib
+          import zipfile
+          import requests
+          import gdown
+          from fontTools.ttLib import TTFont
+
+          out=Path("public/assets/fonts/retrogression.woff2")
+          out.parent.mkdir(parents=True,exist_ok=True)
+          directory=Path("/tmp/retrogression-source")
+          directory.mkdir(parents=True,exist_ok=True)
+          origin="https://drive.google.com/drive/folders/1XMhj2YmQ-0lQ0zoSerIL0idsY4_e_Dc4?usp=sharing"
+          try:
+              print("Attempting original slnc Behance download source")
+              gdown.download_folder(url=origin,output=str(directory),quiet=False,remaining_ok=True,use_cookies=False)
+          except Exception as ex:
+              print("Artist folder unavailable:",str(ex)[:300])
+          zips=list(directory.rglob("*.zip"))
+          for z in zips:
+              try:
+                  with zipfile.ZipFile(z) as f:
+                      for member in f.infolist():
+                          if member.filename.lower().endswith((".ttf",".otf",".woff2",".woff")):
+                              target=directory/Path(member.filename).name
+                              target.write_bytes(f.read(member))
+              except Exception as e:
+                  print("Ignoring bad zip",z.name,str(e)[:160])
+          candidates=[p for p in directory.rglob("*") if p.suffix.lower() in {".otf",".ttf",".woff",".woff2"}]
+          for p in candidates:
+              try:
+                  font=TTFont(str(p))
+                  names=[x.toUnicode().lower() for x in font["name"].names if x.nameID in (1,4,6)]
+                  if not any("retrogression" in n for n in names):
+                      print("Not Retrogression:",p.name,names[:4])
+                      continue
+                  font.flavor="woff2"
+                  font.save(str(out))
+                  print("Original artist font:",p.name)
+                  break
+              except Exception as e:
+                  print("Unusable candidate",p.name,str(e)[:200])
+          if not out.exists():
+              print("Trying WOFF2 mirror after original artist source failed")
+              url="https://db.onlinewebfonts.com/t/0be2436f1133776f5ec9f655d8c95e67.woff2"
+              response=requests.get(url,timeout=30,headers={"User-Agent":"Mozilla/5.0"})
+              response.raise_for_status()
+              if not response.content.startswith(b"wOF2"):
+                  raise ValueError("Mirror returned invalid WOFF2 bytes")
+              out.write_bytes(response.content)
+          font=TTFont(str(out))
+          names=[x.toUnicode().lower() for x in font["name"].names if x.nameID in (1,4,6)]
+          if not any("retrogression" in n for n in names):
+              out.unlink(missing_ok=True)
+              raise ValueError("Font family validation failed: "+str(names[:6]))
+          print("Verified font:",names[:6])
+          print("Bytes:",out.stat().st_size,"SHA256:",hashlib.sha256(out.read_bytes()).hexdigest())
+          PY
+      - name: Commit font to the working PR branch
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/assets/fonts/retrogression.woff2
+          git diff --cached --quiet && exit 0
+          git commit -m 'Vendor licensed Retrogression font for reliable mobile loading'
+          git push origin HEAD:mobile-retrogression-arial-narrow

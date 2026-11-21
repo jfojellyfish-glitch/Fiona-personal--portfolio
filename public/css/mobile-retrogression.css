@@ -4,7 +4,7 @@
    Licensed font source; use the exact Retrogression face, not a pixel imitation. */
 @font-face {
   font-family: "Retrogression";
-  src: url("https://db.onlinewebfonts.com/t/0be2436f1133776f5ec9f655d8c95e67.woff2") format("woff2");
+  src: url("../assets/fonts/retrogression.woff2") format("woff2");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
