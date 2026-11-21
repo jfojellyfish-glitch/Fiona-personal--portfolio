@@ -65,3 +65,139 @@
   height: 14px;
   flex-basis: 14px;
 }
+
+
+/* v54 — Full-width Contact composition and original Angel stipple motion.
+   Fixed at 30% peak ink opacity. No slider; no external libraries. */
+.contact {
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  min-height:clamp(660px,87svh,960px);
+  padding:clamp(24px,3vw,52px) 0 clamp(45px,6vw,100px);
+}
+.contact-angel-canvas {
+  display:block;
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+  pointer-events:none;
+  mix-blend-mode:multiply;
+}
+.contact-overline,.contact-layout {position:relative;z-index:1;}
+.contact-overline {align-items:start;}
+.contact-layout {
+  display:grid;
+  grid-template-columns:minmax(0,51.5%) minmax(0,48.5%);
+  gap:0;
+  align-items:center;
+  min-height:clamp(550px,73svh,800px);
+  margin-top:0;
+}
+.contact .contact-heading {
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  align-self:center;
+  min-width:0;
+  padding:0;
+}
+.contact .contact-heading h2 {
+  display:block;
+  width:max-content;
+  max-width:none;
+  margin:0;
+  font-family:"Helvetica Neue",Arial,Helvetica,sans-serif !important;
+  font-size:clamp(138px,19vw,310px);
+  line-height:.84;
+  letter-spacing:-.092em !important;
+  font-weight:400 !important;
+  text-align:left !important;
+  text-transform:lowercase;
+  transform:scaleX(.86);
+  transform-origin:left center;
+  filter:none;
+  text-shadow:none !important;
+}
+.contact-line-one,.contact-line-two{display:block;white-space:nowrap;}
+.contact-line-two{margin-left:clamp(50px,8.6vw,170px);margin-top:.08em;}
+.contact .contact-mark {display:none !important;}
+.contact-details{
+  align-self:center;
+  min-width:0;
+  padding:clamp(30px,7vh,95px) 0 0 clamp(12px,4vw,70px);
+}
+.contact-intro{font-size:clamp(14px,1.1vw,19px);margin-bottom:clamp(16px,2.1vw,31px);}
+.contact-email{font-size:clamp(21px,2.5vw,41px);max-width:100%;white-space:nowrap;}
+.contact-socials{margin-top:clamp(84px,12vh,142px);gap:clamp(15px,2.1vw,34px);}
+.contact .contact-social{white-space:nowrap;}
+/* All arrows must use ordinary typography, never colorful emoji glyphs. */
+.contact-email > span,
+.contact-social > span[aria-hidden="true"],
+.archive-entry-arrow,
+.pearl-card-arrow,
+.archive-page a,
+.pearl-reader-back,
+#photo-prev,#photo-next {
+  font-family:Arial,Helvetica,sans-serif !important;
+  font-variant-emoji:text !important;
+  font-style:normal;
+}
+
+/* iPad / small desktop landscape retains a balanced, unclipped split layout. */
+@media (min-width:761px) and (max-width:1199px) and (orientation:landscape) {
+  .contact{min-height:clamp(630px,88svh,850px);padding-bottom:45px;}
+  .contact-layout{grid-template-columns:53% 47%;min-height:clamp(540px,74svh,750px);}
+  .contact .contact-heading h2{font-size:clamp(115px,18vw,225px);transform:scaleX(.81);}
+  .contact-line-two{margin-left:9vw;}
+  .contact-details{padding:7vh 0 0 2vw;}
+  .contact-email{font-size:clamp(19px,2.2vw,30px);}
+  .contact-socials{margin-top:clamp(55px,8vh,105px);gap:clamp(12px,1.5vw,22px);}
+  .contact .contact-social{font-size:11px;}
+}
+
+/* Portrait iPad gives the Angel animation room between title and links. */
+@media (min-width:761px) and (max-width:1199px) and (orientation:portrait){
+  .contact{min-height:100svh;padding:4.2vh 0 5vh;}
+  .contact-layout{
+    display:flex;flex-direction:column;align-items:stretch;
+    min-height:clamp(760px,86svh,1080px);
+    margin-top:6vh;
+  }
+  .contact .contact-heading{align-self:flex-start;justify-content:flex-start;}
+  .contact .contact-heading h2{font-size:min(29vw,24svh);transform:scaleX(.88);}
+  .contact-line-two{margin-left:22vw;margin-top:.075em;}
+  .contact-details{align-self:stretch;margin-top:auto;padding:0 0 0 1vw;}
+  .contact-intro{font-size:clamp(15px,1.9vw,19px);}
+  .contact-email{font-size:clamp(26px,4vw,39px);}
+  .contact-socials{margin-top:clamp(52px,7vh,80px);gap:26px;}
+  .contact .contact-social{font-size:13px;}
+}
+
+@media(max-width:760px){
+  .contact{min-height:100svh;padding:25px 0 55px;}
+  .contact-layout{
+    display:flex;flex-direction:column;align-items:stretch;gap:0;
+    min-height:max(600px,calc(100svh - 106px));
+    margin-top:clamp(55px,10vh,110px);
+  }
+  .contact .contact-heading{align-self:flex-start;justify-content:flex-start;}
+  .contact .contact-heading h2{
+    font-size:clamp(82px,23vw,155px);line-height:.86;
+    transform:scaleX(.9);
+  }
+  .contact-line-two{margin-left:18vw;margin-top:.06em;}
+  .contact-details{margin-top:auto;align-self:stretch;padding:0 0 0 1vw;}
+  .contact-intro{font-size:14px;margin-bottom:16px;}
+  .contact-email{font-size:clamp(19px,5.1vw,30px);gap:.25em;}
+  .contact-socials{margin-top:clamp(45px,7vh,66px);gap:14px 19px;}
+  .contact .contact-social{font-size:11px;}
+}
+@media(max-width:390px){
+  .contact .contact-heading h2{font-size:clamp(78px,22.4vw,100px);}
+  .contact-email{font-size:clamp(18px,5vw,23px);}
+  .contact-socials{gap:12px 14px;}
+}
