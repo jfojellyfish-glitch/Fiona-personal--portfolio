@@ -108,11 +108,11 @@ body:not(.intro-locked)::after {
 
 
 /* v58 — Author-approved Retrogression on two intro microcopy accents only.
-   Use a webfont CDN rather than committing a distributable font file.
+   Use the creator's original OTF, self-hosted via build from the approved ZIP.
    The rest of the entrance, including 3D logo and interactive call, is untouched. */
 @font-face {
   font-family: "Retrogression";
-  src: url("https://db.onlinewebfonts.com/t/0be2436f1133776f5ec9f655d8c95e67.woff2") format("woff2");
+  src: url("../fonts/retrogression.otf") format("opentype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
