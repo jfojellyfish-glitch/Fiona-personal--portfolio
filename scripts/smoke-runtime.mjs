@@ -32,6 +32,29 @@ for(const [label,url] of urls) {
      locked:document.body.classList.contains('intro-locked'),
      text:document.body.innerText.slice(0,280),
    }));
+   const typography=await page.evaluate(async ()=>{
+     await document.fonts.ready;
+     const get=(selector)=>{
+       const el=document.querySelector(selector);
+       if(!el)return null;
+       const s=getComputedStyle(el);
+       return {family:s.fontFamily,style:s.fontStyle,weight:s.fontWeight};
+     };
+     return {intro:get('.hero-bottom .hero-intro'),second:get('.hero-bottom .kicker'),
+       loaded:document.fonts.check('italic 500 18px "Playfair Display"'),
+       overflow:document.documentElement.scrollWidth>window.innerWidth+3};
+   });
+   console.log('MOBILE HOME COPY TYPE '+label+' '+viewportName+' '+JSON.stringify(typography));
+   if(label==='local'&&viewportName==='mobile'&&(
+     !typography.intro?.family.includes('Playfair Display')||
+     typography.intro?.weight!=='500'||
+     typography.intro?.style!=='italic'||
+     !typography.second?.family.includes('Playfair Display')||
+     typography.second?.weight!=='500'||
+     typography.second?.style!=='italic'||
+     !typography.loaded||typography.overflow))fails++;
+   if(label==='local'&&viewportName==='desktop'&&
+     typography.intro?.family.includes('Playfair Display'))fails++;
    await page.screenshot({path:'smoke-'+label+'-'+viewportName+'-intro.png',fullPage:false});
    if(pre.intro){
     await page.click('#intro-enter');
