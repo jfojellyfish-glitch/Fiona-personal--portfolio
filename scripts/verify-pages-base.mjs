@@ -18,4 +18,5 @@ assert(archive.includes(prefix + '/'), 'Archive links not prefixed by ' + prefix
 const liveAssetName = 'assets/models/model-01.glb';
 assert(existsSync(join('out', liveAssetName)), '3D object asset lost during export');
 assert(existsSync('out/assets/fiona-logo.glb'), 'Intro 3D asset lost during export');
+assert(existsSync('out/assets/lotus-annotated.webp'), 'Annotated lotus artwork is missing from the static export');
 console.log('✓ Pages export uses base path ' + (prefix || '/') + ' and retains both original 3D assets');

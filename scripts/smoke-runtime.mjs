@@ -32,6 +32,25 @@ for(const [label,url] of urls) {
      locked:document.body.classList.contains('intro-locked'),
      text:document.body.innerText.slice(0,280),
    }));
+   // Lotus artwork must keep the six embedded annotations without clipping.
+   // Local checks only: live keeps the previous production asset until merge.
+   if(label==='local') {
+     const flower=await page.evaluate(async ()=>{
+       const img=document.querySelector('.hero-right .lotus-annotation');
+       if(img && !img.complete)await new Promise(r=>{img.addEventListener('load',r,{once:true});img.addEventListener('error',r,{once:true});});
+       const link=document.querySelector('.hero-right .lotus-annotation-link');
+       const rect=img?.getBoundingClientRect();
+       return {exists:!!img,loaded:!!img?.naturalWidth,
+         naturalWidth:img?.naturalWidth,naturalHeight:img?.naturalHeight,
+         width:rect?.width,height:rect?.height,
+         link:link?.getAttribute('href'),
+         viewport:innerWidth,overflow:document.documentElement.scrollWidth>innerWidth+3};
+     });
+     console.log('LOTUS HOME '+viewportName+' '+JSON.stringify(flower));
+     if(!flower.loaded||flower.naturalWidth!==736||flower.naturalHeight!==917||
+        !flower.link?.endsWith('/assets/lotus-annotated.webp')||
+        flower.width>flower.viewport+3||flower.overflow)fails++;
+   }
    await page.screenshot({path:'smoke-'+label+'-'+viewportName+'-intro.png',fullPage:false});
    if(pre.intro){
     await page.click('#intro-enter');

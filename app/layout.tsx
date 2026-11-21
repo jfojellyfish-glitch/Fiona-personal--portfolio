@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   description: 'Fiona Qian — portfolio, archive, and passing thoughts.',
   robots: { index: true, follow: true },
 };
-const styles = ['style','scroll-motion','theme','contact','typography','archive-content'];
+const styles = ['style','scroll-motion','theme','contact','typography','archive-content','hero-lotus'];
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
