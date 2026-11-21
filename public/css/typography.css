@@ -78,3 +78,29 @@ body:not(.intro-locked)::after {
 @media (prefers-reduced-transparency: reduce) {
   body:not(.intro-locked)::after {opacity: .04;}
 }
+
+
+/* v56 — About Me <333, in the same fine stippled character-art spirit as Angel.
+   Paint the original glyph with a repeating field of tiny dots. No replacement
+   image, no JS, and no changes to the original size, stretch or placement. */
+@supports ((-webkit-background-clip:text) or (background-clip:text)) {
+  .about-body .about-identity .question {
+    background-image:radial-gradient(ellipse .78px .22px at 50% 50%, rgba(35,33,32,.88) 80%, transparent 100%);
+    background-size:4px 1.12px;
+    background-repeat:repeat;
+    background-clip:text;
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    color:transparent;
+    text-shadow:none!important;
+    filter:none!important;
+  }
+  /* The original glyph is stretched vertically on desktop. The dots start
+     elliptical and become nearly circular after that existing transform. */
+  @media (max-width:650px) {
+    .about-body .about-identity .question {
+      background-image:radial-gradient(circle .85px at 50% 50%, rgba(35,33,32,.88) 75%, transparent 100%);
+      background-size:4px 4px;
+    }
+  }
+}
