@@ -111,7 +111,7 @@
   max-width:none;
   margin:0;
   font-family:"Helvetica Neue",Arial,Helvetica,sans-serif !important;
-  font-size:clamp(138px,19vw,310px);
+  font-size:clamp(130px,16.5vw,260px);
   line-height:.84;
   letter-spacing:-.092em !important;
   font-weight:400 !important;
@@ -213,3 +213,14 @@
  transition:transform .25s ease;
 }
 .contact .contact-email:hover .contact-plain-arrow{transform:translate(3px,-3px);}
+
+
+/* v55 — vector arrows are uniform and cannot fall back to emoji on iPadOS. */
+.plain-arrow {
+  display:inline-block; width:1em; height:1em; flex:0 0 1em;
+  vertical-align:-.14em; overflow:visible;
+  color:inherit; pointer-events:none;
+}
+.archive-entry-arrow .plain-arrow,
+.pearl-card-arrow .plain-arrow {width:1em;height:1em;}
+#photo-prev .plain-arrow,#photo-next .plain-arrow{width:1.3em;height:1.3em;vertical-align:middle;}
