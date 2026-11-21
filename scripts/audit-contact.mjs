@@ -8,7 +8,7 @@ const browser=await puppeteer.launch({headless:true,executablePath,args:['--no-s
 const [owner,repo]=(process.env.GITHUB_REPOSITORY||'jfojellyfish-glitch/Fiona-personal--portfolio').split('/');
 const base=process.env.NEXT_PUBLIC_BASE_PATH??('/'+repo);
 const sources=[['local','http://127.0.0.1:4173'+base+'/']];
-const viewports=[['desktop',1440,900],['ipad-portrait',820,1180]];
+const viewports=[['ipad-portrait',820,1180],['desktop',1440,900]];
 for(const [origin,url] of sources){
  for(const [name,width,height] of viewports){
   const page=await browser.newPage();
