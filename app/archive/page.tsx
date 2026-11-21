@@ -9,7 +9,7 @@ function items(kind:'pearls'|'photography'|'objects',key:'entries'|'photos'|'mod
   const manifest=JSON.parse(readFileSync(file,'utf8')) as Record<string,Entry[]>;
   return manifest[key] || [];
 }
-export const metadata:Metadata={title:'@𝒂𝒏𝒈𝒍𝒆𝒌𝒖𝒓𝒂𝒈𝒆𝟑𝟑𝟑'};
+export const metadata:Metadata={title:'@𝒂𝒏𝒈𝒆𝒍𝒌𝒖𝒓𝒂𝒈𝒆𝟑𝟑𝟑'};
 const homeUrl=(process.env.NEXT_PUBLIC_BASE_PATH ?? '/Fiona-personal--portfolio')+'/';
 const collections=[
   {id:'01',name:'pearls',route:'/#writing',data:items('pearls','entries')},
