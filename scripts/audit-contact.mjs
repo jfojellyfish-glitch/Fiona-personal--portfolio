@@ -7,7 +7,7 @@ if(!executablePath)throw new Error('Chrome executable not found');
 const browser=await puppeteer.launch({headless:true,executablePath,args:['--no-sandbox','--disable-dev-shm-usage','--disable-gpu','--use-gl=swiftshader','--enable-unsafe-swiftshader']});
 const [owner,repo]=(process.env.GITHUB_REPOSITORY||'jfojellyfish-glitch/Fiona-personal--portfolio').split('/');
 const base=process.env.NEXT_PUBLIC_BASE_PATH??('/'+repo);
-const sources=[['local','http://127.0.0.1:4173'+base+'/'],['published','https://'+owner+'.github.io'+base+'/']];
+const sources=[['published','https://'+owner+'.github.io'+base+'/']];
 const viewports=[['desktop',1440,900],['ipad-portrait',820,1180],['ipad-landscape',1180,820],['mobile',390,844]];
 for(const [origin,url] of sources){
  for(const [name,width,height] of viewports){
@@ -52,7 +52,7 @@ for(const [origin,url] of sources){
     const file='contact-audit-'+origin+'-'+name+'.jpg';
     fs.writeFileSync(file,screenshot);
     console.log('CONTACT_AUDIT '+origin+' '+name+' '+JSON.stringify({status:response?.status(),...result,errors}));
-    if(origin==='published' || (origin==='local' && name==='ipad-portrait')){
+    if(origin==='published'){
       console.log('CONTACT_IMAGE_'+origin+'_'+name+'_BEGIN');
       console.log(Buffer.from(screenshot).toString('base64'));
       console.log('CONTACT_IMAGE_'+origin+'_'+name+'_END');
