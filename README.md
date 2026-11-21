@@ -37,3 +37,14 @@ The **Pearls**, **3D Objects** and **Photography** drawers are now native, indep
 
 The original 3D opening model, SVG lotus, fonts, colors, logos, and layout remain unchanged.
 The previous archive script remains in the repository for reference, but is not booted.
+
+## Repository vanity URL — ready for `fiona333anglekurage`
+
+The planned free Pages URL is `https://jfojellyfish-glitch.github.io/fiona333anglekurage/`.
+
+- The site remains unchanged and safely deployed under its **existing** URL until the repository itself is renamed in **Settings → General → Repository name**.
+- The Next.js build and browser smoke test now derive `NEXT_PUBLIC_BASE_PATH` from the current `GITHUB_REPOSITORY`; all client bundles, images, CSS, JavaScript, Markdown and GLB assets will use the renamed project path on the **next build**.
+- The deployment workflow checks both the actual repository path and the proposed `/fiona333anglekurage` path on pull requests.
+- After using GitHub's **Rename** control, open **Actions → Build and deploy Next.js Portfolio → Run workflow → main**. GitHub Pages **Source** should remain **GitHub Actions**. A fresh deployment is needed after a rename; a repository rename alone may not trigger the workflow.
+- Important: GitHub does **not automatically redirect GitHub Pages project-site URLs** when repositories are renamed. Existing links to the original `/Fiona-personal--portfolio/` may stop working. Update personal links after confirming the new site.
+- The original content has not been changed. A Git backup branch `backup-before-vanity-rename-2026-11-21` is available.

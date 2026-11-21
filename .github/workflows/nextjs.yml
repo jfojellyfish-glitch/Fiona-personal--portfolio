@@ -20,8 +20,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Set Pages base path from current repository name
+        run: echo "NEXT_PUBLIC_BASE_PATH=/${GITHUB_REPOSITORY#*/}" >> "$GITHUB_ENV"
       - run: npm install --no-audit --no-fund
       - run: npm run check
+      - name: Verify exported URLs and asset paths
+        run: node scripts/verify-pages-base.mjs
+      - name: Verify future fiona333anglekurage URL before rename
+        if: github.event_name == 'pull_request'
+        run: |
+          NEXT_PUBLIC_BASE_PATH=/fiona333anglekurage npm run build
+          node scripts/verify-pages-base.mjs /fiona333anglekurage
       - name: Configure GitHub Pages
         if: github.event_name != 'pull_request'
         uses: actions/configure-pages@v5
