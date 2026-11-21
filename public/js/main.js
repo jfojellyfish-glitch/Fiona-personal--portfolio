@@ -72,7 +72,7 @@
 
 
 /* Fiona Angel point-stipple: individual pixels travel lower-right to upper-left,
-   then gently fade; 11.5-second loop, permanently fixed at 18% peak opacity. */
+   then gently fade; 11.5-second loop, with 18% opacity capped on the entire canvas element. */
 (() => {
   const section = document.getElementById('contact');
   const source = section?.querySelector('.contact-mark');
@@ -159,9 +159,9 @@
       const gradient=.61*(1-nx)+.39*(1-ny);
       const jitter=(Math.sin(i*47.23)*43758.5453%1+1)%1*.06;
       const phase=Math.min(1,Math.max(0,gradient+jitter));
-      const alpha=reduced.matches?.18:
+      const alpha=reduced.matches?1:
         smooth(.38+5.5*phase,1.5+5.5*phase,t)*
-        (1-smooth(7.25+2.1*phase,8.4+2.1*phase,t))*.18;
+        (1-smooth(7.25+2.1*phase,8.4+2.1*phase,t));
       if(alpha<.003)continue;
       ctx.fillStyle='rgba(54,51,49,'+(alpha*ink).toFixed(3)+')';
       ctx.fillRect(left+nx*paintedWidth,top+ny*paintedHeight,dot,dot);
