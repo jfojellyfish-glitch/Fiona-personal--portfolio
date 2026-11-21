@@ -25,7 +25,7 @@ for(const [name,width,height] of viewports){
    await page.evaluate(()=>document.getElementById('intro-enter')?.click());
    await page.waitForFunction(()=>!document.body.classList.contains('intro-locked'),{timeout:7000});
    const initial=await page.evaluate(()=>{
-     const sections=[...document.querySelectorAll('#portfolio-site .site > section.paper-stack-panel')];
+     const sections=[...document.querySelectorAll('#portfolio-site .site > main > section.paper-stack-panel')];
      const style=el=>getComputedStyle(el);
      const v=innerHeight;
      return {
@@ -45,7 +45,7 @@ for(const [name,width,height] of viewports){
        hOverflow:document.documentElement.scrollWidth>innerWidth+4
      };
    });
-   assert.equal(response?.status(),200);
+   assert([200,304].includes(response?.status()),'Unexpected local server response');
    assert.equal(initial.enabled,true,'motion disabled');
    assert.equal(initial.count,6,'six panels');
    assert(initial.position.every(x=>x==='sticky'),'all panels sticky');
