@@ -153,3 +153,89 @@ body:not(.intro-locked)::after {
 #intro-screen .intro-invite .intro-call {
   font-family: "Arial Narrow", Arial, Helvetica, sans-serif !important;
 }
+
+
+/* v59 — Approved V2 entrance composition (from fiona_intro_v2_fullscreen.html).
+   Scope strictly to the first screen: same original 3D model, WebGL animation,
+   copy, corner ornaments, transition and site content. */
+#intro-screen.intro-screen { background:#f7f4f0; }
+#intro-screen .intro-center {
+  width:min(1040px,100%);
+  padding:0 14px;
+  transform:translateY(-3px);
+}
+#intro-screen .intro-kicker {
+  font-size:clamp(19px,1.68vw,23px);
+  line-height:1.16;
+  letter-spacing:-.012em;
+  color:#514c48;
+  margin:0;
+}
+#intro-screen .intro-entrance {
+  width:min(88vw,850px);
+  height:236px;
+  min-height:236px;
+  max-height:236px;
+  flex-shrink:0;
+}
+#intro-screen .intro-invite {
+  gap:8px;
+  margin-top:-11px;
+  position:relative;
+}
+#intro-screen .intro-line {
+  width:16px;
+  background:#87807b;
+  opacity:.8;
+}
+#intro-screen .intro-invite .intro-call {
+  font-size:17px;
+  letter-spacing:-.025em;
+  font-weight:500;
+  color:#252321;
+  line-height:1.25;
+}
+#intro-screen .intro-invite .intro-sub {
+  font-size:clamp(13px,1.04vw,15px);
+  letter-spacing:0;
+  color:#827b76;
+  line-height:1.38;
+}
+@media (max-width:650px) {
+  #intro-screen .intro-center {
+    width:100%;
+    padding:0 10px;
+    transform:translateY(-4px);
+  }
+  #intro-screen .intro-kicker {
+    font-size:19px;
+    line-height:1.18;
+    letter-spacing:-.01em;
+    margin-bottom:0;
+  }
+  #intro-screen .intro-entrance {
+    height:168px;
+    min-height:168px;
+    max-height:168px;
+    width:96vw;
+  }
+  #intro-screen .intro-invite { margin-top:-4px;gap:8px; }
+  #intro-screen .intro-invite .intro-call { font-size:17px;font-weight:500; }
+  #intro-screen .intro-invite .intro-sub {
+    font-size:13px;
+    letter-spacing:0;
+    color:#817a75;
+  }
+}
+@media (max-height:680px) and (min-width:651px) {
+  #intro-screen .intro-entrance {
+    height:205px;
+    min-height:205px;
+    max-height:205px;
+  }
+  #intro-screen .intro-center { transform:translateY(0); }
+}
+@media (max-width:380px) {
+  #intro-screen .intro-kicker { font-size:18px; }
+  #intro-screen .intro-invite .intro-sub { font-size:12px; }
+}
