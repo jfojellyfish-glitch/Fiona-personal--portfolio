@@ -32,7 +32,7 @@
 <div class="hero-identity"><h1 aria-label="Fiona Qian" class="hero-title hero-signature">Fᵢₒₙₐ˚⊱🪷⊰˚</h1><p class="hero-tagline">portfolio, archive, and passing thoughts</p></div>
 <div class="hero-bottom"><p class="hero-intro">i’ve never been particularly good at fitting into one category. i follow whatever catches my eye: images, ideas, little experiments, and things i can’t quite explain.</p><span class="kicker">some of them turn into something. others remain unfinished. i like keeping them around anyway.</span></div>
 </div>
-<div class="hero-right"><span class="side-note kicker">a little work<br/>and a lot of looking around</span><img alt="Translucent green apple slices with hand-painted textures, isolated on transparent background" class="apple" src="./assets/apple.png"/></div>
+<div class="hero-right hero-lotus-stage"><span class="side-note kicker">a little work<br/>and a lot of looking around</span><a class="lotus-annotation-link" href="./assets/lotus-annotated.webp" target="_blank" rel="noopener" aria-label="Open the full-size pink lotus image with its six English annotations"><img alt="Pink lotus with six illustrated notes about self-kindness, love, freedom from conformity, and noticing beautiful things" class="apple lotus-annotation" src="./assets/lotus-annotated.webp" width="736" height="917" decoding="async"/><span class="lotus-annotation-hint">view the notes in full size ↗︎</span></a></div>
 </section>
 <section class="works" id="work"><div class="section-top"><h2>selected<br/>work.</h2><p class="aside">two little projects.</p></div>
 <div class="work-list">

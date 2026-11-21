@@ -1,0 +1,95 @@
+/* Homepage visual study — original pink lotus with annotation text.
+   Replace only the green apple in the hero; keep the rest of the site intact. */
+.hero:has(.lotus-annotation) {
+  min-height: 860px;
+}
+.hero-right.hero-lotus-stage {
+  min-height: 735px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.hero-right .lotus-annotation-link {
+  order: 1;
+  display: block;
+  position: relative;
+  width: min(100%, 600px);
+  max-width: 100%;
+  margin-inline: auto;
+  text-decoration: none;
+  cursor: zoom-in;
+}
+.hero-right .lotus-annotation-link .apple.lotus-annotation,
+html.motion-v28 .hero-right .lotus-annotation-link .apple.lotus-annotation {
+  position: relative !important;
+  inset: auto !important;
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  aspect-ratio: 736 / 917;
+  object-fit: contain;
+  transform: none !important;
+  filter: none !important;
+  mix-blend-mode: multiply !important;
+  background: transparent !important;
+}
+.hero-right.hero-lotus-stage .side-note {
+  order: 2;
+  position: static;
+  top: auto;
+  right: auto;
+  max-width: unset;
+  align-self: flex-end;
+  margin: 0 2% 0 0;
+  text-align: right;
+  color: var(--theme-secondary, #67615f);
+}
+.hero-right .lotus-annotation-hint {
+  display: block;
+  margin: 9px 3% 0;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  line-height: 1.5;
+  letter-spacing: .015em;
+  color: var(--theme-secondary, #67615f);
+  text-align: right;
+  text-decoration: none;
+}
+.hero-right .lotus-annotation-link:hover .lotus-annotation-hint,
+.hero-right .lotus-annotation-link:focus-visible .lotus-annotation-hint {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 950px) {
+  .hero:has(.lotus-annotation) { min-height: 710px; }
+  .hero-right.hero-lotus-stage { min-height: 540px; }
+}
+@media (max-width: 650px) {
+  .hero:has(.lotus-annotation) {
+    min-height: auto;
+    padding-bottom: 55px;
+  }
+  .hero-right.hero-lotus-stage {
+    min-height: 0;
+    margin-top: 34px;
+    gap: 8px;
+  }
+  .hero-right .lotus-annotation-link {
+    width: 100%;
+    max-width: 500px;
+  }
+  .hero-right .lotus-annotation-link .apple.lotus-annotation {
+    width: 100% !important;
+    height: auto !important;
+  }
+  .hero-right .lotus-annotation-hint {
+    margin: 8px 0 0;
+  }
+  .hero-right.hero-lotus-stage .side-note {
+    margin-right: 0;
+    font-size: 10px;
+  }
+}
