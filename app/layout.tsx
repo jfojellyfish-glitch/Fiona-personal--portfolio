@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 
 const prefix = process.env.NEXT_PUBLIC_BASE_PATH ?? '/Fiona-personal--portfolio';
 export const metadata: Metadata = {
-  title: '@𝒂𝒏𝒈𝒆𝒍𝒌𝒖𝒓𝒂𝒈𝒆',
+  title: '@𝒂𝒏𝒈𝒍𝒆𝒌𝒖𝒓𝒂𝒈𝒆𝟑𝟑𝟑',
   description: 'Fiona Qian — portfolio, archive, and passing thoughts.',
   robots: { index: true, follow: true },
 };
