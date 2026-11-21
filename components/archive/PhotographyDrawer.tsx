@@ -1,5 +1,5 @@
-import {PlainArrow} from '@/components/PlainArrow';
 'use client';
+import {PlainArrow} from '@/components/PlainArrow';
 import {useEffect,useMemo,useRef,useState} from 'react';
 import {CollectionSearch} from './CollectionSearch';
 import {assetUrl} from './types';
