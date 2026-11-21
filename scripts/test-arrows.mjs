@@ -19,7 +19,7 @@ for (const file of active) {
 assert.ok(vectors>=35,`Expected 35+ vectors in portfolio UI, found ${vectors}`);
 const css=fs.readFileSync('public/css/contact.css','utf8');
 assert.match(css,/\.plain-arrow\s*\{/);
-assert.match(css,/font-size:clamp\(130px,16\.5vw,260px\)/);
+assert.match(css,/font-size:clamp\(130px,19vw,360px\)/);
 const legacy=fs.readFileSync('public/js/archive-content.js','utf8');
 for(const match of legacy.matchAll(/[↗↖↘↙←→↑↓➡⬅⬆]/gu)){
   assert.equal(legacy[match.index+match[0].length],'\uFE0E',
