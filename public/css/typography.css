@@ -107,13 +107,19 @@ body:not(.intro-locked)::after {
 }
 
 
-/* v57 — 2026 opening typography: cross-stitch/pixel typography accent.
-   Pixelify Sans is web-licensed via SIL OFL. Only the TWO selected text areas
-   change; 3D mesh, intro copy, layout, logos, animation, and UI stay intact.
-   Do not bundle Retrogression without its separate Web Font License. */
+/* v58 — Author-approved Retrogression on two intro microcopy accents only.
+   Use a webfont CDN rather than committing a distributable font file.
+   The rest of the entrance, including 3D logo and interactive call, is untouched. */
+@font-face {
+  font-family: "Retrogression";
+  src: url("https://db.onlinewebfonts.com/t/0be2436f1133776f5ec9f655d8c95e67.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
 #intro-screen .intro-kicker,
 #intro-screen .intro-invite .intro-sub {
-  font-family: "Pixelify Sans", "Courier New", monospace !important;
+  font-family: "Retrogression", "Pixelify Sans", "Courier New", monospace !important;
   font-weight: 400 !important;
   font-style: normal !important;
   text-transform: lowercase;
