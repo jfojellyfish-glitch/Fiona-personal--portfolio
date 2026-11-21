@@ -12,7 +12,8 @@ const urls=[
 ];
 let fails=0;
 for(const [label,url] of urls) {
- for(const [viewportName,width,height] of [['desktop',1366,820],['mobile',390,844]]){
+ for(const [viewportName,width,height] of [['desktop',1366,820],['mobile',390,844],['mobile-small',320,720]]){
+  if(label==='live'&&viewportName==='mobile-small')continue;
   const page=await browser.newPage();
   await page.setViewport({width,height,isMobile:viewportName==='mobile',deviceScaleFactor:1});
   const errors=[],failed=[],bad=[];
@@ -32,29 +33,46 @@ for(const [label,url] of urls) {
      locked:document.body.classList.contains('intro-locked'),
      text:document.body.innerText.slice(0,280),
    }));
-   const typography=await page.evaluate(async ()=>{
+   const type=await page.evaluate(async ()=>{
      await document.fonts.ready;
-     const get=(selector)=>{
-       const el=document.querySelector(selector);
-       if(!el)return null;
-       const s=getComputedStyle(el);
-       return {family:s.fontFamily,style:s.fontStyle,weight:s.fontWeight};
+     const pick=(selector)=>{
+       const e=document.querySelector(selector);
+       if(!e)return {selector,missing:true};
+       const s=getComputedStyle(e);
+       return {selector,font:s.fontFamily,style:s.fontStyle,weight:s.fontWeight};
      };
-     return {intro:get('.hero-bottom .hero-intro'),second:get('.hero-bottom .kicker'),
-       loaded:document.fonts.check('italic 500 18px "Playfair Display"'),
-       overflow:document.documentElement.scrollWidth>window.innerWidth+3};
+     const pixel=document.fonts.load('400 40px "Retrogression"', 'selected work. archive. about me.');
+     const result=await pixel;
+     return {
+       samples:[
+         pick('.intro-topline'), pick('nav#top .links a'),
+         pick('.hero-bottom .hero-intro'),pick('.hero-bottom .kicker'),
+         pick('.works .section-top h2'),pick('.notes h2'),
+         pick('.work-list .name'),pick('.about .section-top h2'),
+         pick('.contact-heading h2')
+       ],
+       fontLoads:result.length,
+       pixelReady:document.fonts.check('400 40px "Retrogression"'),
+       overflow:document.documentElement.scrollWidth>innerWidth+3
+     };
    });
-   console.log('MOBILE HOME COPY TYPE '+label+' '+viewportName+' '+JSON.stringify(typography));
-   if(label==='local'&&viewportName==='mobile'&&(
-     !typography.intro?.family.includes('Playfair Display')||
-     typography.intro?.weight!=='500'||
-     typography.intro?.style!=='italic'||
-     !typography.second?.family.includes('Playfair Display')||
-     typography.second?.weight!=='500'||
-     typography.second?.style!=='italic'||
-     !typography.loaded||typography.overflow))fails++;
+   console.log('RETROGRESSION MOBILE TYPE '+label+' '+viewportName+' '+JSON.stringify(type));
+   if(label==='local'&&viewportName.startsWith('mobile')){
+     if(!type.pixelReady||type.fontLoads===0||type.overflow){
+       console.error('Pixel font not loaded or horizontal overflow',type);fails++;
+     }
+     for(const s of type.samples) {
+       if(s.missing){console.error('Missing sample',s);fails++;continue;}
+       const isTitle=/section-top h2|\.notes h2|\.work-list \.name|\.contact-heading h2/.test(s.selector);
+       const validFont=isTitle?s.font.includes('Retrogression'):s.font.includes('Arial Narrow');
+       const validStyle=isTitle?s.style==='normal':s.style==='italic';
+       if(!validFont||!validStyle){console.error('Unexpected typography',s);fails++;}
+     }
+   }
    if(label==='local'&&viewportName==='desktop'&&
-     typography.intro?.family.includes('Playfair Display'))fails++;
+       type.samples.some(s=>s.font?.includes('Retrogression')||s.font?.includes('Roboto Condensed'))){
+     console.error('Desktop font changed');fails++;
+   }
    await page.screenshot({path:'smoke-'+label+'-'+viewportName+'-intro.png',fullPage:false});
    if(pre.intro){
     await page.click('#intro-enter');
@@ -73,6 +91,29 @@ for(const [label,url] of urls) {
      text:document.body.innerText.slice(0,500)
    }));
    await page.screenshot({path:'smoke-'+label+'-'+viewportName+'-objects.png',fullPage:false});
+   if(label==='local'&&viewportName.startsWith('mobile')){
+     const drawerType=await page.evaluate(()=>{
+       const h=document.querySelector('#objects-page .archive-page-heading h1');
+       if(!h)return {missing:true};
+       const s=getComputedStyle(h);
+       return {font:s.fontFamily,style:s.fontStyle};
+     });
+     console.log('RETROGRESSION DRAWER '+viewportName+' '+JSON.stringify(drawerType));
+     if(drawerType.missing||!drawerType.font?.includes('Retrogression')||drawerType.style!=='normal')fails++;
+     const response=await page.goto(new URL('archive/',url).href,{waitUntil:'domcontentloaded',timeout:40000});
+     const archive=await page.evaluate(()=>{
+       const h=document.querySelector('.next-archive h1'),p=document.querySelector('.next-archive .archive-explainer');
+       if(!h||!p)return {missing:true};
+       const t=getComputedStyle(h),b=getComputedStyle(p);
+       return {title:t.fontFamily,titleStyle:t.fontStyle,copy:b.fontFamily,copyStyle:b.fontStyle,
+          overflow:document.documentElement.scrollWidth>innerWidth+3};
+     });
+     console.log('RETROGRESSION INDEX '+viewportName+' '+JSON.stringify(archive));
+     if(![200,304].includes(response?.status())||archive.missing||archive.overflow||
+        !archive.title?.includes('Retrogression')||archive.titleStyle!=='normal'||
+        !archive.copy?.includes('Arial Narrow')||archive.copyStyle!=='italic')fails++;
+   }
+
    console.log(JSON.stringify({label,viewportName,url,status:response?.status(),title,pre,post,errors,failed:failed.slice(0,8),bad:bad.slice(0,12)},null,2));
    if(![200,304].includes(response?.status())||!pre.intro||!pre.portfolio||!pre.obj||!post.objPage||post.locked||!post.modelTitle){fails++;}
   }catch(e){fails++;console.error('BROWSER FAILURE '+label+' '+viewportName+': '+e.stack);}

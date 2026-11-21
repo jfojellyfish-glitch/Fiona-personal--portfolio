@@ -78,31 +78,3 @@ body:not(.intro-locked)::after {
 @media (prefers-reduced-transparency: reduce) {
   body:not(.intro-locked)::after {opacity: .04;}
 }
-
-
-/* Mobile home introduction only — Playfair Display Medium Italic (500).
-   Keep the signature, section headings, desktop typography and 3D intro as designed. */
-@media (max-width: 650px) {
-  .hero-bottom .hero-intro,
-  .hero-bottom .kicker {
-    font-family: "Playfair Display", Georgia, "Times New Roman", serif !important;
-    font-style: italic !important;
-    font-weight: 500 !important;
-    font-optical-sizing: auto;
-    text-transform: none;
-    -webkit-font-smoothing: antialiased;
-  }
-  .hero-bottom .hero-intro {
-    font-size: clamp(17px, 4.45vw, 19px);
-    line-height: 1.55;
-    letter-spacing: -.012em;
-    max-width: 350px;
-  }
-  .hero-bottom .kicker {
-    font-size: clamp(13px, 3.5vw, 14px);
-    line-height: 1.6;
-    letter-spacing: 0;
-    max-width: 350px;
-    margin-inline: auto;
-  }
-}
