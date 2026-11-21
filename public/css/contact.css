@@ -201,3 +201,15 @@
   .contact-email{font-size:clamp(18px,5vw,23px);}
   .contact-socials{gap:12px 14px;}
 }
+
+
+/* v54.1 — plain fine-line vector arrows in Contact, no emoji glyphs. */
+.contact .contact-plain-arrow {
+ display:inline-block; width:15px;height:15px;flex:0 0 15px;
+ vertical-align:middle;color:inherit;overflow:visible;
+}
+.contact .contact-email .contact-plain-arrow {
+ width:23px;height:23px;flex-basis:23px;align-self:center;
+ transition:transform .25s ease;
+}
+.contact .contact-email:hover .contact-plain-arrow{transform:translate(3px,-3px);}
