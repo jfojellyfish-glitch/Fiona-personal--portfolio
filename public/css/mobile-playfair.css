@@ -1,0 +1,57 @@
+/* Mobile-only global type system.
+   Keep desktop typography unchanged. Keep SVG artwork, 3D viewer, and
+   symbol paths intact; only visible HTML typography is restyled. */
+@media (max-width: 700px) {
+  #portfolio-site,
+  #portfolio-site :not(svg):not(svg *),
+  #archive-pages,
+  #archive-pages :not(svg):not(svg *),
+  .next-archive,
+  .next-archive :not(svg):not(svg *) {
+    font-family: "Playfair Display", Georgia, "Times New Roman", serif !important;
+    font-style: italic !important;
+    font-weight: 500 !important;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* A serif italic needs more room than the former Arial Narrow display face.
+     Limit negative tracking so strokes do not collide on small screens. */
+  #portfolio-site :is(
+    .hero-title.hero-signature,
+    .works .section-top h2,
+    .notes h2,
+    .about .section-top h2,
+    .contact-heading h2,
+    .note-band p,
+    .work-list .name,
+    .about-body .about-identity .question,
+    .about-body .about-poem .about-name,
+    .archive-page-heading h1
+  ),
+  #archive-pages .archive-page-heading h1,
+  .next-archive h1 {
+    letter-spacing: -.035em !important;
+  }
+
+  #portfolio-site .hero-title.hero-signature {
+    font-size: clamp(32px, 9.3vw, 56px);
+    line-height: 1.2;
+  }
+
+  /* Avoid breaking email addresses and the deliberately unusual slogan. */
+  #portfolio-site .contact-email,
+  #portfolio-site .about-body .about-poem .about-slogan,
+  .next-archive li {
+    overflow-wrap: anywhere;
+  }
+
+  /* Preserve the original text-arrow appearance, never colorful emoji arrows. */
+  #portfolio-site .archive-entry-arrow,
+  #archive-pages .archive-back,
+  #archive-pages .archive-page-bottom a,
+  #archive-pages .pearl-card-arrow,
+  .next-archive a {
+    font-variant-emoji: text;
+  }
+}
