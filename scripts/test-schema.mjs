@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import {safePath,validateManifest,isValidDate,safeUrl} from '../js/catalogue.js';
+import {safePath,validateManifest,isValidDate,safeUrl} from '../public/js/catalogue.js';
 assert.equal(safePath('assets/models/model-01.glb'),true);
 assert.equal(safePath('../secrets.txt'),false);
 assert.equal(safePath('/etc/passwd'),false);
