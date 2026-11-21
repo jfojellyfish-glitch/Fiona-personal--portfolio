@@ -1,0 +1,51 @@
+/* v28 — subtle scroll choreography. No layout redesign.
+   Text enters line by line; imagery drifts by a few pixels to create depth.
+   All effects are optional and disabled for reduced-motion users. */
+@media (prefers-reduced-motion: no-preference) {
+  html.motion-v28 .motion-lines .motion-line-mask {
+    display:block;
+    overflow:hidden;
+  }
+  html.motion-v28 .motion-lines .motion-line-text {
+    display:block;
+    opacity:0;
+    transform:translate3d(0, 1.05em, 0);
+    transition:opacity 1.05s ease, transform 1.45s cubic-bezier(.2,.9,.22,1);
+    transition-delay:var(--line-delay, 0ms);
+  }
+  html.motion-v28 .motion-lines.is-animated .motion-line-text {
+    opacity:1;
+    transform:translate3d(0, 0, 0);
+  }
+  html.motion-v28 .works .work-list details[data-row-reveal] {
+    opacity:0;
+    translate:0 12px;
+    transition:opacity 1.15s ease, translate 1.2s cubic-bezier(.2,.9,.22,1);
+    transition-delay:var(--row-delay, 0ms);
+  }
+  html.motion-v28 .works .work-list details[data-row-reveal].is-animated {
+    opacity:1;
+    translate:0 0;
+  }
+  /* Image parallax is implemented on existing elements to keep all links intact. */
+  html.motion-v28 .hero-right .apple {
+    transform:translate3d(0,var(--motion-apple-y,0px),0) rotate(-2deg);
+    transition: transform 1.25s cubic-bezier(.2,.86,.22,1);
+    will-change: transform;
+  }
+  html.motion-v28 .notes .wall .archive-entry-link {
+    transform:translate3d(var(--motion-drift-x,0px),var(--motion-drift-y,0px),0);
+    transition: transform 1.35s cubic-bezier(.2,.86,.22,1);
+  }
+  html.motion-v28 .notes .wall .lotus .archive-entry-link,
+  html.motion-v28 .notes .wall .fig .archive-entry-link,
+  html.motion-v28 .notes .wall .breath .archive-entry-link {
+    will-change:transform;
+    backface-visibility:hidden;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .motion-line-text {opacity:1!important;transform:none!important;transition:none!important;}
+  .notes .wall .archive-entry-link {transform:none!important;}
+  .hero-right .apple {transform:rotate(-2deg)!important;}
+}

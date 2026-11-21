@@ -1,0 +1,27 @@
+/* v35 — permanent daytime palette. No IP geolocation or dark-mode switching. */
+:root {
+  color-scheme: light;
+  --paper:#f8f5f1;
+  --black:#171616;
+  --border:#d7d1cc;
+  --lilac:#ead8e5;
+  --green:#dbe3d4;
+  --theme-bg:#f8f5f1;
+  --theme-ink:#171616;
+  --theme-secondary:#67615f;
+  --theme-line:#d7d1cc;
+}
+body, .intro-screen, .archive-page {
+  background:var(--theme-bg);
+  color:var(--theme-ink);
+}
+nav, .hero, .works, .notes, .footer,
+.work-list, .work-list details,
+.archive-page-top, .archive-page-bottom,
+.archive-object-stage, .archive-empty {
+  border-color:var(--theme-line);
+}
+.notes-lead,
+.about-body .about-poem .about-given-name {
+  color:var(--theme-secondary);
+}

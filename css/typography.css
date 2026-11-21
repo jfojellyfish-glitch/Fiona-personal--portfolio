@@ -1,0 +1,80 @@
+/* v44 — unified narrow display type and restrained early-digital texture.
+   All design/content/assets remain inherited from v43. No changes to 3D entrance.
+   A minute shadow and controlled paper grain add a soft 1990s screen feel
+   without making text unreadable. */
+:root {
+  --title-face: "Arial Narrow", "Liberation Sans Narrow", Arial, Helvetica, sans-serif;
+  --display-tracking: -0.065em;
+}
+
+.hero-title.hero-signature,
+.works .section-top h2,
+.notes h2,
+.about .section-top h2,
+.contact-heading h2,
+.note-band p,
+.work-list .name,
+.about-body .about-identity .question,
+.about-body .about-poem .about-name,
+.about-body .about-poem .about-slogan,
+.archive-page-heading h1,
+.archive-empty p,
+.archive-object-stage p,
+.notes .wall .object-preview-label,
+.contact-email {
+  font-family: var(--title-face) !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  letter-spacing: var(--display-tracking) !important;
+  font-kerning: normal;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  text-shadow: 0 0 0.18px rgba(27,22,26,.30) !important;
+}
+
+/* The requested lowercase, centered display system. Content stays as written. */
+.works .section-top h2,
+.notes h2,
+.about .section-top h2,
+.contact-heading h2,
+.note-band p,
+.work-list .name,
+.archive-page-heading h1,
+.archive-empty p,
+.archive-object-stage p,
+.notes .wall .object-preview-label {
+  text-align: center !important;
+  text-transform: lowercase !important;
+}
+
+/* Preserve the artist signature and handwritten slogan exactly, and keep
+   Fiona Qian / Qī Jùn inside the established right-hand About Me column. */
+.hero-title.hero-signature {
+  text-align: center !important;
+  text-transform: none !important;
+}
+.about-body .about-poem .about-name,
+.about-body .about-poem .about-slogan {
+  text-align: left !important;
+  text-transform: none !important;
+}
+.about-body .about-identity .question {
+  text-align: center !important;
+  text-transform: none !important;
+}
+/* The original logo, illustrations, and regular paragraph copy are not blurred. */
+body {
+  font-family: Arial, Helvetica, sans-serif;
+}
+body:not(.intro-locked)::after {
+  opacity: .090;
+}
+@media (max-width: 650px) {
+  .work-list .name {
+    letter-spacing: -.048em !important; /* room for the plus icon */
+  }
+  body:not(.intro-locked)::after { opacity: .069; }
+}
+@media (prefers-reduced-transparency: reduce) {
+  body:not(.intro-locked)::after {opacity: .04;}
+}
