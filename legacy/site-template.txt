@@ -4,7 +4,7 @@
 <meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/>
 <meta content="light" name="color-scheme"/>
 <meta name="theme-color" content="#f8f5f1"/>
-<title>Fᵢₒₙₐ˚⊱🪷⊰˚ — Portfolio</title>
+<title>@𝒂𝒏𝒈𝒆𝒍𝒌𝒖𝒓𝒂𝒈𝒆</title>
 <meta content="Fiona Qian — portfolio, archive, and passing thoughts." name="description"/>
 <link rel="stylesheet" href="./css/style.css">
 <link rel="stylesheet" href="./css/scroll-motion.css">
