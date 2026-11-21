@@ -1,36 +1,38 @@
-/* Compact homepage lotus. The image is decorative, not a link to the asset. */
-.hero:has(.lotus-annotation) {
-  min-height: 620px;
-}
+/* Fiona's exact 791 x 1989 manifesto lotus, full-height and upright.
+   Visually remove its white matte against the cream website background. */
+.hero:has(.lotus-manifesto) { min-height: 740px; }
 .hero-right.hero-lotus-stage {
-  min-height: 515px;
+  min-height: 690px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
 }
-.hero-right .lotus-annotation-figure {
+.hero-right .lotus-manifesto-figure {
   display: block;
   position: relative;
-  width: min(76%, 400px);
-  max-width: 100%;
+  width: min(100%, 292px);
   margin-inline: auto;
+  line-height: 0;
 }
-.hero-right .lotus-annotation-figure .apple.lotus-annotation,
-html.motion-v28 .hero-right .lotus-annotation-figure .apple.lotus-annotation {
+.hero-right .lotus-manifesto-figure .apple.lotus-manifesto,
+html.motion-v28 .hero-right .lotus-manifesto-figure .apple.lotus-manifesto {
   position: relative !important;
   inset: auto !important;
   display: block;
   width: 100% !important;
   height: auto !important;
   max-height: none !important;
-  aspect-ratio: 736 / 917;
+  aspect-ratio: 791 / 1989;
   object-fit: contain;
+  object-position: center center;
   transform: none !important;
+  rotate: none !important;
   filter: none !important;
   mix-blend-mode: multiply !important;
   background: transparent !important;
+  box-shadow: none !important;
 }
 .hero-right.hero-lotus-stage .side-note {
   order: 2;
@@ -44,29 +46,13 @@ html.motion-v28 .hero-right .lotus-annotation-figure .apple.lotus-annotation {
   color: var(--theme-secondary, #67615f);
 }
 @media (max-width: 950px) {
-  .hero:has(.lotus-annotation) { min-height: 560px; }
-  .hero-right.hero-lotus-stage { min-height: 470px; }
-  .hero-right .lotus-annotation-figure { width: min(78%, 350px); }
+  .hero:has(.lotus-manifesto) { min-height: 680px; }
+  .hero-right.hero-lotus-stage { min-height: 640px; }
+  .hero-right .lotus-manifesto-figure { width: min(100%, 260px); }
 }
 @media (max-width: 650px) {
-  .hero:has(.lotus-annotation) {
-    min-height: auto;
-    padding-bottom: 38px;
-  }
-  .hero-right.hero-lotus-stage {
-    min-height: 0;
-    margin-top: 24px;
-    gap: 8px;
-  }
-  .hero-right .lotus-annotation-figure {
-    width: min(82%, 285px);
-  }
-  .hero-right .lotus-annotation-figure .apple.lotus-annotation {
-    width: 100% !important;
-    height: auto !important;
-  }
-  .hero-right.hero-lotus-stage .side-note {
-    margin-right: 0;
-    font-size: 10px;
-  }
+  .hero:has(.lotus-manifesto) { min-height: auto; padding-bottom: 40px; }
+  .hero-right.hero-lotus-stage { min-height: 0; margin-top: 25px; gap: 8px; }
+  .hero-right .lotus-manifesto-figure { width: min(76vw, 265px); }
+  .hero-right.hero-lotus-stage .side-note { margin-right: 0; font-size: 10px; }
 }
