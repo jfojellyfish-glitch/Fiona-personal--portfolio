@@ -787,3 +787,6 @@ html[data-theme='dark'] .notes h2::selection {
 .notes .wall .lotus .archive-entry-meta {
   margin-top: 10px;
 }
+
+body.intro-locked #portfolio-site>.site{visibility:hidden}
+body:not(.intro-locked) #portfolio-site>.site{visibility:visible}

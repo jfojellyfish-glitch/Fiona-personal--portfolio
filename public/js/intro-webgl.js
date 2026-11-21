@@ -13,7 +13,7 @@ function openPortfolio(){
   intro.classList.add('is-leaving');
   document.body.classList.remove('intro-locked');
   document.documentElement.classList.remove('intro-locked');
-  document.querySelector('body > .site')?.removeAttribute('inert');
+  document.querySelector('.site')?.removeAttribute('inert');
   const finish=()=>{intro.hidden=true;document.getElementById('top')?.focus?.({preventScroll:true});};
   if(reducedMotion.matches)finish();else window.setTimeout(finish,900);
 }

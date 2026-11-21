@@ -1,0 +1,15 @@
+html:has(.next-archive),body:has(.next-archive){overflow:auto!important;height:auto!important}
+.next-archive{background:#f8f5f1;color:#171616;min-height:100vh;padding:42px clamp(22px,4vw,80px) 70px;font-family:Arial,Helvetica,sans-serif}
+.next-archive header{display:flex;justify-content:space-between;font-size:12px;align-items:center;letter-spacing:-.02em}
+.next-archive a{text-decoration:none;color:inherit}
+.next-archive a:hover{text-decoration:underline;text-underline-offset:4px}
+.next-archive h1{font-family:'Arial Narrow','Liberation Sans Narrow',Arial,sans-serif;font-weight:400;font-size:clamp(72px,11vw,175px);line-height:.95;letter-spacing:-.065em;text-align:center;margin:110px 0 26px}
+.next-archive .archive-explainer{text-align:center;font-size:14px;color:#67615f;margin:0 0 110px}
+.next-archive .archive-collections{max-width:1050px;margin:auto;display:grid;gap:60px}
+.next-archive .archive-collection-heading{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid #d7d1cc;padding:16px 0;text-transform:lowercase;font-size:14px}
+.next-archive ul{list-style:none;margin:15px 0 0;padding:0}
+.next-archive li{display:flex;justify-content:space-between;gap:20px;padding:22px 0;border-bottom:1px solid #e3dedb;font-family:'Arial Narrow',Arial,sans-serif;font-size:clamp(26px,4vw,50px);letter-spacing:-.05em}
+.next-archive li small{font-size:14px;letter-spacing:0;color:#67615f;margin-top:14px}
+.next-archive .archive-empty-state{color:#88817e;font-size:13px;padding:30px 0}
+.next-archive footer{text-align:right;font-size:12px;color:#67615f;margin-top:130px}
+@media(max-width:700px){.next-archive header{gap:20px;flex-wrap:wrap}.next-archive h1{margin:100px 0 30px}.next-archive .archive-explainer{margin-bottom:100px}.next-archive li{align-items:baseline}}

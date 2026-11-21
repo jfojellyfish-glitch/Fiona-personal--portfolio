@@ -1,7 +1,6 @@
 node_modules/
+.next/
+out/
+.env*.local
+*.tsbuildinfo
 .DS_Store
-*.log
-.cache/
-coverage/
-# Local standalone previews are not published.
-Fiona_Qian_Portfolio_v*_Single_File_Preview.html

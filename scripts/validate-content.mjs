@@ -1,17 +1,17 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
-import {validateManifest,safePath} from '../js/catalogue.js';
+import {validateManifest,safePath} from '../public/js/catalogue.js';
 const root=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..');
 const manifests=[['pearls','content/pearls/index.json','entries'],['photography','content/photography/index.json','photos'],['objects','content/objects/index.json','models']];
 const failures=[];
 for(const [key,filename,arrayName] of manifests){
  try{
-  const content=JSON.parse(fs.readFileSync(path.join(root,filename),'utf8'));
+  const content=JSON.parse(fs.readFileSync(path.join(root,'public',filename),'utf8'));
   for(const issue of validateManifest(key,content))failures.push(filename+': '+issue.path+': '+issue.message);
   for(const [i,item] of (content[arrayName]||[]).entries()){
    if(item&&safePath(item.file)){
-    const filenameOnDisk=path.join(root,item.file);
+    const filenameOnDisk=path.join(root,'public',item.file);
     if(!fs.existsSync(filenameOnDisk))failures.push(filename+': missing file '+item.file);
     else if(item.file.endsWith('.glb')){
      const size=fs.statSync(filenameOnDisk).size;
@@ -25,7 +25,7 @@ for(const [key,filename,arrayName] of manifests){
   console.log('✓ '+key+': '+content[arrayName].length+' items checked');
  }catch(error){failures.push(filename+': '+error.message);}
 }
-for(const p of ['index.html','css/style.css','js/main.js','js/intro-webgl.js','assets/fiona-logo.glb']){
+for(const p of ['app/page.tsx','public/css/style.css','public/js/main.js','public/js/intro-webgl.js','public/assets/fiona-logo.glb']){
  if(!fs.existsSync(path.join(root,p)))failures.push('Missing core site file: '+p);
 }
 if(failures.length){console.error(failures.join('\n'));process.exitCode=1;}else console.log('✓ Content manifests and core site files passed');
