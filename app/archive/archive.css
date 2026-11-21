@@ -13,8 +13,3 @@ html:has(.next-archive),body:has(.next-archive){overflow:auto!important;height:a
 .next-archive .archive-empty-state{color:#88817e;font-size:13px;padding:30px 0}
 .next-archive footer{text-align:right;font-size:12px;color:#67615f;margin-top:130px}
 @media(max-width:700px){.next-archive header{gap:20px;flex-wrap:wrap}.next-archive h1{margin:100px 0 30px}.next-archive .archive-explainer{margin-bottom:100px}.next-archive li{align-items:baseline}}
-
-/* v52: preserve arrow typography on iPhone Safari, no colored emoji icons. */
-@media (max-width:700px){
-  .next-archive a{font-variant-emoji:text}
-}

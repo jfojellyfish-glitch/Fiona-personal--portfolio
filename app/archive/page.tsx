@@ -17,11 +17,11 @@ const collections=[
 ];
 export default function ArchivePage(){
   return <main className="next-archive">
-    <header><a href={homeUrl}>←︎ back to portfolio</a><span>personal archive / 2026</span></header>
+    <header><a href={homeUrl}>← back to portfolio</a><span>personal archive / 2026</span></header>
     <h1>things on<br/>my desktop.</h1>
     <p className="archive-explainer">three drawers: one for words, one for objects, and one for photographs.</p>
     <div className="archive-collections">{collections.map(c=><section key={c.id}>
-      <div className="archive-collection-heading"><span>{c.id} / {c.name}</span><a href={`${homeUrl}${c.route.slice(1)}`}>open drawer ↗︎</a></div>
+      <div className="archive-collection-heading"><span>{c.id} / {c.name}</span><a href={`${homeUrl}${c.route.slice(1)}`}>open drawer ↗</a></div>
       {c.data.length?<ul>{c.data.map((item,i)=><li key={item.title+i}><span>{item.title}</span><small>{item.year??item.date??item.location??''}</small></li>)}</ul>:<p className="archive-empty-state">a little space for things to come.</p>}
     </section>)}</div>
     <footer>© 2026 Fiona Qian</footer>

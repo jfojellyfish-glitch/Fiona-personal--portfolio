@@ -106,7 +106,7 @@
       const date=el('span','pearl-card-date',formatDate(p.date));
       const body=el('div','pearl-card-copy');
       body.append(el('h2','pearl-card-title',p.title),el('p','pearl-card-description',p.description || ''));
-      a.append(date,body,el('span','pearl-card-arrow','↗︎'));list.append(a);
+      a.append(date,body,el('span','pearl-card-arrow','↗'));list.append(a);
     }
     $('pearls-empty').hidden=allData.pearls.length>0;
     $('pearls-collection').hidden=allData.pearls.length===0;
@@ -161,7 +161,7 @@
       if (model.description) card.append(el('p','model-description',model.description));
       if (model.year) card.append(el('p','model-meta',model.year));
       const href=id ? 'https://sketchfab.com/models/'+id : externalUrl(model.url);
-      if(href){const link=el('a','model-link',id?'open on sketchfab ↗︎':'view project ↗︎');
+      if(href){const link=el('a','model-link',id?'open on sketchfab ↗':'view project ↗');
         setHref(link,href);link.target='_blank';link.rel='noopener noreferrer';card.append(link);}
       list.append(card);
       if (!id && !isLocal) {stage.remove();continue;}
@@ -198,7 +198,7 @@
           }
         } catch(error) {
           started=false;
-          const retry=el('button','model-stage-retry','viewer unavailable · retry ↗︎');
+          const retry=el('button','model-stage-retry','viewer unavailable · retry ↗');
           retry.type='button';
           retry.title=error?.message || '3D viewer unavailable';
           retry.addEventListener('click',load,{once:true});
