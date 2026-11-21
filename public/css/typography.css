@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500&display=swap");
 /* v44 — unified narrow display type and restrained early-digital texture.
    All design/content/assets remain inherited from v43. No changes to 3D entrance.
    A minute shadow and controlled paper grain add a soft 1990s screen feel
@@ -103,4 +104,46 @@ body:not(.intro-locked)::after {
       background-size:4px 4px;
     }
   }
+}
+
+
+/* v57 — 2026 opening typography: cross-stitch/pixel typography accent.
+   Pixelify Sans is web-licensed via SIL OFL. Only the TWO selected text areas
+   change; 3D mesh, intro copy, layout, logos, animation, and UI stay intact.
+   Do not bundle Retrogression without its separate Web Font License. */
+#intro-screen .intro-kicker,
+#intro-screen .intro-invite .intro-sub {
+  font-family: "Pixelify Sans", "Courier New", monospace !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  text-transform: lowercase;
+  text-shadow: none !important;
+  filter: none !important;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+#intro-screen .intro-kicker {
+  font-size: clamp(13px, 1.18vw, 16px);
+  letter-spacing: .014em;
+  line-height: 1.4;
+}
+#intro-screen .intro-invite .intro-sub {
+  font-size: clamp(11px, .92vw, 13px);
+  letter-spacing: .012em;
+  line-height: 1.35;
+  color: #858085;
+}
+@media (max-width: 650px) {
+  #intro-screen .intro-kicker {
+    font-size: 14px;
+    letter-spacing: 0;
+  }
+  #intro-screen .intro-invite .intro-sub {
+    font-size: 11px;
+    letter-spacing: 0;
+  }
+}
+/* Keep the primary click instruction in the original easy-to-read narrow face. */
+#intro-screen .intro-invite .intro-call {
+  font-family: "Arial Narrow", Arial, Helvetica, sans-serif !important;
 }
