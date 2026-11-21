@@ -85,6 +85,7 @@
   z-index:0;
   pointer-events:none;
   mix-blend-mode:multiply;
+  opacity:.18; /* composited group cap — overlapping dots cannot become darker */
 }
 .contact-overline,.contact-layout {position:relative;z-index:1;}
 .contact-overline {align-items:start;}
