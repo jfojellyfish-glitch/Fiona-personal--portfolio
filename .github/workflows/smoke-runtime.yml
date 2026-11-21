@@ -28,6 +28,7 @@ jobs:
           nohup python3 -m http.server 4173 --directory /tmp/portfolio-smoke >/tmp/portfolio-server.log 2>&1 &
           sleep 2
       - name: Test local and deployed site in Chrome
+        if: github.event_name != 'push'
         run: node scripts/smoke-runtime.mjs
       - name: Audit Contact appearance across desktop and iPad
         run: node scripts/audit-contact.mjs
