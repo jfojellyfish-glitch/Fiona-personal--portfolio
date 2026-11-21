@@ -18,5 +18,7 @@ assert(archive.includes(prefix + '/'), 'Archive links not prefixed by ' + prefix
 const liveAssetName = 'assets/models/model-01.glb';
 assert(existsSync(join('out', liveAssetName)), '3D object asset lost during export');
 assert(existsSync('out/assets/fiona-logo.glb'), 'Intro 3D asset lost during export');
-assert(existsSync('out/assets/lotus-annotated.webp'), 'Annotated lotus artwork is missing from the static export');
+assert(existsSync('out/assets/lotus-manifesto-2026.png'), 'Original manifesto lotus is missing from the static export');
+const lotusData = readFileSync('out/assets/lotus-manifesto-2026.png');
+assert(lotusData.readUInt32BE(16)===791 && lotusData.readUInt32BE(20)===1989, 'Lotus dimensions must remain 791x1989');
 console.log('✓ Pages export uses base path ' + (prefix || '/') + ' and retains both original 3D assets');
