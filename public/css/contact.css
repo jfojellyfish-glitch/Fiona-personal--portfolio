@@ -112,7 +112,7 @@
   max-width:none;
   margin:0;
   font-family:"Helvetica Neue",Arial,Helvetica,sans-serif !important;
-  font-size:clamp(130px,16.5vw,260px);
+  font-size:clamp(130px,19vw,360px);
   line-height:.84;
   letter-spacing:-.092em !important;
   font-weight:400 !important;
