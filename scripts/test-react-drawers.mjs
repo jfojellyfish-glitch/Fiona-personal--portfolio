@@ -1,0 +1,17 @@
+import assert from 'node:assert/strict';
+import {readFileSync,existsSync} from 'node:fs';
+import {join} from 'node:path';
+const root=process.cwd();
+const components=['ArchiveDrawers','PearlsDrawer','ObjectsDrawer','PhotographyDrawer','Markdown','CollectionSearch'];
+for(const name of components)assert(existsSync(join(root,'components/archive',name+'.tsx')),name+' missing');
+const page=readFileSync('app/page.tsx','utf8');
+assert(page.includes('<ArchiveDrawers '),'Missing React drawer rendering');
+assert(page.includes('archiveMarker'),'Archive marker missing');
+const boot=readFileSync('components/LegacyBoot.tsx','utf8');
+assert(!boot.includes("['archive-content.js'"),'Old DOM archive script must not boot');
+assert(!boot.includes("['archive-tools.js'"),'Old search must not boot');
+const router=readFileSync('public/js/main.js','utf8');
+assert(!router.includes("const pages = [...document.querySelectorAll('[data-archive-page]')]"),'Old hash router still active');
+const templates=readFileSync('legacy/site-template.txt','utf8');
+assert(templates.includes('<div aria-live="off" class="archive-pages" id="archive-pages">'));
+console.log('✓ React drawer integration checks passed');

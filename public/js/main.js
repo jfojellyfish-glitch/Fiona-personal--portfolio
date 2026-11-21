@@ -22,30 +22,7 @@
   }
 })();
 
-(() => {
-  const pages = [...document.querySelectorAll('[data-archive-page]')];
-  if(!pages.length)return;
-  const valid = new Set(pages.map(el=>el.dataset.archivePage));
-  let wasOpen=false;
-  function route(){
-    const name=decodeURIComponent(location.hash.slice(1)).split('/')[0];
-    const open=valid.has(name);
-    pages.forEach(page=>{page.hidden = page.dataset.archivePage!==name;});
-    document.body.classList.toggle('archive-open',open);
-    if(open){
-      const page=pages.find(p=>p.dataset.archivePage===name);
-      if(page){page.scrollTop=0; page.querySelector('h1')?.focus({preventScroll:true});}
-    }else if(wasOpen){
-      document.getElementById('notes')?.scrollIntoView({block:'start',behavior:'auto'});
-    }
-    wasOpen=open;
-  }
-  window.addEventListener('hashchange',route);
-  document.addEventListener('keydown',event=>{
-    if(event.key==='Escape'&&valid.has(decodeURIComponent(location.hash.slice(1)).split('/')[0])){location.hash='notes';}
-  });
-  route();
-})();
+/* Archive drawer routing now lives in components/archive/ArchiveDrawers.tsx. */
 
 /* Match the tall left glyph to the biography height, including after resizing. */
 (() => {

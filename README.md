@@ -24,3 +24,16 @@ The default repository URL is `https://jfojellyfish-glitch.github.io/Fiona-perso
 This project cannot use Next.js runtime server APIs, Server Actions or cookies on Pages because `output:'export'` is required. For full-stack functionality later, move the same Next.js app to a Node-supported host.
 
 The earlier site is safely preserved on `backup-before-nextjs-2026-11-21`.
+
+## v53 — React Archive drawers
+
+The **Pearls**, **3D Objects** and **Photography** drawers are now native, independently maintainable React components, replacing `public/js/archive-content.js`'s DOM mutation routines.
+- `components/archive/PearlsDrawer.tsx`: article listing, safe Markdown rendering and hash-based reading.
+- `components/archive/ObjectsDrawer.tsx`: frameless local GLB with lazy model-viewer loading; Sketchfab embeds remain supported.
+- `components/archive/PhotographyDrawer.tsx`: photo gallery with accessible modal, arrow keys and Escape.
+- `components/archive/CollectionSearch.tsx`: search visible only when a collection has 4 or more works.
+- `components/archive/ArchiveDrawers.tsx`: preserves the same `#writing`, `#objects`, `#photography` links.
+- `app/page.tsx` pre-renders the unchanged home design and lets React render only the three existing drawer pages.
+
+The original 3D opening model, SVG lotus, fonts, colors, logos, and layout remain unchanged.
+The previous archive script remains in the repository for reference, but is not booted.

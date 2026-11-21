@@ -4,10 +4,10 @@ import { useEffect } from 'react';
 declare global { interface Window { __fionaPortfolioBooted?: boolean; } }
 const prefix = process.env.NEXT_PUBLIC_BASE_PATH ?? '/Fiona-personal--portfolio';
 const scripts: Array<[string,'module'|'classic']> = [
-  ['intro-webgl.js','module'], ['main.js','classic'], ['scroll-motion.js','classic'],
-  ['archive-content.js','classic'], ['archive-tools.js','module']
+  ['intro-webgl.js','module'], ['main.js','classic'], ['scroll-motion.js','classic']
 ];
 /** Boot the original custom WebGL intro and archive after React hydration.
+ *  Archive drawers are now React components, not a DOM-mutation script.
  *  No server-dependent code is used so the site can export statically.
  */
 export function LegacyBoot(){
