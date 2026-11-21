@@ -17,6 +17,11 @@ jobs:
           node-version: '22'
       - name: Set Pages base path from current repository name
         run: echo "NEXT_PUBLIC_BASE_PATH=/${GITHUB_REPOSITORY#*/}" >> "$GITHUB_ENV"
+      - name: Prepare Retrogression webfont from author's package
+        run: |
+          mkdir -p public/fonts
+          unzip -p font-assets/Retrogression.zip Retrogression/Retrogression-Regular.otf > public/fonts/retrogression.otf
+          test -s public/fonts/retrogression.otf
       - run: npm install --no-audit --no-fund
       - run: npm run build
       - run: npm install --no-save puppeteer-core@24 --no-audit --no-fund
