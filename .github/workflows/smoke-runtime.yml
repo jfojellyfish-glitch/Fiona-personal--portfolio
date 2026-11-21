@@ -1,5 +1,7 @@
 name: Browser runtime smoke test
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
@@ -27,8 +29,12 @@ jobs:
           sleep 2
       - name: Test local and deployed site in Chrome
         run: node scripts/smoke-runtime.mjs
+      - name: Audit Contact appearance across desktop and iPad
+        run: node scripts/audit-contact.mjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: portfolio-runtime-screenshots
-          path: smoke-*.png
+          path: |
+            smoke-*.png
+            contact-audit-*.jpg
