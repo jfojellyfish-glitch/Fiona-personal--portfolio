@@ -6,10 +6,24 @@
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
   if(reduced.matches || !CSS.supports('position','sticky'))return;
 
-  const site=document.querySelector('#portfolio-site .site');
-  if(!site)return;
+  const root=document.getElementById('portfolio-site');
+  const site=root?.querySelector(':scope > .site');
+  const main=site?.querySelector(':scope > main');
+  const noteBand=root?.querySelector(':scope > section.note-band');
+  const trailingSites=root?[...root.querySelectorAll(':scope > .site')]:[];
+  const lastSite=trailingSites[1];
+  if(!site||!main||!noteBand||!lastSite)return;
+
+  // The original portfolio has two .site shells separated by a full-width
+  // note band. For continuous real paper-stack motion, keep ALL six original
+  // section nodes in ONE scrolling <main>; no content is recreated or clipped.
+  // Preserve the first .site (and its nav/inert state) and existing event nodes.
+  main.appendChild(noteBand);
+  while(lastSite.firstChild)main.appendChild(lastSite.firstChild);
+  lastSite.remove();
+
   const selectors=['.hero','.works','.note-band','.notes','.about','.contact'];
-  const panels=selectors.map(selector=>site.querySelector(':scope > section'+selector));
+  const panels=selectors.map(selector=>main.querySelector(':scope > section'+selector));
   if(panels.some(el=>!el))return;
 
   const clamp=value=>Math.max(0,Math.min(1,value));
