@@ -3,6 +3,14 @@ import type { ReactNode } from 'react';
 /** Minimal Markdown subset rendered as React elements: no raw HTML or injection. */
 const rx=/(\[[^\]\n]+\]\(https?:\/\/[^\s)]+\)|\*\*[^*\n]+\*\*|\*[^*\n]+\*)/g;
 const isChineseOnly=(value:string)=>/[\u3400-\u9fff]/.test(value)&&!/[A-Za-z]/.test(value);
+/** Attach language spans so mixed English/Chinese paragraphs can stay genuinely light
+ * in Chinese, without changing the article's original text. */
+function languageRuns(value:string):ReactNode[]{
+ return value.split(/([\u3400-\u9fff]+(?:[，。！？、；：（）]*[\u3400-\u9fff]+)*)/g)
+  .filter(Boolean).map((part,i)=>/[\u3400-\u9fff]/.test(part)
+   ? <span key={i} lang="zh" className="pearl-han-inline">{part}</span>:part);
+}
+
 function inline(text:string):ReactNode[]{
  const parts=text.split(rx);
  return parts.filter(Boolean).map((part,i)=>{
@@ -13,7 +21,7 @@ function inline(text:string):ReactNode[]{
    }
    if(part.startsWith('**')&&part.endsWith('**'))return <strong key={i}>{part.slice(2,-2)}</strong>;
    if(part.startsWith('*')&&part.endsWith('*'))return <em key={i}>{part.slice(1,-1)}</em>;
-   return part;
+   return languageRuns(part);
  });
 }
 export function Markdown({text}:{text:string}){
