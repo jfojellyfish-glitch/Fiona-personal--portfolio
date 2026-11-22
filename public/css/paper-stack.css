@@ -341,7 +341,9 @@ body::after {display:none!important;opacity:0!important;}
   max-width:none;
   font-size:clamp(80px,8.8vw,132px)!important;
   line-height:1!important;
-  transform:translate(-50%,-50%) scaleY(1.85)!important;
+  /* JS measures the neighbouring biography and sets this variable.
+     The fallback is elongated too, even if scripting is unavailable. */
+  transform:translate(-50%,-50%) scaleY(var(--about-vertical-scale,4.5))!important;
   transform-origin:center;
   white-space:nowrap;
 }
