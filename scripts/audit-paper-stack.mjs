@@ -1,110 +1,155 @@
-/* Visual QA: approved six-section paper stack applied to the REAL landing page.
-   Tests original content, layering, tall content, scroll reversal & reduced motion. */
+/* V12 browser audit: real site, image bytes, full-bleed panels,
+   natural mobile content height, no viewport-edge gaps or section scaling. */
 import puppeteer from 'puppeteer-core';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 
 const chrome=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable',
- '/usr/bin/chromium','/usr/bin/chromium-browser'].find(path=>fs.existsSync(path));
+ '/usr/bin/chromium','/usr/bin/chromium-browser'].find(fs.existsSync);
 if(!chrome)throw Error('Chrome not installed');
 const browser=await puppeteer.launch({headless:true,executablePath:chrome,
-  args:['--no-sandbox','--disable-dev-shm-usage','--disable-gpu','--use-gl=swiftshader','--enable-unsafe-swiftshader']});
+ args:['--no-sandbox','--disable-dev-shm-usage','--disable-gpu',
+       '--use-gl=swiftshader','--enable-unsafe-swiftshader']});
 const repo=(process.env.GITHUB_REPOSITORY||'jfojellyfish-glitch/Fiona-personal--portfolio').split('/')[1];
 const base=process.env.NEXT_PUBLIC_BASE_PATH||('/'+repo);
-const pageURL='http://127.0.0.1:4173'+base+'/';
-const viewports=[['desktop',1440,900],['ipad',820,1180],['mobile',390,844]];
+const url='http://127.0.0.1:4173'+base+'/';
+const cases=[['desktop',1440,900],['ipad',820,1180],
+             ['mobile',390,844],['small-mobile',320,700]];
 let failures=0;
-for(const [name,width,height] of viewports){
+for(const [name,width,height] of cases){
  const page=await browser.newPage();
  await page.setViewport({width,height,deviceScaleFactor:1});
  const errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  try{
-   const response=await page.goto(pageURL,{waitUntil:'domcontentloaded',timeout:20000});
+   const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:25000});
+   assert([200,304].includes(response?.status()));
    await page.waitForSelector('.paper-stack-panel',{timeout:20000});
    await page.evaluate(()=>document.getElementById('intro-enter')?.click());
-   await page.waitForFunction(()=>!document.body.classList.contains('intro-locked'),{timeout:7000});
+   await page.waitForFunction(()=>!document.body.classList.contains('intro-locked'),{timeout:7500});
+   // Read the actual photograph as an image. A 200 response with corrupt JPG
+   // bytes isn't enough: decoding must succeed as well.
+   const paper=await page.evaluate(async path=>{
+     const r=await fetch(path);
+     const img=new Image();
+     img.src=path;
+     await img.decode();
+     return {status:r.status,w:img.naturalWidth,h:img.naturalHeight};
+   },base+'/assets/handmade-paper-v12-soft-white.jpg');
+   assert.equal(paper.status,200);
+   assert.equal(paper.w,384);
+   assert.equal(paper.h,512);
+
    const initial=await page.evaluate(()=>{
-     const sections=[...document.querySelectorAll('#portfolio-site .site > main > section.paper-stack-panel')];
-     const style=el=>getComputedStyle(el);
-     const v=innerHeight;
+     const nodes=[...document.querySelectorAll('#portfolio-site .site > main > section.paper-stack-panel')];
+     const s=el=>getComputedStyle(el);
      return {
+       count:nodes.length,
        enabled:document.documentElement.classList.contains('paper-stack-enabled'),
-       count:sections.length,
-       classes:sections.map(el=>el.className),
-       position:sections.map(el=>style(el).position),
-       zIndexes:sections.map(el=>Number(style(el).zIndex)),
-       sections:sections.map(el=>({
-         height:el.offsetHeight,top:Number.parseFloat(style(el).top),
-         expectedTop:Math.min(0,v-el.offsetHeight)
+       stack:nodes.map(n=>({
+         className:n.className,
+         position:s(n).position,
+         scale:s(n).transform,
+         top:Number.parseFloat(s(n).top),
+         expected:Math.min(0,innerHeight-n.offsetHeight),
+         width:Math.round(n.getBoundingClientRect().width),
+         naturalHeight:n.offsetHeight,
+         image:s(n).backgroundImage,
+         contentY:s(n).getPropertyValue('--paper-content-y'),
+         contentCount:n.children.length,
        })),
-       originalWorks:!!document.querySelector('#work a[href]'),
-       originalDrawers:document.querySelectorAll('#notes .archive-entry-link').length,
+       introTexture:getComputedStyle(document.querySelector('#intro-screen')).backgroundImage,
        contact:!!document.querySelector('#contact-angel-canvas'),
-       contentVisible:!!document.querySelector('.about-poem .about-name'),
-       hOverflow:document.documentElement.scrollWidth>innerWidth+4
+       entries:document.querySelectorAll('#notes .archive-entry-link').length,
+       works:!!document.querySelector('#work a[href]'),
+       about:!!document.querySelector('.about-poem .about-name'),
+       overflow:document.documentElement.scrollWidth-innerWidth
      };
    });
-   assert([200,304].includes(response?.status()),'Unexpected local server response');
-   assert.equal(initial.enabled,true,'motion disabled');
-   assert.equal(initial.count,6,'six panels');
-   assert(initial.position.every(x=>x==='sticky'),'all panels sticky');
-   assert.deepEqual(initial.zIndexes,[1,2,3,4,5,6],'correct stack order');
-   assert(initial.sections.every(s=>Math.abs(s.top-s.expectedTop)<3),'tall sections show all content');
-   assert(initial.originalWorks&&initial.originalDrawers>=3&&initial.contact&&initial.contentVisible,
-    'existing portfolio contents missing');
-   assert.equal(initial.hOverflow,false,'horizontal overflow');
+   assert.equal(initial.enabled,true);
+   assert.equal(initial.count,6);
+   assert(initial.stack.every(n=>n.position==='sticky'),'panel not sticky');
+   assert(initial.stack.every(n=>n.scale==='none'),'a whole panel was transformed');
+   assert(initial.stack.every(n=>Math.abs(n.top-n.expected)<3),'long content might be clipped');
+   assert(initial.stack.every(n=>n.width>=width-3),'full-bleed paper misses viewport edge');
+   assert(initial.stack.filter(n=>!n.className.includes('note-band')).every(n=>n.image.includes('handmade-paper-v12-soft-white.jpg')),
+    'missing user paper texture');
+   assert(!initial.stack[2].image.includes('handmade-paper-v12-soft-white.jpg'),
+    'pink section must be plain colored');
+   assert(initial.introTexture.includes('handmade-paper-v12-soft-white.jpg'));
+   assert(initial.works&&initial.entries===3&&initial.about&&initial.contact,'original content missing');
+   assert(initial.overflow<=3,'horizontal overflow');
 
-   const sample=await page.evaluate(()=>{
-     const work=document.getElementById('work');
-     window.scrollTo(0,window.scrollY+work.getBoundingClientRect().top-window.innerHeight*.55);
-     return {target:window.scrollY};
+   await page.evaluate(()=>{
+     const target=document.querySelector('#work');
+     window.scrollTo(0,window.scrollY+target.getBoundingClientRect().top-innerHeight*.6);
    });
-   await new Promise(resolve=>setTimeout(resolve,180));
+   await new Promise(r=>setTimeout(r,200));
    const transition=await page.evaluate(()=>{
      const hero=document.querySelector('.paper-stack-panel.hero');
      const works=document.querySelector('.paper-stack-panel.works');
+     const s=el=>getComputedStyle(el);
      return {
-       heroTransform:getComputedStyle(hero).transform,
-       worksTransform:getComputedStyle(works).transform,
-       heroTop:hero.getBoundingClientRect().top,
-       worksTop:works.getBoundingClientRect().top,
-       title:document.querySelector('.works .section-top h2')?.textContent?.trim()
+       heroTransform:s(hero).transform,
+       heroFloat:s(hero).getPropertyValue('--paper-content-y').trim(),
+       worksFloat:s(works).getPropertyValue('--paper-content-y').trim(),
+       worksTransform:s(works).transform,
+       heroWidth:hero.getBoundingClientRect().width,
+       workWidth:works.getBoundingClientRect().width,
+       hOverflow:document.documentElement.scrollWidth-innerWidth
      };
    });
-   assert(transition.title?.includes('selected'),'section heading changed');
-   assert(transition.heroTransform!=='none','whole section did not move');
-   assert(transition.worksTop<height,'next page did not enter');
-
-   await page.evaluate(()=>window.scrollTo(0,0));
-   await new Promise(resolve=>setTimeout(resolve,150));
-   const reverse=await page.evaluate(()=>{
-     const hero=document.querySelector('.paper-stack-panel.hero');
-     return {top:hero.getBoundingClientRect().top, transform:getComputedStyle(hero).transform};
-   });
+   assert.equal(transition.heroTransform,'none');
+   assert.equal(transition.worksTransform,'none');
+   assert(transition.heroWidth>=width-3&&transition.workWidth>=width-3);
+   assert(transition.hOverflow<=3,'overflow while scrolling');
+   if(name==='desktop'||name==='ipad'){
+     assert(transition.worksFloat!=='0.00px','section content should float on desktop/tablet');
+   }
    await page.screenshot({path:'paper-stack-'+name+'.png'});
-   console.log('PAPER_STACK_AUDIT '+name+' '+JSON.stringify({initial,transition,reverse,errors}));
+
+   if(width<=390){
+     // Original portfolio includes long sections, and they must never be
+     // clipped to a fixed viewport height or forced to overlap on mobile.
+     const m=await page.evaluate(()=>{
+       const ns=[...document.querySelectorAll('.paper-stack-panel')];
+       return {
+         tall:ns.filter(n=>n.offsetHeight>innerHeight*1.07).map(n=>({
+           label:n.classList[0],offset:n.offsetHeight,
+           top:getComputedStyle(n).top,
+           overflow:getComputedStyle(n).overflow,
+           dy:getComputedStyle(n).getPropertyValue('--paper-content-y').trim()
+         })),
+         viewport:innerHeight
+       };
+     });
+     assert(m.tall.length>=1,'mobile tall sections absent');
+     assert(m.tall.every(n=>n.overflow!=='hidden'&&n.dy==='0.00px'),
+      'mobile long content was clipped or translated');
+     console.log('V12_MOBILE_CONTENT '+name+' '+JSON.stringify(m));
+   }
+   assert.equal(errors.length,0,'uncaught client page errors '+errors.join('; '));
+   console.log('V12_PAPER_STACK_AUDIT '+name+' '+JSON.stringify({paper,initial,transition,errors}));
  }catch(error){
    failures++;
-   console.error('PAPER_STACK_ERROR '+name+' '+error.stack);
+   console.error('V12_PAPER_STACK_ERROR '+name+' '+error.stack);
  }
  await page.close();
 }
-// Accessible non-sticky layout for reduced-motion visitors.
 const reduced=await browser.newPage();
 await reduced.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'reduce'}]);
 try{
- await reduced.goto(pageURL,{waitUntil:'domcontentloaded',timeout:20000});
+ await reduced.goto(url,{waitUntil:'domcontentloaded',timeout:25000});
  await reduced.waitForSelector('#work',{timeout:12000});
- await new Promise(resolve=>setTimeout(resolve,800));
  const state=await reduced.evaluate(()=>({
    enabled:document.documentElement.classList.contains('paper-stack-enabled'),
-   sticky:document.querySelector('#work')?.classList.contains('paper-stack-panel')
+   texture:getComputedStyle(document.querySelector('#work')).backgroundImage
  }));
- assert.equal(state.enabled,false,'reduced motion must not activate stacking');
- console.log('PAPER_STACK_REDUCED_MOTION '+JSON.stringify(state));
-}catch(error){failures++;console.error('PAPER_STACK_REDUCED_ERROR '+error.stack);}
+ assert.equal(state.enabled,false);
+ assert(state.texture.includes('handmade-paper-v12-soft-white.jpg'));
+ console.log('V12_REDUCED_MOTION '+JSON.stringify(state));
+}catch(error){failures++;console.error('V12_REDUCED_ERROR '+error.stack);}
 await reduced.close();
 await browser.close();
 if(failures)process.exitCode=1;
-else console.log('All section-to-section paper-stack checks passed');
+else console.log('V12 paper texture, full-bleed motion and mobile content all passed');

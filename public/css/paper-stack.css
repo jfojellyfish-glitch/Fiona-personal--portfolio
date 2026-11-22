@@ -1,35 +1,73 @@
-/* v60 — Section-to-section motion: archival paper stack.
-   Progressive enhancement only. Keeps the existing sections, images, links,
-   3D entrance and content, unlike the fixed-height concept review. */
+/* v61 — V12 approved: soft, white cotton-paper relief from Fiona's photo.
+   The panel itself never scales or translates: only its existing content floats.
+   Natural section height is preserved on mobile, so no cropping/overlap. */
+:root { --fiona-paper-white:#f9f9f7; }
+
+/* The original WebGL opening remains unchanged apart from its background. */
+#intro-screen.intro-screen {
+  background-color:var(--fiona-paper-white);
+  background-image:url('../assets/handmade-paper-v12-soft-white.jpg');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+
+/* Surface material also persists for reduced-motion accessibility. */
+body {
+  background-color:var(--fiona-paper-white);
+  background-image:url('../assets/handmade-paper-v12-soft-white.jpg');
+  background-repeat:repeat;
+  background-size:900px auto;
+}
+#portfolio-site .hero,
+#portfolio-site .works,
+#portfolio-site .notes,
+#portfolio-site .about,
+#portfolio-site .contact {
+  background-color:var(--fiona-paper-white);
+  background-image:url('../assets/handmade-paper-v12-soft-white.jpg');
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+}
+#portfolio-site .note-band {
+  background-color:var(--lilac,#ead8e5);
+  background-image:none!important;
+}
+
+/* Avoid stacking legacy global noise on top of the actual paper photo. */
+body::after { opacity:0!important; }
+
 @media (prefers-reduced-motion: no-preference) {
-  html.paper-stack-enabled body {
-    background-color:#e8e3dc;
-  }
-  html.paper-stack-enabled .site {
-    isolation:isolate;
-  }
+  html.paper-stack-enabled .site { isolation:isolate; }
   html.paper-stack-enabled .site > main > section.paper-stack-panel {
     position:sticky;
     top:var(--paper-stick-top,0px);
     z-index:var(--paper-z,1);
     min-height:100svh;
-    background-color:var(--theme-bg,#f8f5f1);
-    background-image:
-      radial-gradient(ellipse 65% 58% at 53% 43%,rgba(255,255,255,.21),transparent 91%),
-      linear-gradient(114deg,rgba(156,132,119,.036),transparent 39%,rgba(117,96,84,.038));
-    background-repeat:no-repeat;
-    transform:translate3d(0,var(--paper-enter-y,0px),0) scale(var(--paper-scale,1));
-    transform-origin:center top;
-    border-radius:var(--paper-radius,0px) var(--paper-radius,0px) 0 0;
-    box-shadow:0 -14px 45px rgba(66,51,44,.075);
-    backface-visibility:hidden;
+    box-sizing:border-box;
+    transform:none!important;
+    border-radius:0!important;
+    overflow:visible;
+    border-top:1px solid rgba(104,92,81,.10);
+    box-shadow:0 -1px 2px rgba(54,44,39,.055),
+               0 -12px 31px rgba(54,44,39,.075);
+    backface-visibility:visible;
     scroll-margin-top:0;
   }
-  html.paper-stack-enabled .site > main > section.paper-stack-panel.paper-stack-active {
-    will-change:transform;
+  /* The original site shell has horizontal padding. Extend each paper
+     surface to the full window without moving the original typography. */
+  html.paper-stack-enabled .site > main > section.paper-stack-panel:not(.note-band) {
+    width:calc(100% + 56px);
+    margin-inline:-28px;
+    padding-inline:28px;
   }
   html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band {
+    width:calc(100% + 56px);
+    margin-inline:-28px;
+    padding-inline:28px;
     background-color:var(--lilac,#ead8e5);
+    background-image:none!important;
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -37,57 +75,59 @@
   }
   html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band > .inner {
     width:100%;
+    max-width:1470px;
   }
-  html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band {
-    /* Keep the note-band full width despite combining the former site shells. */
-    width:calc(100% + 56px);
-    margin-left:-28px;
+  /* This is the V12 floating editorial motion: move only content groups
+     as a unit; no individual line-by-line or row stagger. */
+  html.paper-stack-enabled .site > main > section.paper-stack-panel > * {
+    translate:0 var(--paper-content-y,0px);
+    opacity:var(--paper-content-opacity,1);
+    transition:none;
   }
-  @media(max-width:650px) {
-    html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band {
-      width:calc(100% + 40px);
-      margin-left:-20px;
-    }
+  html.paper-stack-enabled .site > main > section.paper-stack-panel.paper-stack-active > * {
+    will-change:translate,opacity;
   }
   html.paper-stack-enabled .site > main > footer {
     position:relative;
-    z-index:12;
-    background-color:var(--theme-bg,#f8f5f1);
+    z-index:10;
+    background-color:var(--fiona-paper-white);
+    background-image:url('../assets/handmade-paper-v12-soft-white.jpg');
+    background-size:cover;
+    background-position:center;
   }
-
-  /* Section transitions are primary; do not also stagger paragraphs and rows.
-     Keep the existing line wrappers block-level so intentional breaks remain. */
+  /* Suppress previous text-only animations, since the whole page section
+     is now the primary movement unit. Keep line wrappers for line breaks. */
   html.paper-stack-enabled .motion-lines .motion-line-mask,
-  html.paper-stack-enabled .motion-lines .motion-line-text { display:block; }
+  html.paper-stack-enabled .motion-lines .motion-line-text {display:block;}
   html.paper-stack-enabled .motion-lines .motion-line-text {
-    opacity:1!important;
-    transform:none!important;
-    transition:none!important;
+    opacity:1!important;transform:none!important;transition:none!important;
   }
   html.paper-stack-enabled .works .work-list details[data-row-reveal] {
-    opacity:1!important;
-    translate:0 0!important;
-    transition:none!important;
+    opacity:1!important;translate:0 0!important;transition:none!important;
   }
   html.paper-stack-enabled [data-reveal] {
-    opacity:1!important;
-    transform:none!important;
-    transition:none!important;
+    opacity:1!important;transform:none!important;transition:none!important;
   }
-  @media (max-width:700px) {
+  @media (max-width:650px) {
+    html.paper-stack-enabled .site > main > section.paper-stack-panel:not(.note-band),
+    html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band {
+      width:calc(100% + 40px);
+      margin-inline:-20px;
+      padding-inline:20px;
+    }
     html.paper-stack-enabled .site > main > section.paper-stack-panel {
-      box-shadow:0 -9px 30px rgba(66,51,44,.060);
-      border-radius:0;
+      box-shadow:0 -1px 1px rgba(54,44,39,.045),
+                 0 -8px 22px rgba(54,44,39,.055);
+    }
+    html.paper-stack-enabled .site > main > section.paper-stack-panel > * {
+      /* On narrow screens all existing content groups keep their relative
+         layout: mobile scrolling changes at most a handful of pixels. */
+      translate:0 var(--paper-content-y,0px);
     }
   }
 }
-
-/* Explicit accessibility fallback: natural uninterrupted document flow. */
 @media (prefers-reduced-motion:reduce) {
-  .site > main > section.paper-stack-panel {
-    position:relative!important;
-    top:auto!important;
-    transform:none!important;
-    border-radius:0!important;
-  }
+  #portfolio-site .hero,#portfolio-site .works,#portfolio-site .notes,
+  #portfolio-site .about,#portfolio-site .contact {background-image:url('../assets/handmade-paper-v12-soft-white.jpg');}
+  .site > main > section.paper-stack-panel {position:relative!important;top:auto!important;transform:none!important;}
 }

@@ -1,98 +1,92 @@
-/* v60 — Fiona's approved section-to-section paper-stack choreography.
- * Unlike the static prototype, real sections keep intrinsic content height:
- * long chapters scroll through fully before they can pin and be covered.
- * Scroll-driven, reversible, no external libraries or element reparenting. */
+/* v61 — Section motion based on the approved V12: never scale a panel,
+ * keep paper full-bleed, animate only existing content groups.
+ * Tall sections (especially mobile Notes/About) scroll to their natural end
+ * before the next paper covers them. Respect reduced motion. */
 (() => {
   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
-  if(reduced.matches || !CSS.supports('position','sticky'))return;
+  if (reduced.matches || !CSS.supports('position','sticky')) return;
 
   const root=document.getElementById('portfolio-site');
   const site=root?.querySelector(':scope > .site');
   const main=site?.querySelector(':scope > main');
-  const noteBand=root?.querySelector(':scope > section.note-band');
-  const trailingSites=root?[...root.querySelectorAll(':scope > .site')]:[];
-  const lastSite=trailingSites[1];
-  if(!site||!main||!noteBand||!lastSite)return;
+  const band=root?.querySelector(':scope > section.note-band');
+  const lastSite=root?.querySelectorAll(':scope > .site')[1];
+  if (!site || !main || !band || !lastSite) return;
 
-  // The original portfolio has two .site shells separated by a full-width
-  // note band. For continuous real paper-stack motion, keep ALL six original
-  // section nodes in ONE scrolling <main>; no content is recreated or clipped.
-  // Preserve the first .site (and its nav/inert state) and existing event nodes.
-  main.appendChild(noteBand);
-  while(lastSite.firstChild)main.appendChild(lastSite.firstChild);
+  // Original markup is split into two .site shells with a full-width pink
+  // statement between them. Bring the same real elements into one main so
+  // their sticky layer order is continuous. Nothing is cloned or clipped.
+  main.appendChild(band);
+  while (lastSite.firstChild) main.appendChild(lastSite.firstChild);
   lastSite.remove();
 
   const selectors=['.hero','.works','.note-band','.notes','.about','.contact'];
-  const panels=selectors.map(selector=>main.querySelector(':scope > section'+selector));
-  if(panels.some(el=>!el))return;
+  const panels=selectors.map(s=>main.querySelector(':scope > section'+s));
+  if (panels.some(p=>!p)) return;
 
-  const clamp=value=>Math.max(0,Math.min(1,value));
-  const smooth=value=>{const t=clamp(value);return t*t*(3-2*t)};
-  let scheduled=false;
-  let scrollActive=true;
+  const clamp=n=>Math.max(0,Math.min(1,n));
+  const smooth=n=>{const t=clamp(n);return t*t*(3-2*t);};
+  let ticking=false;
+  let drawerOpen=false;
 
-  panels.forEach((panel,index)=>{
+  panels.forEach((panel,i)=>{
     panel.classList.add('paper-stack-panel');
-    panel.style.setProperty('--paper-z',String(index+1));
+    panel.style.setProperty('--paper-z',String(i+1));
   });
   document.documentElement.classList.add('paper-stack-enabled');
 
-  const measure=()=>{
-    const viewport=window.innerHeight;
-    panels.forEach(panel=>{
-      // A tall section must scroll normally until its bottom reaches the screen,
-      // rather than pinning its heading and hiding everything below the fold.
+  function measure() {
+    const vh=window.innerHeight;
+    for (const panel of panels) {
+      // Tall chapters must be able to reveal their bottom-most paragraphs.
+      // Negative sticky top is crucial on narrow/mobile viewports.
       const height=panel.offsetHeight;
-      panel.style.setProperty('--paper-stick-top',Math.min(0,viewport-height)+'px');
-    });
-    schedule();
-  };
-  const update=()=>{
-    scheduled=false;
-    if(document.hidden || !scrollActive)return;
-    const height=window.innerHeight;
-    const rects=panels.map(panel=>panel.getBoundingClientRect());
-    const small=window.innerWidth<=700;
-    const translate=small?24:38;
-    const leave=small?11:19;
-    for(let index=0;index<panels.length;index++){
-      const panel=panels[index],rect=rects[index];
-      const before=smooth((height-rect.top)/(height*.66));
-      const next=rects[index+1];
-      const after=next?smooth((height-next.top)/(height*.76)):0;
-      const shift=translate*(1-before)-leave*after;
-      const scale=(1-(1-before)*(small?.010:.014))*(1-after*(small?.017:.026));
-      const radius=Math.round((1-before)*17+after*(small?0:12));
-      panel.style.setProperty('--paper-enter-y',shift.toFixed(2)+'px');
-      panel.style.setProperty('--paper-scale',scale.toFixed(4));
-      panel.style.setProperty('--paper-radius',radius+'px');
-      panel.classList.toggle('paper-stack-active',
-        rect.top<height*1.15 && rect.bottom>height*-.3);
+      panel.style.setProperty('--paper-stick-top',Math.min(0,vh-height)+'px');
     }
-  };
-  const schedule=()=>{
-    if(scheduled)return;
-    scheduled=true;
-    requestAnimationFrame(update);
-  };
+    schedule();
+  }
 
+  function update() {
+    ticking=false;
+    if (document.hidden || drawerOpen) return;
+    const vh=window.innerHeight;
+    const narrow=window.innerWidth<=700;
+    const rects=panels.map(p=>p.getBoundingClientRect());
+    panels.forEach((panel,i)=>{
+      const rect=rects[i];
+      const next=rects[i+1];
+      const entering=i===0?1:smooth((vh-rect.top)/(vh*.74));
+      const leaving=next?smooth((vh-next.top)/(vh*.88)):0;
+      const tall=panel.offsetHeight>vh*1.07;
+      const safeMobile=narrow && (tall || window.innerWidth<360);
+
+      // Keep the actual panel fully sized at all times. Move all direct child
+      // groups by the same small amount, never reflow a paragraph individually.
+      const rise=safeMobile?0:narrow?9:25;
+      const recede=safeMobile?0:narrow?6:20;
+      const y=(1-entering)*rise-leaving*recede;
+      const fade=safeMobile?1:1-(1-entering)*(narrow?.02:.055)-leaving*(narrow?.025:.11);
+      panel.style.setProperty('--paper-content-y',y.toFixed(2)+'px');
+      panel.style.setProperty('--paper-content-opacity',fade.toFixed(3));
+      panel.classList.toggle('paper-stack-active',rect.top<vh*1.05 && rect.bottom>-vh*.08);
+    });
+  }
+
+  function schedule() {
+    if (ticking) return;
+    ticking=true;
+    requestAnimationFrame(update);
+  }
   window.addEventListener('scroll',schedule,{passive:true});
   window.addEventListener('resize',measure,{passive:true});
   document.addEventListener('visibilitychange',schedule);
-  document.getElementById('intro-enter')?.addEventListener('click',()=>{
-    requestAnimationFrame(schedule);
-  });
-  // The archive drawers are overlays. Keep section motion frozen beneath them.
-  const updateOverlayState=()=>{
-    scrollActive=!document.body.classList.contains('archive-open');
-    if(scrollActive)schedule();
-  };
-  new MutationObserver(updateOverlayState).observe(document.body,
-    {attributes:true,attributeFilter:['class']});
+  document.getElementById('intro-enter')?.addEventListener('click',()=>requestAnimationFrame(schedule));
 
-  const observer=new ResizeObserver(()=>measure());
+  const observer=new ResizeObserver(measure);
   panels.forEach(panel=>observer.observe(panel));
-  if(document.fonts?.ready)document.fonts.ready.then(measure);
-  if(window.visualViewport)window.visualViewport.addEventListener('resize',measure,{passive:true});
+  if (document.fonts?.ready) document.fonts.ready.then(measure);
+  window.visualViewport?.addEventListener('resize',measure,{passive:true});
+  const setDrawer=()=>{drawerOpen=document.body.classList.contains('archive-open');if(!drawerOpen)schedule();};
+  new MutationObserver(setDrawer).observe(document.body,{attributes:true,attributeFilter:['class']});
   measure();
 })();
