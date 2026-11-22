@@ -32,6 +32,13 @@ for(const [name,width,height] of cases){
   await page.waitForSelector('section.paper-stack-panel',{timeout:20000});
   await page.evaluate(()=>document.getElementById('intro-enter')?.click());
   await page.waitForFunction(()=>!document.body.classList.contains('intro-locked'),{timeout:8500});
+  // Avoid capturing the 900ms 3D entrance fade over the portfolio.
+  await page.waitForFunction(()=>document.getElementById('intro-screen')?.hidden===true,
+    {timeout:6000});
+  await page.evaluate(()=>{
+    document.documentElement.style.scrollBehavior='auto';
+    document.body.style.scrollBehavior='auto';
+  });
   await page.waitForFunction(()=>document.querySelector('img.lotus-manifesto')?.dataset.matteRemoved==='true',{timeout:15000});
   await page.evaluate(()=>document.fonts?.ready);
 
@@ -134,7 +141,7 @@ for(const [name,width,height] of cases){
 
   const moving=await page.evaluate(()=>{
     const target=document.querySelector('section.works');
-    window.scrollTo(0,window.scrollY+target.getBoundingClientRect().top-innerHeight*.58);
+    window.scrollTo({top:window.scrollY+target.getBoundingClientRect().top-innerHeight*.58,behavior:'instant'});
     return scrollY;
   });
   await new Promise(r=>setTimeout(r,180));
@@ -182,7 +189,7 @@ for(const [name,width,height] of cases){
    for(const section of ['notes','about','contact']){
      await page.evaluate(key=>{
        const el=document.querySelector('section.'+key);
-       window.scrollTo(0,window.scrollY+el.getBoundingClientRect().top);
+       window.scrollTo({top:window.scrollY+el.getBoundingClientRect().top,behavior:'instant'});
      },section);
      await new Promise(r=>setTimeout(r,75));
      await page.screenshot({path:'editorial-'+name+'-'+section+'.png'});
