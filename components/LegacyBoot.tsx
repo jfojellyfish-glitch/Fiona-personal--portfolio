@@ -17,7 +17,7 @@ export function LegacyBoot(){
     let active=true;
     const load=(file:string,type:'module'|'classic')=>new Promise<void>((resolve,reject)=>{
       const s=document.createElement('script');
-      s.src=`${prefix}/js/${file}`;
+      s.src=`${prefix}/js/${file}${file==='paper-stack.js'?'?v=71-about-height':''}`;
       if(type==='module')s.type='module';else s.async=false;
       s.onload=()=>resolve();
       s.onerror=()=>reject(new Error('Unable to load '+file));
