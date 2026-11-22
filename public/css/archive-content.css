@@ -433,3 +433,29 @@
   }
   #photography-page .photo-card.photo-awaiting {opacity:1!important;}
 }
+
+/* Photography folio sizing — intentional small, medium and featured prints.
+   This only changes on-page display dimensions; original proportions and full-screen images remain intact. */
+#photography-page .photo-grid {
+  row-gap:clamp(32px,5.5vw,80px);
+}
+#photography-page .photo-grid .photo-card {
+  width:100%;
+  max-width:440px;
+  justify-self:start;
+}
+#photography-page .photo-grid .photo-card:nth-child(4n + 2),
+#photography-page .photo-grid .photo-card:nth-child(4n + 3) {
+  justify-self:end;
+}
+#photography-page .photo-grid .photo-card.photo-card--small {max-width:275px;}
+#photography-page .photo-grid .photo-card.photo-card--medium {max-width:440px;}
+#photography-page .photo-grid .photo-card.photo-card--large {max-width:590px;}
+@media(max-width:700px) {
+  #photography-page .photo-grid {row-gap:clamp(30px,9vw,56px);}
+  #photography-page .photo-grid .photo-card.photo-card--small {max-width:min(59vw,250px);}
+  #photography-page .photo-grid .photo-card.photo-card--medium {max-width:min(76vw,390px);}
+  #photography-page .photo-grid .photo-card.photo-card--large {max-width:min(87vw,510px);}
+  #photography-page .photo-grid .photo-card:nth-child(2n+1) {justify-self:start;}
+  #photography-page .photo-grid .photo-card:nth-child(2n) {justify-self:end;}
+}

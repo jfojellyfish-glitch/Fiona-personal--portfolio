@@ -7,7 +7,8 @@
       "width": 1151,
       "height": 1536,
       "alt": "Trees seen through a slanted car window in winter light",
-      "title": "01"
+      "title": "01",
+      "displaySize": "medium"
     },
     {
       "file": "assets/photography/three-trees-2024-03-13.webp",
@@ -16,7 +17,8 @@
       "width": 1536,
       "height": 1152,
       "alt": "Three sunlit leafless trees with branching twigs against a pale blue sky",
-      "title": "02"
+      "title": "02",
+      "displaySize": "small"
     },
     {
       "file": "assets/photography/turquoise-chair-2024-09-03.webp",
@@ -25,7 +27,8 @@
       "width": 1152,
       "height": 1536,
       "alt": "An empty bright turquoise armchair in front of a weathered pale wall and barred window",
-      "title": "03"
+      "title": "03",
+      "displaySize": "small"
     },
     {
       "file": "assets/photography/car-above-street-2024-09-03.webp",
@@ -34,7 +37,8 @@
       "width": 1800,
       "height": 1200,
       "alt": "An old red car mounted above shopfronts on a busy street",
-      "title": "04"
+      "title": "04",
+      "displaySize": "medium"
     },
     {
       "file": "assets/photography/ancient-theatre-2024-09-05.webp",
@@ -43,7 +47,8 @@
       "width": 1023,
       "height": 1536,
       "alt": "Curving tiers of stone seats in an ancient amphitheatre, with tiny visitors below",
-      "title": "05"
+      "title": "05",
+      "displaySize": "large"
     },
     {
       "file": "assets/photography/castle-window-clouds-2024-09-05.webp",
@@ -52,7 +57,8 @@
       "width": 1152,
       "height": 1536,
       "alt": "Towering clouds and an old stone courtyard framed through a dark castle window",
-      "title": "06"
+      "title": "06",
+      "displaySize": "medium"
     },
     {
       "file": "assets/photography/alpacas-2024-11-03.webp",
@@ -61,7 +67,8 @@
       "width": 1536,
       "height": 1153,
       "alt": "Two white alpacas grazing in a grassy field with sharp afternoon shadows",
-      "title": "07"
+      "title": "07",
+      "displaySize": "small"
     },
     {
       "file": "assets/photography/birds-on-water-2025-01-05.webp",
@@ -70,7 +77,8 @@
       "width": 1152,
       "height": 1536,
       "alt": "Seagulls skimming over rippling blue water with small boats in the background",
-      "title": "08"
+      "title": "08",
+      "displaySize": "medium"
     },
     {
       "file": "assets/photography/blue-stage-2025-01-06.webp",
@@ -79,7 +87,8 @@
       "width": 1152,
       "height": 1536,
       "alt": "A tiny performer below a huge blue illuminated projection of a face",
-      "title": "09"
+      "title": "09",
+      "displaySize": "large"
     },
     {
       "file": "assets/photography/white-jar-2025-03-31.webp",
@@ -88,7 +97,8 @@
       "width": 1151,
       "height": 1536,
       "alt": "A lone pale ceramic jar standing against a rust-coloured wall and bamboo",
-      "title": "10"
+      "title": "10",
+      "displaySize": "small"
     },
     {
       "file": "assets/photography/cafe-2025-05-16.webp",
@@ -97,7 +107,8 @@
       "date": "2025-05-16",
       "width": 1152,
       "height": 1536,
-      "title": "11"
+      "title": "11",
+      "displaySize": "medium"
     },
     {
       "file": "assets/photography/red-poppies-2025-06-02.webp",
@@ -106,7 +117,8 @@
       "width": 1152,
       "height": 1536,
       "alt": "Vivid red poppies and round seed pods in a patch of green planting",
-      "title": "12"
+      "title": "12",
+      "displaySize": "small"
     },
     {
       "title": "13",
@@ -115,7 +127,8 @@
       "year": "2025",
       "date": "2025-07-25",
       "width": 1152,
-      "height": 1536
+      "height": 1536,
+      "displaySize": "medium"
     },
     {
       "title": "14",
@@ -124,7 +137,8 @@
       "year": "2025",
       "date": "2025-07-25",
       "width": 1152,
-      "height": 1536
+      "height": 1536,
+      "displaySize": "small"
     },
     {
       "file": "assets/photography/jellyfish-2025-08-27.webp",
@@ -133,7 +147,8 @@
       "date": "2025-08-27",
       "width": 1152,
       "height": 1536,
-      "title": "15"
+      "title": "15",
+      "displaySize": "medium"
     },
     {
       "file": "assets/photography/angel-2025-08-28.webp",
@@ -142,7 +157,8 @@
       "date": "2025-08-28",
       "width": 1152,
       "height": 1536,
-      "title": "16"
+      "title": "16",
+      "displaySize": "large"
     },
     {
       "file": "assets/photography/coast-2025-09-09.webp",
@@ -151,7 +167,8 @@
       "date": "2025-09-09",
       "width": 1152,
       "height": 1536,
-      "title": "17"
+      "title": "17",
+      "displaySize": "medium"
     },
     {
       "file": "assets/photography/cat-2025-11-16.webp",
@@ -160,7 +177,8 @@
       "date": "2025-11-16",
       "width": 1536,
       "height": 1152,
-      "title": "18"
+      "title": "18",
+      "displaySize": "small"
     },
     {
       "file": "assets/photography/shadows-2025-12-16.webp",
@@ -169,7 +187,8 @@
       "date": "2025-12-16",
       "width": 1152,
       "height": 1536,
-      "title": "19"
+      "title": "19",
+      "displaySize": "small"
     },
     {
       "title": "20",
@@ -178,7 +197,8 @@
       "year": "2025",
       "date": "2025-12-16",
       "width": 1536,
-      "height": 1152
+      "height": 1152,
+      "displaySize": "medium"
     },
     {
       "title": "21",
@@ -187,7 +207,8 @@
       "year": "2025",
       "date": "2025-12-16",
       "width": 1536,
-      "height": 1152
+      "height": 1152,
+      "displaySize": "medium"
     },
     {
       "title": "22",
@@ -196,7 +217,8 @@
       "year": "2025",
       "date": "2025-12-17",
       "width": 1536,
-      "height": 1152
+      "height": 1152,
+      "displaySize": "small"
     },
     {
       "title": "23",
@@ -205,7 +227,8 @@
       "year": "2025",
       "date": "2025-12-17",
       "width": 1010,
-      "height": 1536
+      "height": 1536,
+      "displaySize": "large"
     },
     {
       "title": "24",
@@ -214,7 +237,8 @@
       "year": "2025",
       "date": "2025-12-17",
       "width": 1152,
-      "height": 1536
+      "height": 1536,
+      "displaySize": "small"
     },
     {
       "file": "assets/photography/sunlit-balustrade-2025-12-17.webp",
@@ -223,7 +247,8 @@
       "width": 1152,
       "height": 1536,
       "alt": "A narrow band of sunlight illuminating a decorative stone balustrade in a dark interior",
-      "title": "25"
+      "title": "25",
+      "displaySize": "small"
     },
     {
       "file": "assets/photography/pink-arches-2025-12-17.webp",
@@ -232,7 +257,8 @@
       "width": 1152,
       "height": 1536,
       "alt": "Pastel pink tiled vaulted arches and carved stone columns in an ornate interior",
-      "title": "26"
+      "title": "26",
+      "displaySize": "medium"
     },
     {
       "file": "assets/photography/wall-flower-drawing-2025-12-17.webp",
@@ -241,7 +267,8 @@
       "width": 1152,
       "height": 1536,
       "alt": "A faded childlike flower drawing on a textured yellow exterior wall",
-      "title": "27"
+      "title": "27",
+      "displaySize": "small"
     },
     {
       "file": "assets/photography/night-street-car-2025-12-27.webp",
@@ -250,7 +277,8 @@
       "width": 1536,
       "height": 1152,
       "alt": "A car passing a gothic stone building at night while lit windows sparkle",
-      "title": "28"
+      "title": "28",
+      "displaySize": "medium"
     }
   ]
 }

@@ -70,7 +70,7 @@ export function PhotographyDrawer({photos,active}:{photos:Photo[];active:boolean
      {photos.length===0?<div className="archive-empty archive-photo-empty"><span className="archive-small-num">03 —</span></div>:
        <div className="archive-collection" aria-label="Photography collection">
          <div className="photo-grid">
-           {photos.map((p,i)=><button key={p.file} type="button" className="photo-card" onClick={()=>open(p)}
+           {photos.map((p,i)=><button key={p.file} type="button" className={"photo-card photo-card--"+(p.displaySize||"medium")} onClick={()=>open(p)}
                 aria-label={'Open photograph '+String(i+1).padStart(2,'0')}>
              <img src={assetUrl(p.file)} alt={p.alt||p.title} width={p.width} height={p.height} loading="lazy" decoding="async"/>
              <span className="photo-caption">{String(i+1).padStart(2,'0')}</span>

@@ -1,5 +1,5 @@
 export type Pearl={title:string;slug:string;file:string;date?:string;description?:string;category?:string};
-export type Photo={title:string;file:string;alt?:string;year?:string;date?:string;location?:string;width?:number;height?:number};
+export type Photo={title:string;file:string;alt?:string;year?:string;date?:string;location?:string;width?:number;height?:number;displaySize?:'small'|'medium'|'large'};
 export type Model={title:string;file?:string;alt?:string;year?:string;description?:string;sketchfabId?:string;sketchfabUrl?:string;url?:string};
 export type Drawer='writing'|'objects'|'photography'|'none';
 export const BASE_PATH=process.env.NEXT_PUBLIC_BASE_PATH??'/Fiona-personal--portfolio';
