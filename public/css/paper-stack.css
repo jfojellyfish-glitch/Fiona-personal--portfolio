@@ -918,3 +918,25 @@ html.paper-stack-enabled [data-reveal] {
     line-height:1.34;
   }
 }
+
+/* v74 — let the lotus-side marginal note join the Retrogression microtype,
+   without altering the portrait's placement or the original two-line copy. */
+#portfolio-site .hero-right.hero-lotus-stage .side-note {
+  font-family:"Retrogression","Pixelify Sans","Courier New",monospace!important;
+  font-size:clamp(14px,1.32vw,18px);
+  font-weight:400!important;
+  font-style:normal!important;
+  letter-spacing:.005em;
+  line-height:1.24;
+  text-shadow:none!important;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+@media (max-width:700px) {
+  #portfolio-site .hero-right.hero-lotus-stage .side-note {
+    font-size:clamp(14px,4vw,17px);
+    line-height:1.3;
+    letter-spacing:0;
+    max-width:min(80%,270px);
+  }
+}
