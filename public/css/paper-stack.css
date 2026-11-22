@@ -276,6 +276,20 @@ body::after {display:none!important;opacity:0!important;}
 }
 #portfolio-site .notes .wall .archive-entry-meta {margin-top:14px;}
 
+/* Prevent lazy-loaded archive images from changing section height mid-scroll.
+   Native image dimensions: writings 1272×648, objects 736×414,
+   breathing drawing 736×414. No cropping; all art stays intact. */
+#portfolio-site .notes .wall .lotus .archive-entry-link > img {
+  aspect-ratio:1272 / 648;
+  height:auto;
+}
+#portfolio-site .notes .wall .fig .archive-entry-link > img,
+#portfolio-site .notes .wall .breath .archive-entry-link > img {
+  aspect-ratio:736 / 414;
+  height:auto;
+}
+
+
 /* ABOUT: left stippled <333 stays experimental but does not shout over prose. */
 #portfolio-site .about-body {
   display:grid;
