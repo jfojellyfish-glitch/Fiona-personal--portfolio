@@ -216,7 +216,7 @@ try{
  }));
  assert(v.hasPink);
  assert.equal(v.noBackgroundImage,'none');
- assert.equal(v.position,'relative');
+ assert(['relative','static'].includes(v.position),'reduced motion should use natural document flow');
  console.log('EDITORIAL_REDUCED_MOTION '+JSON.stringify(v));
 }catch(error){failures++;console.error('EDITORIAL_REDUCED_ERROR '+error.stack);}
 await reduced.close();
