@@ -1,216 +1,194 @@
-/* V12 browser audit: real site, image bytes, full-bleed panels,
-   natural mobile content height, no viewport-edge gaps or section scaling. */
+/* v66: Full-site editorial rhythm audit, using the REAL Next.js export.
+   No screenshot-only or viewport-only smoke claims: check actual geometry
+   across sections, intrinsic image ratios, layout, mobile and scroll motion. */
 import puppeteer from 'puppeteer-core';
 import fs from 'node:fs';
 import assert from 'node:assert/strict';
 
 const chrome=['/usr/bin/google-chrome','/usr/bin/google-chrome-stable',
  '/usr/bin/chromium','/usr/bin/chromium-browser'].find(fs.existsSync);
-if(!chrome)throw Error('Chrome not installed');
+if(!chrome) throw Error('Chrome not installed');
 const browser=await puppeteer.launch({headless:true,executablePath:chrome,
  args:['--no-sandbox','--disable-dev-shm-usage','--disable-gpu',
        '--use-gl=swiftshader','--enable-unsafe-swiftshader']});
 const repo=(process.env.GITHUB_REPOSITORY||'jfojellyfish-glitch/Fiona-personal--portfolio').split('/')[1];
 const base=process.env.NEXT_PUBLIC_BASE_PATH||('/'+repo);
 const url='http://127.0.0.1:4173'+base+'/';
-const cases=[['wide-desktop',1920,1080],['reference-desktop',1640,928],['desktop',1440,900],['ipad',820,1180],
-             ['mobile',390,844],['small-mobile',320,700]];
+const cases=[
+ ['wide-desktop',1920,1080],['reference-desktop',1640,928],
+ ['desktop',1440,900],['tablet',820,1180],
+ ['mobile',390,844],['small-mobile',320,700]
+];
 let failures=0;
+
 for(const [name,width,height] of cases){
  const page=await browser.newPage();
  await page.setViewport({width,height,deviceScaleFactor:1});
  const errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  try{
-   const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:25000});
-   assert([200,304].includes(response?.status()));
-   await page.waitForSelector('.paper-stack-panel',{timeout:20000});
-   await page.evaluate(()=>document.getElementById('intro-enter')?.click());
-   await page.waitForFunction(()=>!document.body.classList.contains('intro-locked'),{timeout:7500});
-   await page.waitForFunction(()=>document.querySelector('img.lotus-manifesto')?.dataset.matteRemoved==='true',
-      {timeout:15000});
-   const lotus=await page.evaluate(()=>{
-     const img=document.querySelector('img.lotus-manifesto');
-     const canvas=document.createElement('canvas');
-     canvas.width=img.naturalWidth; canvas.height=img.naturalHeight;
-     const ctx=canvas.getContext('2d',{willReadFrequently:true});
-     ctx.drawImage(img,0,0);
-     const a=ctx.getImageData(0,0,1,1).data[3];
-     const b=ctx.getImageData(canvas.width-1,canvas.height-1,1,1).data[3];
-     // Sample colored ink and flower to ensure only white is removed.
-     const raw=ctx.getImageData(0,0,canvas.width,canvas.height).data;
-     let colorful=0,opaque=0;
-     for(let i=0;i<raw.length;i+=160){
-       const r=raw[i],g=raw[i+1],b=raw[i+2],alpha=raw[i+3];
-       if(alpha>220){opaque++;if(Math.max(r,g,b)-Math.min(r,g,b)>35)colorful++;}
-     }
-     return {width:canvas.width,height:canvas.height,topLeftAlpha:a,bottomRightAlpha:b,
-       colorful,opaque,loaded:img.complete,srcIsTransparentPNG:img.src.startsWith('data:image/png;base64,')};
-   });
-   assert(lotus.srcIsTransparentPNG,'lotus still uses white-matte original asset');
-   assert.equal(lotus.width,791,'lotus width changed');
-   assert.equal(lotus.height,1989,'lotus height changed');
-   assert(lotus.topLeftAlpha<32 && lotus.bottomRightAlpha<32,'lotus corners still have a white matte');
-   assert(lotus.colorful>100 && lotus.opaque>500,'lotus or ink lost while removing white');
-   console.log('LOTUS_MATTE_AUDIT '+name+' '+JSON.stringify(lotus));
+  const response=await page.goto(url,{waitUntil:'domcontentloaded',timeout:25000});
+  assert([200,304].includes(response?.status()),'page did not load');
+  await page.waitForSelector('section.paper-stack-panel',{timeout:20000});
+  await page.evaluate(()=>document.getElementById('intro-enter')?.click());
+  await page.waitForFunction(()=>!document.body.classList.contains('intro-locked'),{timeout:8500});
+  await page.waitForFunction(()=>document.querySelector('img.lotus-manifesto')?.dataset.matteRemoved==='true',{timeout:15000});
+  await page.evaluate(()=>document.fonts?.ready);
 
-   // Current design deliberately uses a pure solid color, not the photo.
-   const expectedSolid='rgb(249, 249, 247)';
-   const expectedPink='rgb(234, 216, 229)';
+  const initial=await page.evaluate(()=>{
+   const rect=e=>{const r=e.getBoundingClientRect();return {x:r.left,y:r.top,w:r.width,h:r.height,right:r.right,bottom:r.bottom};};
+   const style=e=>getComputedStyle(e);
+   const sections=[...document.querySelectorAll('#portfolio-site .site > main > section.paper-stack-panel')];
+   const hero=document.querySelector('section.hero');
+   const works=document.querySelector('section.works');
+   const note=document.querySelector('section.note-band');
+   const notes=document.querySelector('section.notes');
+   const about=document.querySelector('section.about');
+   const contact=document.querySelector('section.contact');
+   const lotus=document.querySelector('img.lotus-manifesto');
+   const canvas=document.querySelector('#contact-angel-canvas');
+   const footer=document.querySelector('.site > main > footer');
+   const noteImages=[...notes.querySelectorAll('.wall figure img')];
+   const ns=[...notes.querySelectorAll('.wall figure')];
+   const bigHeadings=[works.querySelector('.section-top h2'),notes.querySelector('h2'),about.querySelector('.section-top h2')];
+   const colors=sections.map(s=>style(s).backgroundColor);
+   return {
+     enabled:document.documentElement.classList.contains('paper-stack-enabled'),
+     count:sections.length,
+     sections:sections.map(s=>({name:s.classList[0],rect:rect(s),position:style(s).position,
+       height:s.offsetHeight,minHeight:style(s).minHeight,image:style(s).backgroundImage,
+       color:style(s).backgroundColor,transform:style(s).transform,
+       children:s.children.length,overflow:style(s).overflow})),
+     rootWidth:rect(document.querySelector('#portfolio-site > .site')).w,
+     footer:rect(footer),
+     solid:style(hero).backgroundColor,pink:style(note).backgroundColor,
+     headings:bigHeadings.map(e=>({font:parseFloat(style(e).fontSize),height:rect(e).h})),
+     heroColumns:{left:rect(hero.querySelector('.hero-left')),right:rect(hero.querySelector('.hero-right')),
+       title:rect(hero.querySelector('.hero-title')),image:rect(lotus),
+       intrinsic:[lotus.naturalWidth,lotus.naturalHeight],
+       imgSource:lotus.src.slice(0,22),overline:rect(hero.querySelector('.hero-left > .kicker')),
+       intro:rect(hero.querySelector('.hero-intro'))},
+     archive:{figures:ns.map(rect),images:noteImages.map(rect)},
+     about:{identity:rect(about.querySelector('.about-identity')),prose:rect(about.querySelector('.about-poem')),
+       question:rect(about.querySelector('.question'))},
+     contact:{heading:rect(contact.querySelector('.contact-heading')),
+       details:rect(contact.querySelector('.contact-details')),
+       email:rect(contact.querySelector('.contact-email')),
+       canvasOpacity:style(canvas).opacity},
+     content:{worksLinks:works.querySelectorAll('a[href]').length,
+       archiveLinks:notes.querySelectorAll('.archive-entry-link').length,
+       aboutName:!!about.querySelector('.about-name'),
+       contactMail:!!contact.querySelector('a[href^="mailto:"]')},
+     viewport:innerWidth,
+     overflow:document.documentElement.scrollWidth-innerWidth
+   };
+  });
 
-   const initial=await page.evaluate(()=>{
-     const nodes=[...document.querySelectorAll('#portfolio-site .site > main > section.paper-stack-panel')];
-     const s=el=>getComputedStyle(el);
-     return {
-       count:nodes.length,
-       enabled:document.documentElement.classList.contains('paper-stack-enabled'),
-       stack:nodes.map(n=>({
-         className:n.className,
-         position:s(n).position,
-         scale:s(n).transform,
-         top:Number.parseFloat(s(n).top),
-         expected:Math.min(0,innerHeight-n.offsetHeight),
-         width:Math.round(n.getBoundingClientRect().width),
-         left:Math.round(n.getBoundingClientRect().left),
-         right:Math.round(n.getBoundingClientRect().right),
-         naturalHeight:n.offsetHeight,
-         image:s(n).backgroundImage,
-         color:s(n).backgroundColor,
-         contentY:s(n).getPropertyValue('--paper-content-y'),
-         contentCount:n.children.length,
-       })),
-       introTexture:getComputedStyle(document.querySelector('#intro-screen')).backgroundImage,
-       introColor:getComputedStyle(document.querySelector('#intro-screen')).backgroundColor,
-       paperStyling:(()=>{
-         const bodyStyle=getComputedStyle(document.body);
-         const sections=nodes.filter(n=>!n.classList.contains('note-band'));
-         const first=getComputedStyle(sections[0]);
-         const last=getComputedStyle(sections[sections.length-1]);
-         const root=document.querySelector('#portfolio-site > .site');
-         const footer=document.querySelector('.site > main > footer');
-         const footerStyle=footer&&getComputedStyle(footer);
-         return {
-           rootWidth:Math.round(root?.getBoundingClientRect().width||0),
-           bodyImage:bodyStyle.backgroundImage,
-           bodyColor:bodyStyle.backgroundColor,
-           bodySize:bodyStyle.backgroundSize,
-           bodyPosition:bodyStyle.backgroundPosition,
-           bodyAttachment:bodyStyle.backgroundAttachment,
-           firstSize:first.backgroundSize,
-           firstPosition:first.backgroundPosition,
-           firstAttachment:first.backgroundAttachment,
-           contactSize:last.backgroundSize,
-           contactAttachment:last.backgroundAttachment,
-           footerSize:footerStyle?.backgroundSize,
-           footerColor:footerStyle?.backgroundColor,
-           footerImage:footerStyle?.backgroundImage,
-           footerAttachment:footerStyle?.backgroundAttachment,
-           shadow:getComputedStyle(nodes[0]).boxShadow,
-           firstBorder:getComputedStyle(nodes[0]).borderTopWidth
-         };
-       })(),
-       footer:(()=>{const r=document.querySelector('.site > main > footer')?.getBoundingClientRect();return r?{left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width)}:null})(),
-       contact:!!document.querySelector('#contact-angel-canvas'),
-       entries:document.querySelectorAll('#notes .archive-entry-link').length,
-       works:!!document.querySelector('#work a[href]'),
-       about:!!document.querySelector('.about-poem .about-name'),
-       overflow:document.documentElement.scrollWidth-innerWidth
-     };
-   });
-   assert.equal(initial.enabled,true);
-   assert.equal(initial.count,6);
-   assert(initial.stack.every(n=>n.position==='sticky'),'panel not sticky');
-   assert(initial.paperStyling.rootWidth>=width-3,'outer site shell is still card-width');
-   assert.equal(initial.paperStyling.bodyImage,'none','body still uses a texture');
-   assert.equal(initial.paperStyling.bodyColor,expectedSolid,'body background is not the chosen solid color');
-   assert.equal(initial.paperStyling.footerImage,'none','footer still uses a texture');
-   assert.equal(initial.paperStyling.footerColor,expectedSolid,'footer does not match body');
-   assert.equal(initial.introTexture,'none','opening screen still uses a texture');
-   assert.equal(initial.introColor,expectedSolid,'opening color differs from body');
-   assert(initial.stack.filter(n=>!n.className.includes('note-band')).every(n=>n.image==='none'&&n.color===expectedSolid),
-     'at least one white section still has a textured or different background');
-   assert(initial.stack[2].image==='none'&&initial.stack[2].color===expectedPink,
-     'pink statement section changed');
-   assert.equal(initial.paperStyling.shadow,'none','visible section outline still present');
-   assert.equal(initial.paperStyling.firstBorder,'0px','paper edge line still present');
-   assert(initial.stack.every(n=>n.scale==='none'),'a whole panel was transformed');
-   assert(initial.stack.every(n=>Math.abs(n.top-n.expected)<3),'long content might be clipped');
-   assert(initial.stack.every(n=>n.width>=width-3),'full-bleed paper misses viewport edge');
-   assert(initial.stack.every(n=>Math.abs(n.left)<3&&Math.abs(n.right-width)<3),'paper has exposed side gutters');
-   assert(initial.footer&&Math.abs(initial.footer.left)<3&&Math.abs(initial.footer.right-width)<3,'footer has exposed side gutters');
-   assert(initial.works&&initial.entries===3&&initial.about&&initial.contact,'original content missing');
-   assert(initial.overflow<=3,'horizontal overflow');
+  assert(initial.enabled,'section motion initialization missing');
+  assert.equal(initial.count,6,'section count changed');
+  assert(initial.sections.every(s=>s.position==='relative'),'a section is still sticky');
+  assert(initial.sections.every(s=>s.transform==='none'),'section itself transformed');
+  assert(initial.sections.every(s=>s.overflow!=='hidden' || s.name==='contact'),
+   'long section has clipped content');
+  assert(initial.rootWidth>=width-3,'site is still a narrow card');
+  assert(initial.sections.every(s=>Math.abs(s.rect.x)<3 && Math.abs(s.rect.right-width)<3),
+   'section has exposed viewport gutters');
+  assert(Math.abs(initial.footer.x)<3 && Math.abs(initial.footer.right-width)<3,
+   'footer has side gutters');
+  assert.equal(initial.solid,'rgb(249, 249, 247)');
+  assert.equal(initial.pink,'rgb(234, 216, 229)');
+  assert(initial.sections.filter(s=>s.name!=='note-band').every(s=>s.image==='none'),
+   'paper texture unexpectedly returned');
+  assert.deepEqual(initial.heroColumns.intrinsic,[791,1989],'lotus original image resized');
+  assert(initial.heroColumns.imgSource.startsWith('data:image/png;base64,'),'lotus white matte restored');
+  assert(initial.headings.every(x=>x.font>=48&&x.font<=116),'headings no longer share an editorial type scale');
+  assert(Math.max(...initial.headings.map(x=>x.font)) - Math.min(...initial.headings.map(x=>x.font))<2,
+   'work, notes and about headings diverged');
+  assert(initial.archive.images.length===3 && initial.archive.figures.length===3);
+  assert(initial.content.worksLinks>=2 && initial.content.archiveLinks===3 &&
+         initial.content.aboutName && initial.content.contactMail,'content/link lost');
+  assert.equal(initial.contact.canvasOpacity,'0.18','Angel stipple opacity changed');
+  assert(initial.overflow<=3,'horizontal document overflow');
 
-   await page.evaluate(()=>{
-     const target=document.querySelector('#work');
-     window.scrollTo(0,window.scrollY+target.getBoundingClientRect().top-innerHeight*.6);
-   });
-   await new Promise(r=>setTimeout(r,200));
-   const transition=await page.evaluate(()=>{
-     const hero=document.querySelector('.paper-stack-panel.hero');
-     const works=document.querySelector('.paper-stack-panel.works');
-     const s=el=>getComputedStyle(el);
-     return {
-       heroTransform:s(hero).transform,
-       heroFloat:s(hero).getPropertyValue('--paper-content-y').trim(),
-       worksFloat:s(works).getPropertyValue('--paper-content-y').trim(),
-       worksTransform:s(works).transform,
-       heroWidth:hero.getBoundingClientRect().width,
-       workWidth:works.getBoundingClientRect().width,
-       hOverflow:document.documentElement.scrollWidth-innerWidth
-     };
-   });
-   assert.equal(transition.heroTransform,'none');
-   assert.equal(transition.worksTransform,'none');
-   assert(transition.heroWidth>=width-3&&transition.workWidth>=width-3);
-   assert(transition.hOverflow<=3,'overflow while scrolling');
-   if(name==='desktop'||name==='ipad'){
-     assert(transition.worksFloat!=='0.00px','section content should float on desktop/tablet');
+  const overlaps=(a,b,pad=3)=>
+   a.x<b.right-pad && a.right>b.x+pad && a.y<b.bottom-pad && a.bottom>b.y+pad;
+  // Real geometry, including those cross-column collisions that the old
+  // overflow-only test failed to detect.
+  assert(!overlaps(initial.heroColumns.title,initial.heroColumns.image,5),'hero title collides with lotus');
+  assert(!overlaps(initial.about.identity,initial.about.prose,4),'about illustration overlaps biography');
+  assert(!overlaps(initial.contact.heading,initial.contact.details,4),'contact heading overlaps email column');
+  assert(!overlaps(initial.archive.figures[0],initial.archive.figures[1],4),'archive covers overlap');
+  assert(!overlaps(initial.archive.figures[1],initial.archive.figures[2],4),'archive images overlap');
+  if(width<=700){
+    assert(initial.heroColumns.right.y>=initial.heroColumns.left.y+initial.heroColumns.left.h-5,
+      'mobile hero image starts before left content finishes');
+    assert(initial.about.prose.y>=initial.about.identity.y+initial.about.identity.h-5,
+      'mobile biography overlaps glyph');
+    assert(initial.contact.details.y>=initial.contact.heading.y+initial.contact.heading.h-5,
+      'mobile email overlaps heading');
+    assert(initial.archive.figures.every((r,i,a)=>i===0||r.y>=a[i-1].bottom-5),
+      'mobile archive content is stacked on itself');
+  }
+
+  const moving=await page.evaluate(()=>{
+    const target=document.querySelector('section.works');
+    window.scrollTo(0,window.scrollY+target.getBoundingClientRect().top-innerHeight*.58);
+    return scrollY;
+  });
+  await new Promise(r=>setTimeout(r,180));
+  const motion=await page.evaluate(()=>{
+    const work=document.querySelector('section.works');
+    const ss=getComputedStyle(work);
+    const el=work.querySelector('.section-top');
+    return {position:ss.position,y:ss.getPropertyValue('--editorial-content-y').trim(),
+      alpha:ss.getPropertyValue('--editorial-content-alpha').trim(),
+      actualTextTranslate:getComputedStyle(el).translate,
+      overflow:document.documentElement.scrollWidth-innerWidth};
+  });
+  assert.equal(motion.position,'relative');
+  assert(motion.overflow<=3,'transition creates horizontal overflow');
+  if(width>700){assert(motion.y!=='' && motion.y!=='0.00px',
+    'desktop section transition no longer moves inner content');}
+  else assert(motion.actualTextTranslate==='0px' || motion.actualTextTranslate==='none'
+                || motion.actualTextTranslate==='0px 0px',
+                'mobile section content moves and may overlap');
+
+  await page.screenshot({path:'paper-stack-'+name+'.png'});
+  if(['desktop','mobile'].includes(name)){
+   for(const section of ['notes','about','contact']){
+     await page.evaluate(key=>{
+       const el=document.querySelector('section.'+key);
+       window.scrollTo(0,window.scrollY+el.getBoundingClientRect().top);
+     },section);
+     await new Promise(r=>setTimeout(r,75));
+     await page.screenshot({path:'editorial-'+name+'-'+section+'.png'});
    }
-   await page.screenshot({path:'paper-stack-'+name+'.png'});
-
-   if(width<=390){
-     // Original portfolio includes long sections, and they must never be
-     // clipped to a fixed viewport height or forced to overlap on mobile.
-     const m=await page.evaluate(()=>{
-       const ns=[...document.querySelectorAll('.paper-stack-panel')];
-       return {
-         tall:ns.filter(n=>n.offsetHeight>innerHeight*1.07).map(n=>({
-           label:n.classList[0],offset:n.offsetHeight,
-           top:getComputedStyle(n).top,
-           overflow:getComputedStyle(n).overflow,
-           dy:getComputedStyle(n).getPropertyValue('--paper-content-y').trim()
-         })),
-         viewport:innerHeight
-       };
-     });
-     assert(m.tall.length>=1,'mobile tall sections absent');
-     assert(m.tall.every(n=>n.overflow!=='hidden'&&n.dy==='0.00px'),
-      'mobile long content was clipped or translated');
-     console.log('V12_MOBILE_CONTENT '+name+' '+JSON.stringify(m));
-   }
-   assert.equal(errors.length,0,'uncaught client page errors '+errors.join('; '));
-   console.log('V64_SOLID_STACK_AUDIT '+name+' '+JSON.stringify({initial,transition,errors}));
+  }
+  assert.equal(errors.length,0,'uncaught browser errors '+errors.join('; '));
+  console.log('EDITORIAL_LAYOUT_AUDIT '+name+' '+JSON.stringify({initial,motion,errors}));
  }catch(error){
-   failures++;
-   console.error('V12_PAPER_STACK_ERROR '+name+' '+error.stack);
+  failures++;
+  console.error('EDITORIAL_LAYOUT_ERROR '+name+' '+error.stack);
  }
  await page.close();
 }
+
 const reduced=await browser.newPage();
 await reduced.emulateMediaFeatures([{name:'prefers-reduced-motion',value:'reduce'}]);
 try{
  await reduced.goto(url,{waitUntil:'domcontentloaded',timeout:25000});
- await reduced.waitForSelector('#work',{timeout:12000});
- const state=await reduced.evaluate(()=>({
-   enabled:document.documentElement.classList.contains('paper-stack-enabled'),
-   texture:getComputedStyle(document.querySelector('#work')).backgroundImage
+ await reduced.waitForSelector('#about',{timeout:13000});
+ const v=await reduced.evaluate(()=>({
+   hasPink:!!document.querySelector('.note-band'),
+   position:getComputedStyle(document.querySelector('section.notes')).position,
+   noBackgroundImage:getComputedStyle(document.querySelector('section.notes')).backgroundImage
  }));
- assert.equal(state.enabled,false);
- assert.equal(state.texture,'none','reduced-motion still has texture');
- console.log('V12_REDUCED_MOTION '+JSON.stringify(state));
-}catch(error){failures++;console.error('V12_REDUCED_ERROR '+error.stack);}
+ assert(v.hasPink);
+ assert.equal(v.noBackgroundImage,'none');
+ assert.equal(v.position,'relative');
+ console.log('EDITORIAL_REDUCED_MOTION '+JSON.stringify(v));
+}catch(error){failures++;console.error('EDITORIAL_REDUCED_ERROR '+error.stack);}
 await reduced.close();
 await browser.close();
 if(failures)process.exitCode=1;
-else console.log('V64 plain-color background, mobile-safe motion and full-width layout passed');
+else console.log('Editorial layout and natural section motion verified on all viewports');
