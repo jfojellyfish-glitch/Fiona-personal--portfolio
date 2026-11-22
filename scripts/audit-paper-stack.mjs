@@ -27,6 +27,33 @@ for(const [name,width,height] of cases){
    await page.waitForSelector('.paper-stack-panel',{timeout:20000});
    await page.evaluate(()=>document.getElementById('intro-enter')?.click());
    await page.waitForFunction(()=>!document.body.classList.contains('intro-locked'),{timeout:7500});
+   await page.waitForFunction(()=>document.querySelector('img.lotus-manifesto')?.dataset.matteRemoved==='true',
+      {timeout:15000});
+   const lotus=await page.evaluate(()=>{
+     const img=document.querySelector('img.lotus-manifesto');
+     const canvas=document.createElement('canvas');
+     canvas.width=img.naturalWidth; canvas.height=img.naturalHeight;
+     const ctx=canvas.getContext('2d',{willReadFrequently:true});
+     ctx.drawImage(img,0,0);
+     const a=ctx.getImageData(0,0,1,1).data[3];
+     const b=ctx.getImageData(canvas.width-1,canvas.height-1,1,1).data[3];
+     // Sample colored ink and flower to ensure only white is removed.
+     const raw=ctx.getImageData(0,0,canvas.width,canvas.height).data;
+     let colorful=0,opaque=0;
+     for(let i=0;i<raw.length;i+=160){
+       const r=raw[i],g=raw[i+1],b=raw[i+2],alpha=raw[i+3];
+       if(alpha>220){opaque++;if(Math.max(r,g,b)-Math.min(r,g,b)>35)colorful++;}
+     }
+     return {width:canvas.width,height:canvas.height,topLeftAlpha:a,bottomRightAlpha:b,
+       colorful,opaque,loaded:img.complete,srcIsTransparentPNG:img.src.startsWith('data:image/png;base64,')};
+   });
+   assert(lotus.srcIsTransparentPNG,'lotus still uses white-matte original asset');
+   assert.equal(lotus.width,791,'lotus width changed');
+   assert.equal(lotus.height,1989,'lotus height changed');
+   assert(lotus.topLeftAlpha<32 && lotus.bottomRightAlpha<32,'lotus corners still have a white matte');
+   assert(lotus.colorful>100 && lotus.opaque>500,'lotus or ink lost while removing white');
+   console.log('LOTUS_MATTE_AUDIT '+name+' '+JSON.stringify(lotus));
+
    // Current design deliberately uses a pure solid color, not the photo.
    const expectedSolid='rgb(249, 249, 247)';
    const expectedPink='rgb(234, 216, 229)';
