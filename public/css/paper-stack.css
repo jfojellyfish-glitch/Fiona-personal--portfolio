@@ -131,3 +131,40 @@ body::after { opacity:0!important; }
   #portfolio-site .about,#portfolio-site .contact {background-image:url('../assets/handmade-paper-v12-soft-white.jpg');}
   .site > main > section.paper-stack-panel {position:relative!important;top:auto!important;transform:none!important;}
 }
+
+
+/* v62 — TRUE EDGE-TO-EDGE PAPER.
+   The .site shell has max-width:1570px. Earlier section width:calc(100% +
+   56px) only escaped its 28px padding, not that max-width. At viewport
+   widths above 1570px it left side gutters exposing a differently scaled
+   background. Make the section surface full viewport width while its TEXT
+   still respects the original 1570px editorial column alignment. */
+@media (prefers-reduced-motion: no-preference) {
+  html.paper-stack-enabled .site > main > section.paper-stack-panel,
+  html.paper-stack-enabled .site > main > section.paper-stack-panel:not(.note-band),
+  html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band,
+  html.paper-stack-enabled .site > main > footer.footer {
+    box-sizing: border-box;
+    width: 100vw;
+    max-width: none;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding-left: max(28px, calc((100vw - 1570px) / 2 + 28px));
+    padding-right: max(28px, calc((100vw - 1570px) / 2 + 28px));
+  }
+
+  /* Maintain the 20px mobile insets and natural heights; only the paper
+     background expands, not the content or any of its floating transforms. */
+  @media (max-width: 650px) {
+    html.paper-stack-enabled .site > main > section.paper-stack-panel,
+    html.paper-stack-enabled .site > main > section.paper-stack-panel:not(.note-band),
+    html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band,
+    html.paper-stack-enabled .site > main > footer.footer {
+      width:100vw;
+      margin-left:calc(50% - 50vw);
+      margin-right:calc(50% - 50vw);
+      padding-left:20px;
+      padding-right:20px;
+    }
+  }
+}
