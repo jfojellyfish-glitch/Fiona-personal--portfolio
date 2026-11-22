@@ -27,18 +27,9 @@ for(const [name,width,height] of cases){
    await page.waitForSelector('.paper-stack-panel',{timeout:20000});
    await page.evaluate(()=>document.getElementById('intro-enter')?.click());
    await page.waitForFunction(()=>!document.body.classList.contains('intro-locked'),{timeout:7500});
-   // Read the actual photograph as an image. A 200 response with corrupt JPG
-   // bytes isn't enough: decoding must succeed as well.
-   const paper=await page.evaluate(async path=>{
-     const r=await fetch(path);
-     const img=new Image();
-     img.src=path;
-     await img.decode();
-     return {status:r.status,w:img.naturalWidth,h:img.naturalHeight};
-   },base+'/assets/handmade-paper-v12-soft-white.jpg');
-   assert.equal(paper.status,200);
-   assert.equal(paper.w,256);
-   assert.equal(paper.h,341);
+   // Current design deliberately uses a pure solid color, not the photo.
+   const expectedSolid='rgb(249, 249, 247)';
+   const expectedPink='rgb(234, 216, 229)';
 
    const initial=await page.evaluate(()=>{
      const nodes=[...document.querySelectorAll('#portfolio-site .site > main > section.paper-stack-panel')];
@@ -57,10 +48,12 @@ for(const [name,width,height] of cases){
          right:Math.round(n.getBoundingClientRect().right),
          naturalHeight:n.offsetHeight,
          image:s(n).backgroundImage,
+         color:s(n).backgroundColor,
          contentY:s(n).getPropertyValue('--paper-content-y'),
          contentCount:n.children.length,
        })),
        introTexture:getComputedStyle(document.querySelector('#intro-screen')).backgroundImage,
+       introColor:getComputedStyle(document.querySelector('#intro-screen')).backgroundColor,
        paperStyling:(()=>{
          const bodyStyle=getComputedStyle(document.body);
          const sections=nodes.filter(n=>!n.classList.contains('note-band'));
@@ -72,6 +65,7 @@ for(const [name,width,height] of cases){
          return {
            rootWidth:Math.round(root?.getBoundingClientRect().width||0),
            bodyImage:bodyStyle.backgroundImage,
+           bodyColor:bodyStyle.backgroundColor,
            bodySize:bodyStyle.backgroundSize,
            bodyPosition:bodyStyle.backgroundPosition,
            bodyAttachment:bodyStyle.backgroundAttachment,
@@ -81,6 +75,8 @@ for(const [name,width,height] of cases){
            contactSize:last.backgroundSize,
            contactAttachment:last.backgroundAttachment,
            footerSize:footerStyle?.backgroundSize,
+           footerColor:footerStyle?.backgroundColor,
+           footerImage:footerStyle?.backgroundImage,
            footerAttachment:footerStyle?.backgroundAttachment,
            shadow:getComputedStyle(nodes[0]).boxShadow,
            firstBorder:getComputedStyle(nodes[0]).borderTopWidth
@@ -98,13 +94,16 @@ for(const [name,width,height] of cases){
    assert.equal(initial.count,6);
    assert(initial.stack.every(n=>n.position==='sticky'),'panel not sticky');
    assert(initial.paperStyling.rootWidth>=width-3,'outer site shell is still card-width');
-   assert(initial.paperStyling.bodyImage.includes('handmade-paper-v12-soft-white.jpg'));
-   assert.equal(initial.paperStyling.bodySize,'cover','body background does not match section');
-   assert.equal(initial.paperStyling.firstSize,'cover','hero background does not match body');
-   assert.equal(initial.paperStyling.contactSize,'cover','contact background does not match body');
-   assert.equal(initial.paperStyling.footerSize,'cover','footer background does not match body');
-   assert.equal(initial.paperStyling.firstPosition,initial.paperStyling.bodyPosition,'paper origins differ');
-   assert.equal(initial.paperStyling.firstAttachment,initial.paperStyling.bodyAttachment,'paper attachment differs');
+   assert.equal(initial.paperStyling.bodyImage,'none','body still uses a texture');
+   assert.equal(initial.paperStyling.bodyColor,expectedSolid,'body background is not the chosen solid color');
+   assert.equal(initial.paperStyling.footerImage,'none','footer still uses a texture');
+   assert.equal(initial.paperStyling.footerColor,expectedSolid,'footer does not match body');
+   assert.equal(initial.introTexture,'none','opening screen still uses a texture');
+   assert.equal(initial.introColor,expectedSolid,'opening color differs from body');
+   assert(initial.stack.filter(n=>!n.className.includes('note-band')).every(n=>n.image==='none'&&n.color===expectedSolid),
+     'at least one white section still has a textured or different background');
+   assert(initial.stack[2].image==='none'&&initial.stack[2].color===expectedPink,
+     'pink statement section changed');
    assert.equal(initial.paperStyling.shadow,'none','visible section outline still present');
    assert.equal(initial.paperStyling.firstBorder,'0px','paper edge line still present');
    assert(initial.stack.every(n=>n.scale==='none'),'a whole panel was transformed');
@@ -112,11 +111,6 @@ for(const [name,width,height] of cases){
    assert(initial.stack.every(n=>n.width>=width-3),'full-bleed paper misses viewport edge');
    assert(initial.stack.every(n=>Math.abs(n.left)<3&&Math.abs(n.right-width)<3),'paper has exposed side gutters');
    assert(initial.footer&&Math.abs(initial.footer.left)<3&&Math.abs(initial.footer.right-width)<3,'footer has exposed side gutters');
-   assert(initial.stack.filter(n=>!n.className.includes('note-band')).every(n=>n.image.includes('handmade-paper-v12-soft-white.jpg')),
-    'missing user paper texture');
-   assert(!initial.stack[2].image.includes('handmade-paper-v12-soft-white.jpg'),
-    'pink section must be plain colored');
-   assert(initial.introTexture.includes('handmade-paper-v12-soft-white.jpg'));
    assert(initial.works&&initial.entries===3&&initial.about&&initial.contact,'original content missing');
    assert(initial.overflow<=3,'horizontal overflow');
 
@@ -169,7 +163,7 @@ for(const [name,width,height] of cases){
      console.log('V12_MOBILE_CONTENT '+name+' '+JSON.stringify(m));
    }
    assert.equal(errors.length,0,'uncaught client page errors '+errors.join('; '));
-   console.log('V12_PAPER_STACK_AUDIT '+name+' '+JSON.stringify({paper,initial,transition,errors}));
+   console.log('V64_SOLID_STACK_AUDIT '+name+' '+JSON.stringify({initial,transition,errors}));
  }catch(error){
    failures++;
    console.error('V12_PAPER_STACK_ERROR '+name+' '+error.stack);
@@ -186,10 +180,10 @@ try{
    texture:getComputedStyle(document.querySelector('#work')).backgroundImage
  }));
  assert.equal(state.enabled,false);
- assert(state.texture.includes('handmade-paper-v12-soft-white.jpg'));
+ assert.equal(state.texture,'none','reduced-motion still has texture');
  console.log('V12_REDUCED_MOTION '+JSON.stringify(state));
 }catch(error){failures++;console.error('V12_REDUCED_ERROR '+error.stack);}
 await reduced.close();
 await browser.close();
 if(failures)process.exitCode=1;
-else console.log('V12 paper texture, full-bleed motion and mobile content all passed');
+else console.log('V64 plain-color background, mobile-safe motion and full-width layout passed');
