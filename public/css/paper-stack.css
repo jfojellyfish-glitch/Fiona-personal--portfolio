@@ -261,3 +261,26 @@ html.paper-stack-enabled #portfolio-site > .site {
     background-attachment:scroll;
   }
 }
+
+
+/* v64 — Requested solid-color background, everywhere except the pink note.
+   Remove BOTH the paper photograph and the older SVG grain while preserving
+   the V12 mobile-safe section-to-section motion and full-width alignment. */
+:root { --fiona-paper-white:#f9f9f7; }
+html,body,
+#portfolio-site,#portfolio-site > .site,#portfolio-site .site > main,
+#intro-screen.intro-screen,
+#portfolio-site .hero,#portfolio-site .works,#portfolio-site .notes,
+#portfolio-site .about,#portfolio-site .contact,
+#portfolio-site .site > main > footer.footer,
+.archive-page {
+  background:#f9f9f7!important;
+  background-image:none!important;
+}
+#portfolio-site .note-band,
+html.paper-stack-enabled #portfolio-site .note-band {
+  background:var(--lilac,#ead8e5)!important;
+  background-image:none!important;
+}
+body::after {display:none!important;opacity:0!important;}
+/* Shadow and border already disabled by v63; no replacement texture layer. */
