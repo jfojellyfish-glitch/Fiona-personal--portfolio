@@ -940,3 +940,72 @@ html.paper-stack-enabled [data-reveal] {
     max-width:min(80%,270px);
   }
 }
+
+
+/* v75 — Pearls listing: unified display heading and Retrogression annotations. */
+/* Keep the title's original capitalisation and listing link. Borrow
+   the same narrow editorial display as "passing thoughts." instead of
+   the Courier typewriter face. The body of the essay is untouched. */
+#writing-page .pearl-card-title {
+  font-family:var(--title-face,"Arial Narrow","Liberation Sans Narrow",Arial,Helvetica,sans-serif)!important;
+  font-weight:400!important;
+  font-style:normal!important;
+  font-size:clamp(46px,5.25vw,82px);
+  line-height:1.02;
+  letter-spacing:-.072em!important;
+  text-transform:none!important;
+  text-wrap:balance;
+  overflow-wrap:break-word;
+  margin-bottom:clamp(14px,2vw,23px);
+  text-shadow:none!important;
+  -webkit-font-smoothing:antialiased;
+}
+#writing-page .pearl-card-date,
+#writing-page .pearl-card-description {
+  font-family:"Retrogression","Pixelify Sans","Courier New",monospace!important;
+  font-weight:400!important;
+  font-style:normal!important;
+  text-transform:none!important;
+  text-shadow:none!important;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+#writing-page .pearl-card-date {
+  font-size:clamp(14px,1.32vw,18px);
+  line-height:1.45;
+  letter-spacing:.025em;
+  color:#77716e;
+  white-space:nowrap;
+  padding-top:clamp(3px,.35vw,8px);
+}
+#writing-page .pearl-card-description {
+  max-width:540px;
+  font-size:clamp(16px,1.56vw,21px);
+  line-height:1.45;
+  letter-spacing:0;
+  color:#69615d;
+}
+@media(max-width:700px) {
+  #writing-page .pearl-card {
+    grid-template-columns:63px minmax(0,1fr) 18px;
+    gap:10px;
+  }
+  #writing-page .pearl-card-title {
+    font-size:clamp(36px,9.3vw,53px);
+    line-height:1.06;
+    letter-spacing:-.066em!important;
+    margin-bottom:13px;
+  }
+  #writing-page .pearl-card-date {
+    font-size:clamp(11px,3vw,13px);
+    white-space:normal;
+    overflow-wrap:anywhere;
+    line-height:1.32;
+    letter-spacing:0;
+    padding-top:5px;
+  }
+  #writing-page .pearl-card-description {
+    font-size:clamp(14px,3.8vw,17px);
+    line-height:1.4;
+  }
+}
