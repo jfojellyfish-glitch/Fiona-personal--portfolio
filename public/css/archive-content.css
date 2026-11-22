@@ -313,7 +313,15 @@
 #photography-page .photo-grid .photo-card:nth-child(4n + 3) {grid-column:4 / 12;}
 #photography-page .photo-grid .photo-card:nth-child(4n + 4) {grid-column:2 / 8;}
 #photography-page .photo-card img {width:100%;height:auto;aspect-ratio:auto;object-fit:contain;background:transparent;}
-#photography-page .photo-card .photo-caption {font-size:clamp(13px,1.3vw,16px);line-height:1.4;margin-top:13px;}
+#photography-page .photo-card .photo-caption {
+  display:block;
+  margin-top:12px;
+  font-family:"Retrogression","Courier New",monospace;
+  font-size:clamp(12px,1.1vw,15px);
+  line-height:1.4;
+  font-weight:400;
+  letter-spacing:.045em;
+}
 #photography-page .photo-card .photo-meta {
   font-family:"Retrogression","Courier New",monospace;
   font-size:clamp(11px,1.15vw,14px);letter-spacing:.02em;

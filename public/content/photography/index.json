@@ -1,43 +1,7 @@
 {
   "photos": [
     {
-      "title": "The Staircase",
-      "file": "assets/photography/stairs-2026-07-22.webp",
-      "alt": "A person in a light jacket ascending a grand marble staircase beneath an ornate stone arch",
-      "year": "2026",
-      "date": "2026-07-22",
-      "width": 960,
-      "height": 1439
-    },
-    {
-      "title": "The Figures",
-      "file": "assets/photography/figures-2026-07-22.webp",
-      "alt": "Two large folkloric human figures standing together in a stone hall with hanging lanterns",
-      "year": "2026",
-      "date": "2026-07-22",
-      "width": 960,
-      "height": 1440
-    },
-    {
-      "title": "The Hall",
-      "file": "assets/photography/hall-of-light-2025-12-17.webp",
-      "alt": "A large sunlit hall with repeating arches, worn walls and reflective dark floor",
-      "year": "2025",
-      "date": "2025-12-17",
-      "width": 1010,
-      "height": 1536
-    },
-    {
-      "title": "The X-Ray Cabinet",
-      "file": "assets/photography/radiology-2025-12-17.webp",
-      "alt": "An illuminated display of historic radiology prints and a medical advertisement",
-      "year": "2025",
-      "date": "2025-12-17",
-      "width": 1152,
-      "height": 1536
-    },
-    {
-      "title": "Green Threshold",
+      "title": "01",
       "file": "assets/photography/green-threshold-2025-07-25.webp",
       "alt": "Deep green leaves framing a sunlit lawn and garden path",
       "year": "2025",
@@ -46,7 +10,7 @@
       "height": 1536
     },
     {
-      "title": "Water Lilies",
+      "title": "02",
       "file": "assets/photography/water-lilies-2025-07-25.webp",
       "alt": "White and pale yellow water lilies floating among dark green lily pads",
       "year": "2025",
@@ -55,16 +19,7 @@
       "height": 1536
     },
     {
-      "title": "Market Colours",
-      "file": "assets/photography/fruit-market-2025-12-17.webp",
-      "alt": "Market baskets of apples, oranges, persimmons, avocados and pears",
-      "year": "2025",
-      "date": "2025-12-17",
-      "width": 1536,
-      "height": 1152
-    },
-    {
-      "title": "Two by the Sea",
+      "title": "03",
       "file": "assets/photography/bench-by-the-sea-2025-12-16.webp",
       "alt": "Two distant people seated by the sea, viewed through a temporary fence beneath trees",
       "year": "2025",
@@ -73,11 +28,38 @@
       "height": 1152
     },
     {
-      "title": "Between Sand and Sea",
+      "title": "04",
       "file": "assets/photography/sea-inlet-2025-12-16.webp",
       "alt": "A sheltered pool between sandy banks opening toward the sea beneath cloudy skies",
       "year": "2025",
       "date": "2025-12-16",
+      "width": 1536,
+      "height": 1152
+    },
+    {
+      "title": "05",
+      "file": "assets/photography/hall-of-light-2025-12-17.webp",
+      "alt": "A large sunlit hall with repeating arches, worn walls and reflective dark floor",
+      "year": "2025",
+      "date": "2025-12-17",
+      "width": 1010,
+      "height": 1536
+    },
+    {
+      "title": "06",
+      "file": "assets/photography/radiology-2025-12-17.webp",
+      "alt": "An illuminated display of historic radiology prints and a medical advertisement",
+      "year": "2025",
+      "date": "2025-12-17",
+      "width": 1152,
+      "height": 1536
+    },
+    {
+      "title": "07",
+      "file": "assets/photography/fruit-market-2025-12-17.webp",
+      "alt": "Market baskets of apples, oranges, persimmons, avocados and pears",
+      "year": "2025",
+      "date": "2025-12-17",
       "width": 1536,
       "height": 1152
     }
