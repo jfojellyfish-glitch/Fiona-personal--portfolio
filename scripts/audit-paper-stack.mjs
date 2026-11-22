@@ -37,8 +37,8 @@ for(const [name,width,height] of cases){
      return {status:r.status,w:img.naturalWidth,h:img.naturalHeight};
    },base+'/assets/handmade-paper-v12-soft-white.jpg');
    assert.equal(paper.status,200);
-   assert.equal(paper.w,384);
-   assert.equal(paper.h,512);
+   assert.equal(paper.w,256);
+   assert.equal(paper.h,341);
 
    const initial=await page.evaluate(()=>{
      const nodes=[...document.querySelectorAll('#portfolio-site .site > main > section.paper-stack-panel')];
