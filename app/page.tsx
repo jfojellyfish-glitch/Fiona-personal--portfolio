@@ -12,7 +12,18 @@ const markup=template.match(/<body[^>]*>([\s\S]*?)<\/body>/i)?.[1]??'';
 const archiveMarker='<div aria-live="off" class="archive-pages" id="archive-pages">';
 const cut=markup.indexOf(archiveMarker);
 if(cut<0||!markup.includes('id="intro-enter"'))throw new Error('Portfolio template landmarks not found');
-const homepage=markup.slice(0,cut).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'');
+// Make gallery image URLs independent of trailing slashes and current routes.
+const assetPrefix=process.env.NEXT_PUBLIC_BASE_PATH ?? '/Fiona-personal--portfolio';
+const sourceHomepage=markup.slice(0,cut).replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi,'');
+const absoluteHomepage=sourceHomepage
+ .replaceAll('src="./assets/', 'src="'+assetPrefix+'/assets/')
+ .replaceAll("src='./assets/", "src='"+assetPrefix+'/assets/');
+// Preserve the original 02 cover, but embed its small JPEG into static HTML:
+// this removes a separate fragile image request on mobile Safari.
+const cassieCover='src="'+assetPrefix+'/assets/skins-cassie.jpg"';
+if(!absoluteHomepage.includes(cassieCover))throw new Error('3D Objects homepage cover not found');
+const cassieData='data:image/jpeg;base64,'+readFileSync(join(process.cwd(),'public','assets','skins-cassie.jpg')).toString('base64');
+const homepage=absoluteHomepage.replace(cassieCover,'src="'+cassieData+'"');
 function manifest<T>(category:'pearls'|'photography'|'objects',name:'entries'|'photos'|'models'):T[]{
  const file=join(process.cwd(),'public','content',category,'index.json');
  const data=JSON.parse(readFileSync(file,'utf8')) as Record<string,unknown>;
