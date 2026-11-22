@@ -75,6 +75,9 @@ for(const [name,width,height] of cases){
        intrinsic:[lotus.naturalWidth,lotus.naturalHeight],
        imgSource:lotus.src.slice(0,22),overline:rect(hero.querySelector('.hero-left > .kicker')),
        intro:rect(hero.querySelector('.hero-intro'))},
+     noteStatement:{kicker:rect(note.querySelector('.inner > .kicker')),
+       message:rect(note.querySelector('.inner > p')),
+       textAlign:style(note.querySelector('.inner > p')).textAlign},
      archive:{figures:ns.map(rect),images:noteImages.map(rect)},
      about:{identity:rect(about.querySelector('.about-identity')),prose:rect(about.querySelector('.about-poem')),
        question:rect(about.querySelector('.question'))},
@@ -104,6 +107,13 @@ for(const [name,width,height] of cases){
    'footer has side gutters');
   assert.equal(initial.solid,'rgb(249, 249, 247)');
   assert.equal(initial.pink,'rgb(234, 216, 229)');
+  assert(initial.noteStatement.kicker.bottom<=initial.noteStatement.message.y+2,
+    'A NOTE TO MYSELF must appear above the universe statement');
+  assert(initial.noteStatement.textAlign==='center','universe statement must remain centered');
+  assert(Math.abs(
+    initial.noteStatement.kicker.x+initial.noteStatement.kicker.w/2-
+    (initial.noteStatement.message.x+initial.noteStatement.message.w/2)
+  )<=4,'statement kicker and text no longer center aligned');
   assert(initial.sections.filter(s=>s.name!=='note-band').every(s=>s.image==='none'),
    'paper texture unexpectedly returned');
   assert.deepEqual(initial.heroColumns.intrinsic,[791,1989],'lotus original image resized');
