@@ -168,3 +168,96 @@ body::after { opacity:0!important; }
     }
   }
 }
+
+
+/* v63 — SEAMLESS FULL-VIEWPORT COTTON PAPER.
+   v62 fixed the boxes' numeric width, but the user could still see a
+   "paper card" outline: sections used background-size:cover while the
+   canvas behind them tiled at 900px, plus an intentional box shadow and
+   hairline border. Those create a seam even when left===0 and right===vw.
+   All white-paper surfaces now share the SAME viewport-anchored image.
+   Crucially this does not touch any section text or motion transforms. */
+:root { --fiona-paper-source:url('../assets/handmade-paper-v12-soft-white.jpg'); }
+
+body,
+#portfolio-site {
+  background-color:var(--fiona-paper-white);
+  background-image:var(--fiona-paper-source);
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+}
+#intro-screen.intro-screen,
+#portfolio-site .hero,
+#portfolio-site .works,
+#portfolio-site .notes,
+#portfolio-site .about,
+#portfolio-site .contact,
+#portfolio-site .site > main > footer.footer {
+  background-color:var(--fiona-paper-white);
+  background-image:var(--fiona-paper-source);
+  background-size:cover;
+  background-position:center center;
+  background-repeat:no-repeat;
+  background-attachment:fixed;
+}
+#portfolio-site .note-band,
+html.paper-stack-enabled #portfolio-site .note-band {
+  background-color:var(--lilac,#ead8e5);
+  background-image:none!important;
+  background-attachment:scroll;
+}
+html.paper-stack-enabled #portfolio-site > .site {
+  /* Remove the max-width from the outer surface; retain exact editorial
+     insets using responsive padding, so headings and links don't shift. */
+  width:100%;
+  max-width:none;
+  margin-left:0;
+  margin-right:0;
+  padding-left:max(28px, calc((100vw - 1570px) / 2 + 28px));
+  padding-right:max(28px, calc((100vw - 1570px) / 2 + 28px));
+}
+@media(prefers-reduced-motion:no-preference) {
+  html.paper-stack-enabled .site > main > section.paper-stack-panel {
+    /* The old shadow/border formed a dark "paper card" frame.
+       Section motion now comes only from content floating as approved. */
+    border-top:0!important;
+    box-shadow:none!important;
+    outline:0;
+    background-size:cover;
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+  }
+  html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band {
+    background-image:none!important;
+    background-attachment:scroll;
+  }
+  html.paper-stack-enabled .site > main > footer.footer {
+    border-top:1px solid var(--theme-line,#d7d1cc);
+    box-shadow:none!important;
+    background-size:cover;
+    background-position:center center;
+    background-repeat:no-repeat;
+    background-attachment:fixed;
+  }
+}
+@media(max-width:650px) {
+  html.paper-stack-enabled #portfolio-site > .site {
+    padding-left:20px;
+    padding-right:20px;
+  }
+}
+/* On browsers that approximate fixed backgrounds during touch scrolling,
+   fallback to aligned cover while keeping every surface full-bleed. */
+@supports (-webkit-touch-callout:none) {
+  body,#portfolio-site,
+  #intro-screen.intro-screen,
+  #portfolio-site .hero,#portfolio-site .works,
+  #portfolio-site .notes,#portfolio-site .about,
+  #portfolio-site .contact,
+  #portfolio-site .site > main > footer.footer {
+    background-attachment:scroll;
+  }
+}
