@@ -1,16 +1,88 @@
 {
   "photos": [
     {
+      "file": "assets/photography/forest-car-window-2024-02-13.webp",
+      "date": "2024-02-13",
+      "year": "2024",
+      "width": 1151,
+      "height": 1536,
+      "alt": "Trees seen through a slanted car window in winter light",
+      "title": "01"
+    },
+    {
+      "file": "assets/photography/turquoise-chair-2024-09-03.webp",
+      "date": "2024-09-03",
+      "year": "2024",
+      "width": 1152,
+      "height": 1536,
+      "alt": "An empty bright turquoise armchair in front of a weathered pale wall and barred window",
+      "title": "02"
+    },
+    {
+      "file": "assets/photography/car-above-street-2024-09-03.webp",
+      "date": "2024-09-03",
+      "year": "2024",
+      "width": 1800,
+      "height": 1200,
+      "alt": "An old red car mounted above shopfronts on a busy street",
+      "title": "03"
+    },
+    {
+      "file": "assets/photography/ancient-theatre-2024-09-05.webp",
+      "date": "2024-09-05",
+      "year": "2024",
+      "width": 1023,
+      "height": 1536,
+      "alt": "Curving tiers of stone seats in an ancient amphitheatre, with tiny visitors below",
+      "title": "04"
+    },
+    {
+      "file": "assets/photography/castle-window-clouds-2024-09-05.webp",
+      "date": "2024-09-05",
+      "year": "2024",
+      "width": 1152,
+      "height": 1536,
+      "alt": "Towering clouds and an old stone courtyard framed through a dark castle window",
+      "title": "05"
+    },
+    {
+      "file": "assets/photography/birds-on-water-2025-01-05.webp",
+      "date": "2025-01-05",
+      "year": "2025",
+      "width": 1152,
+      "height": 1536,
+      "alt": "Seagulls skimming over rippling blue water with small boats in the background",
+      "title": "06"
+    },
+    {
+      "file": "assets/photography/blue-stage-2025-01-06.webp",
+      "date": "2025-01-06",
+      "year": "2025",
+      "width": 1152,
+      "height": 1536,
+      "alt": "A tiny performer below a huge blue illuminated projection of a face",
+      "title": "07"
+    },
+    {
+      "file": "assets/photography/white-jar-2025-03-31.webp",
+      "date": "2025-03-31",
+      "year": "2025",
+      "width": 1151,
+      "height": 1536,
+      "alt": "A lone pale ceramic jar standing against a rust-coloured wall and bamboo",
+      "title": "08"
+    },
+    {
       "file": "assets/photography/cafe-2025-05-16.webp",
       "alt": "A warmly lit cafe filled with theatrical posters, wooden chairs and people seated at tables",
       "year": "2025",
       "date": "2025-05-16",
       "width": 1152,
       "height": 1536,
-      "title": "01"
+      "title": "09"
     },
     {
-      "title": "02",
+      "title": "10",
       "file": "assets/photography/water-lilies-2025-07-25.webp",
       "alt": "White and pale yellow water lilies floating among dark green lily pads",
       "year": "2025",
@@ -19,7 +91,7 @@
       "height": 1536
     },
     {
-      "title": "03",
+      "title": "11",
       "file": "assets/photography/green-threshold-2025-07-25.webp",
       "alt": "Deep green leaves framing a sunlit lawn and garden path",
       "year": "2025",
@@ -34,7 +106,7 @@
       "date": "2025-08-27",
       "width": 1152,
       "height": 1536,
-      "title": "04"
+      "title": "12"
     },
     {
       "file": "assets/photography/angel-2025-08-28.webp",
@@ -43,7 +115,7 @@
       "date": "2025-08-28",
       "width": 1152,
       "height": 1536,
-      "title": "05"
+      "title": "13"
     },
     {
       "file": "assets/photography/coast-2025-09-09.webp",
@@ -52,7 +124,7 @@
       "date": "2025-09-09",
       "width": 1152,
       "height": 1536,
-      "title": "06"
+      "title": "14"
     },
     {
       "file": "assets/photography/cat-2025-11-16.webp",
@@ -61,7 +133,7 @@
       "date": "2025-11-16",
       "width": 1536,
       "height": 1152,
-      "title": "07"
+      "title": "15"
     },
     {
       "file": "assets/photography/shadows-2025-12-16.webp",
@@ -70,10 +142,10 @@
       "date": "2025-12-16",
       "width": 1152,
       "height": 1536,
-      "title": "08"
+      "title": "16"
     },
     {
-      "title": "09",
+      "title": "17",
       "file": "assets/photography/sea-inlet-2025-12-16.webp",
       "alt": "A sheltered pool between sandy banks opening toward the sea beneath cloudy skies",
       "year": "2025",
@@ -82,7 +154,7 @@
       "height": 1152
     },
     {
-      "title": "10",
+      "title": "18",
       "file": "assets/photography/bench-by-the-sea-2025-12-16.webp",
       "alt": "Two distant people seated by the sea, viewed through a temporary fence beneath trees",
       "year": "2025",
@@ -91,16 +163,7 @@
       "height": 1152
     },
     {
-      "title": "11",
-      "file": "assets/photography/hall-of-light-2025-12-17.webp",
-      "alt": "A large sunlit hall with repeating arches, worn walls and reflective dark floor",
-      "year": "2025",
-      "date": "2025-12-17",
-      "width": 1010,
-      "height": 1536
-    },
-    {
-      "title": "12",
+      "title": "19",
       "file": "assets/photography/fruit-market-2025-12-17.webp",
       "alt": "Market baskets of apples, oranges, persimmons, avocados and pears",
       "year": "2025",
@@ -109,13 +172,49 @@
       "height": 1152
     },
     {
-      "title": "13",
+      "title": "20",
+      "file": "assets/photography/hall-of-light-2025-12-17.webp",
+      "alt": "A large sunlit hall with repeating arches, worn walls and reflective dark floor",
+      "year": "2025",
+      "date": "2025-12-17",
+      "width": 1010,
+      "height": 1536
+    },
+    {
+      "title": "21",
       "file": "assets/photography/radiology-2025-12-17.webp",
       "alt": "An illuminated display of historic radiology prints and a medical advertisement",
       "year": "2025",
       "date": "2025-12-17",
       "width": 1152,
       "height": 1536
+    },
+    {
+      "file": "assets/photography/sunlit-balustrade-2025-12-17.webp",
+      "date": "2025-12-17",
+      "year": "2025",
+      "width": 1152,
+      "height": 1536,
+      "alt": "A narrow band of sunlight illuminating a decorative stone balustrade in a dark interior",
+      "title": "22"
+    },
+    {
+      "file": "assets/photography/pink-arches-2025-12-17.webp",
+      "date": "2025-12-17",
+      "year": "2025",
+      "width": 1152,
+      "height": 1536,
+      "alt": "Pastel pink tiled vaulted arches and carved stone columns in an ornate interior",
+      "title": "23"
+    },
+    {
+      "file": "assets/photography/wall-flower-drawing-2025-12-17.webp",
+      "date": "2025-12-17",
+      "year": "2025",
+      "width": 1152,
+      "height": 1536,
+      "alt": "A faded childlike flower drawing on a textured yellow exterior wall",
+      "title": "24"
     }
   ]
 }
