@@ -213,20 +213,26 @@ body::after {display:none!important;opacity:0!important;}
   justify-content:center;
 }
 #portfolio-site .note-band .inner {
-  display:grid;
-  grid-template-columns:minmax(0,.65fr) minmax(0,1.65fr);
+  display:flex;
+  flex-direction:column;
   align-items:center;
-  gap:clamp(26px,4vw,62px);
+  justify-content:center;
+  gap:clamp(20px,2.8vw,36px);
   width:100%;
   max-width:var(--editorial-width);
   margin:auto;
+  text-align:center;
+}
+#portfolio-site .note-band .inner > .kicker {
+  display:block;
+  text-align:center;
 }
 #portfolio-site .note-band p {
   font-size:clamp(63px,8.1vw,120px)!important;
   line-height:.96!important;
   letter-spacing:-.065em!important;
-  text-align:left!important;
-  margin:0;
+  text-align:center!important;
+  margin:0 auto;
   max-width:100%;
 }
 
@@ -506,8 +512,8 @@ html.paper-stack-enabled [data-reveal] {
   #portfolio-site .note-band .inner {
     display:flex;
     flex-direction:column;
-    align-items:stretch;
-    gap:clamp(25px,5vw,42px);
+    align-items:center;
+    gap:clamp(20px,5vw,30px);
   }
   #portfolio-site .note-band p {
     font-size:clamp(53px,12.6vw,80px)!important;
