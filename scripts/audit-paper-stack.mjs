@@ -13,7 +13,7 @@ const browser=await puppeteer.launch({headless:true,executablePath:chrome,
 const repo=(process.env.GITHUB_REPOSITORY||'jfojellyfish-glitch/Fiona-personal--portfolio').split('/')[1];
 const base=process.env.NEXT_PUBLIC_BASE_PATH||('/'+repo);
 const url='http://127.0.0.1:4173'+base+'/';
-const cases=[['desktop',1440,900],['ipad',820,1180],
+const cases=[['wide-desktop',1920,1080],['reference-desktop',1640,928],['desktop',1440,900],['ipad',820,1180],
              ['mobile',390,844],['small-mobile',320,700]];
 let failures=0;
 for(const [name,width,height] of cases){
@@ -53,12 +53,15 @@ for(const [name,width,height] of cases){
          top:Number.parseFloat(s(n).top),
          expected:Math.min(0,innerHeight-n.offsetHeight),
          width:Math.round(n.getBoundingClientRect().width),
+         left:Math.round(n.getBoundingClientRect().left),
+         right:Math.round(n.getBoundingClientRect().right),
          naturalHeight:n.offsetHeight,
          image:s(n).backgroundImage,
          contentY:s(n).getPropertyValue('--paper-content-y'),
          contentCount:n.children.length,
        })),
        introTexture:getComputedStyle(document.querySelector('#intro-screen')).backgroundImage,
+       footer:(()=>{const r=document.querySelector('.site > main > footer')?.getBoundingClientRect();return r?{left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width)}:null})(),
        contact:!!document.querySelector('#contact-angel-canvas'),
        entries:document.querySelectorAll('#notes .archive-entry-link').length,
        works:!!document.querySelector('#work a[href]'),
@@ -72,6 +75,8 @@ for(const [name,width,height] of cases){
    assert(initial.stack.every(n=>n.scale==='none'),'a whole panel was transformed');
    assert(initial.stack.every(n=>Math.abs(n.top-n.expected)<3),'long content might be clipped');
    assert(initial.stack.every(n=>n.width>=width-3),'full-bleed paper misses viewport edge');
+   assert(initial.stack.every(n=>Math.abs(n.left)<3&&Math.abs(n.right-width)<3),'paper has exposed side gutters');
+   assert(initial.footer&&Math.abs(initial.footer.left)<3&&Math.abs(initial.footer.right-width)<3,'footer has exposed side gutters');
    assert(initial.stack.filter(n=>!n.className.includes('note-band')).every(n=>n.image.includes('handmade-paper-v12-soft-white.jpg')),
     'missing user paper texture');
    assert(!initial.stack[2].image.includes('handmade-paper-v12-soft-white.jpg'),
