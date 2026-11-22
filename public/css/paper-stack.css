@@ -1,286 +1,584 @@
-/* v61 — V12 approved: soft, white cotton-paper relief from Fiona's photo.
-   The panel itself never scales or translates: only its existing content floats.
-   Natural section height is preserved on mobile, so no cropping/overlap. */
-:root { --fiona-paper-white:#f9f9f7; }
+/* v66 — Fiona portfolio editorial layout system.
+   One coherent set of layout, type, image and rhythm rules replaces the
+   layered v61-v64 paper-stack overrides. Content, assets, interactions and
+   the approved solid background remain untouched.
 
-/* The original WebGL opening remains unchanged apart from its background. */
-#intro-screen.intro-screen {
-  background-color:var(--fiona-paper-white);
-  background-image:url('../assets/handmade-paper-v12-soft-white.jpg');
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
+   DESIGN TOKENS
+   --editorial-width: readable 1320px composition within full-bleed sections
+   --editorial-gutter: consistent desktop/mobile gutters
+   --section-space: consistent vertical rhythm, with intentional exceptions
+   --section-heading: related type sizes across Work / Notes / About
+*/
+:root {
+  --fiona-paper-white:#f9f9f7;
+  --editorial-bg:#f9f9f7;
+  --editorial-width:1320px;
+  --editorial-gutter:clamp(24px,4.2vw,72px);
+  --editorial-inset:max(var(--editorial-gutter),calc((100vw - var(--editorial-width))/2));
+  --editorial-space:clamp(88px,9.5vw,156px);
+  --editorial-section-title:clamp(64px,7.1vw,112px);
+  --editorial-caption:clamp(12px,.95vw,14px);
+  --editorial-muted:#67615f;
 }
-
-/* Surface material also persists for reduced-motion accessibility. */
-body {
-  background-color:var(--fiona-paper-white);
-  background-image:url('../assets/handmade-paper-v12-soft-white.jpg');
-  background-repeat:repeat;
-  background-size:900px auto;
-}
-#portfolio-site .hero,
-#portfolio-site .works,
-#portfolio-site .notes,
-#portfolio-site .about,
-#portfolio-site .contact {
-  background-color:var(--fiona-paper-white);
-  background-image:url('../assets/handmade-paper-v12-soft-white.jpg');
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-}
-#portfolio-site .note-band {
-  background-color:var(--lilac,#ead8e5);
+html,body,#portfolio-site,
+#intro-screen.intro-screen,.archive-page {
+  background-color:var(--editorial-bg)!important;
   background-image:none!important;
 }
-
-/* Avoid stacking legacy global noise on top of the actual paper photo. */
-body::after { opacity:0!important; }
-
-@media (prefers-reduced-motion: no-preference) {
-  html.paper-stack-enabled .site { isolation:isolate; }
-  html.paper-stack-enabled .site > main > section.paper-stack-panel {
-    position:sticky;
-    top:var(--paper-stick-top,0px);
-    z-index:var(--paper-z,1);
-    min-height:100svh;
-    box-sizing:border-box;
-    transform:none!important;
-    border-radius:0!important;
-    overflow:visible;
-    border-top:1px solid rgba(104,92,81,.10);
-    box-shadow:0 -1px 2px rgba(54,44,39,.055),
-               0 -12px 31px rgba(54,44,39,.075);
-    backface-visibility:visible;
-    scroll-margin-top:0;
-  }
-  /* The original site shell has horizontal padding. Extend each paper
-     surface to the full window without moving the original typography. */
-  html.paper-stack-enabled .site > main > section.paper-stack-panel:not(.note-band) {
-    width:calc(100% + 56px);
-    margin-inline:-28px;
-    padding-inline:28px;
-  }
-  html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band {
-    width:calc(100% + 56px);
-    margin-inline:-28px;
-    padding-inline:28px;
-    background-color:var(--lilac,#ead8e5);
-    background-image:none!important;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:stretch;
-  }
-  html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band > .inner {
-    width:100%;
-    max-width:1470px;
-  }
-  /* This is the V12 floating editorial motion: move only content groups
-     as a unit; no individual line-by-line or row stagger. */
-  html.paper-stack-enabled .site > main > section.paper-stack-panel > :not(.contact-angel-canvas) {
-    translate:0 var(--paper-content-y,0px);
-    opacity:var(--paper-content-opacity,1);
-    transition:none;
-  }
-  html.paper-stack-enabled .site > main > section.paper-stack-panel.paper-stack-active > * {
-    will-change:translate,opacity;
-  }
-  html.paper-stack-enabled .site > main > footer {
-    position:relative;
-    z-index:10;
-    background-color:var(--fiona-paper-white);
-    background-image:url('../assets/handmade-paper-v12-soft-white.jpg');
-    background-size:cover;
-    background-position:center;
-  }
-  /* Suppress previous text-only animations, since the whole page section
-     is now the primary movement unit. Keep line wrappers for line breaks. */
-  html.paper-stack-enabled .motion-lines .motion-line-mask,
-  html.paper-stack-enabled .motion-lines .motion-line-text {display:block;}
-  html.paper-stack-enabled .motion-lines .motion-line-text {
-    opacity:1!important;transform:none!important;transition:none!important;
-  }
-  html.paper-stack-enabled .works .work-list details[data-row-reveal] {
-    opacity:1!important;translate:0 0!important;transition:none!important;
-  }
-  html.paper-stack-enabled [data-reveal] {
-    opacity:1!important;transform:none!important;transition:none!important;
-  }
-  @media (max-width:650px) {
-    html.paper-stack-enabled .site > main > section.paper-stack-panel:not(.note-band),
-    html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band {
-      width:calc(100% + 40px);
-      margin-inline:-20px;
-      padding-inline:20px;
-    }
-    html.paper-stack-enabled .site > main > section.paper-stack-panel {
-      box-shadow:0 -1px 1px rgba(54,44,39,.045),
-                 0 -8px 22px rgba(54,44,39,.055);
-    }
-    html.paper-stack-enabled .site > main > section.paper-stack-panel > :not(.contact-angel-canvas) {
-      /* On narrow screens all existing content groups keep their relative
-         layout: mobile scrolling changes at most a handful of pixels. */
-      translate:0 var(--paper-content-y,0px);
-    }
-  }
-}
-@media (prefers-reduced-motion:reduce) {
-  #portfolio-site .hero,#portfolio-site .works,#portfolio-site .notes,
-  #portfolio-site .about,#portfolio-site .contact {background-image:url('../assets/handmade-paper-v12-soft-white.jpg');}
-  .site > main > section.paper-stack-panel {position:relative!important;top:auto!important;transform:none!important;}
-}
-
-
-/* v62 — TRUE EDGE-TO-EDGE PAPER.
-   The .site shell has max-width:1570px. Earlier section width:calc(100% +
-   56px) only escaped its 28px padding, not that max-width. At viewport
-   widths above 1570px it left side gutters exposing a differently scaled
-   background. Make the section surface full viewport width while its TEXT
-   still respects the original 1570px editorial column alignment. */
-@media (prefers-reduced-motion: no-preference) {
-  html.paper-stack-enabled .site > main > section.paper-stack-panel,
-  html.paper-stack-enabled .site > main > section.paper-stack-panel:not(.note-band),
-  html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band,
-  html.paper-stack-enabled .site > main > footer.footer {
-    box-sizing: border-box;
-    width: 100vw;
-    max-width: none;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
-    padding-left: max(28px, calc((100vw - 1570px) / 2 + 28px));
-    padding-right: max(28px, calc((100vw - 1570px) / 2 + 28px));
-  }
-
-  /* Maintain the 20px mobile insets and natural heights; only the paper
-     background expands, not the content or any of its floating transforms. */
-  @media (max-width: 650px) {
-    html.paper-stack-enabled .site > main > section.paper-stack-panel,
-    html.paper-stack-enabled .site > main > section.paper-stack-panel:not(.note-band),
-    html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band,
-    html.paper-stack-enabled .site > main > footer.footer {
-      width:100vw;
-      margin-left:calc(50% - 50vw);
-      margin-right:calc(50% - 50vw);
-      padding-left:20px;
-      padding-right:20px;
-    }
-  }
-}
-
-
-/* v63 — SEAMLESS FULL-VIEWPORT COTTON PAPER.
-   v62 fixed the boxes' numeric width, but the user could still see a
-   "paper card" outline: sections used background-size:cover while the
-   canvas behind them tiled at 900px, plus an intentional box shadow and
-   hairline border. Those create a seam even when left===0 and right===vw.
-   All white-paper surfaces now share the SAME viewport-anchored image.
-   Crucially this does not touch any section text or motion transforms. */
-:root { --fiona-paper-source:url('../assets/handmade-paper-v12-soft-white.jpg'); }
-
-body,
-#portfolio-site {
-  background-color:var(--fiona-paper-white);
-  background-image:var(--fiona-paper-source);
-  background-size:cover;
-  background-position:center center;
-  background-repeat:no-repeat;
-  background-attachment:fixed;
-}
-#intro-screen.intro-screen,
-#portfolio-site .hero,
-#portfolio-site .works,
-#portfolio-site .notes,
-#portfolio-site .about,
-#portfolio-site .contact,
-#portfolio-site .site > main > footer.footer {
-  background-color:var(--fiona-paper-white);
-  background-image:var(--fiona-paper-source);
-  background-size:cover;
-  background-position:center center;
-  background-repeat:no-repeat;
-  background-attachment:fixed;
-}
-#portfolio-site .note-band,
-html.paper-stack-enabled #portfolio-site .note-band {
-  background-color:var(--lilac,#ead8e5);
-  background-image:none!important;
-  background-attachment:scroll;
-}
-html.paper-stack-enabled #portfolio-site > .site {
-  /* Remove the max-width from the outer surface; retain exact editorial
-     insets using responsive padding, so headings and links don't shift. */
-  width:100%;
-  max-width:none;
-  margin-left:0;
-  margin-right:0;
-  padding-left:max(28px, calc((100vw - 1570px) / 2 + 28px));
-  padding-right:max(28px, calc((100vw - 1570px) / 2 + 28px));
-}
-@media(prefers-reduced-motion:no-preference) {
-  html.paper-stack-enabled .site > main > section.paper-stack-panel {
-    /* The old shadow/border formed a dark "paper card" frame.
-       Section motion now comes only from content floating as approved. */
-    border-top:0!important;
-    box-shadow:none!important;
-    outline:0;
-    background-size:cover;
-    background-position:center center;
-    background-repeat:no-repeat;
-    background-attachment:fixed;
-  }
-  html.paper-stack-enabled .site > main > section.paper-stack-panel.note-band {
-    background-image:none!important;
-    background-attachment:scroll;
-  }
-  html.paper-stack-enabled .site > main > footer.footer {
-    border-top:1px solid var(--theme-line,#d7d1cc);
-    box-shadow:none!important;
-    background-size:cover;
-    background-position:center center;
-    background-repeat:no-repeat;
-    background-attachment:fixed;
-  }
-}
-@media(max-width:650px) {
-  html.paper-stack-enabled #portfolio-site > .site {
-    padding-left:20px;
-    padding-right:20px;
-  }
-}
-/* On browsers that approximate fixed backgrounds during touch scrolling,
-   fallback to aligned cover while keeping every surface full-bleed. */
-@supports (-webkit-touch-callout:none) {
-  body,#portfolio-site,
-  #intro-screen.intro-screen,
-  #portfolio-site .hero,#portfolio-site .works,
-  #portfolio-site .notes,#portfolio-site .about,
-  #portfolio-site .contact,
-  #portfolio-site .site > main > footer.footer {
-    background-attachment:scroll;
-  }
-}
-
-
-/* v64 — Requested solid-color background, everywhere except the pink note.
-   Remove BOTH the paper photograph and the older SVG grain while preserving
-   the V12 mobile-safe section-to-section motion and full-width alignment. */
-:root { --fiona-paper-white:#f9f9f7; }
-html,body,
-#portfolio-site,#portfolio-site > .site,#portfolio-site .site > main,
-#intro-screen.intro-screen,
 #portfolio-site .hero,#portfolio-site .works,#portfolio-site .notes,
 #portfolio-site .about,#portfolio-site .contact,
-#portfolio-site .site > main > footer.footer,
-.archive-page {
-  background:#f9f9f7!important;
+#portfolio-site .site > main > footer.footer {
+  background-color:var(--editorial-bg)!important;
   background-image:none!important;
 }
-#portfolio-site .note-band,
-html.paper-stack-enabled #portfolio-site .note-band {
+#portfolio-site .note-band {
   background:var(--lilac,#ead8e5)!important;
   background-image:none!important;
 }
+/* Plain, single-color surface: no legacy screen noise or false paper cards. */
 body::after {display:none!important;opacity:0!important;}
-/* Shadow and border already disabled by v63; no replacement texture layer. */
+
+/* FULL-BLEED FRAME / CONSTANT INNER MEASURE
+   Parent site is unrestricted; individual sections go edge to edge.
+   The same inner padding maintains a consistent invisible 12-column grid. */
+#portfolio-site > .site {
+  box-sizing:border-box;
+  width:100%;
+  max-width:none;
+  margin:0;
+  padding-inline:var(--editorial-inset);
+}
+#portfolio-site .site > main {min-width:0;}
+#portfolio-site .site > main > section,
+#portfolio-site .site > main > footer.footer {
+  box-sizing:border-box;
+  width:100vw;
+  max-width:none;
+  margin-inline:calc(50% - 50vw);
+  padding-inline:var(--editorial-inset);
+  background-clip:border-box;
+}
+/* Responsive text & image proportions, not six different headline systems. */
+#portfolio-site .works .section-top h2,
+#portfolio-site .notes h2,
+#portfolio-site .about .section-top h2 {
+  font-size:var(--editorial-section-title)!important;
+  line-height:.96!important;
+  letter-spacing:-.06em!important;
+  font-weight:400!important;
+  text-align:center!important;
+  margin-inline:auto;
+}
+#portfolio-site .works .section-top .aside,
+#portfolio-site .notes-lead,
+#portfolio-site .about .section-top .kicker {
+  font-size:var(--editorial-caption);
+  line-height:1.55;
+}
+#portfolio-site .works,
+#portfolio-site .notes,
+#portfolio-site .about {
+  min-height:0;
+  padding-block:var(--editorial-space);
+}
+#portfolio-site .works .section-top,
+#portfolio-site .about .section-top {
+  gap:clamp(10px,1.4vw,20px);
+  margin-bottom:clamp(38px,4.4vw,70px);
+}
+#portfolio-site .works .section-top h2,
+#portfolio-site .about .section-top h2 {width:auto;max-width:100%;}
+
+/* HOME: similar visual weight in both columns, no phantom empty lower shelf.
+   Preserve the 791×1989 upright lotus and its ink annotations. */
+#portfolio-site .hero {
+  display:grid;
+  grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);
+  align-items:center;
+  gap:clamp(48px,6.4vw,110px);
+  min-height:clamp(710px,calc(100svh - 110px),880px);
+  padding-block:clamp(48px,6vw,90px);
+}
+#portfolio-site .hero-left {
+  min-width:0;
+  min-height:clamp(530px,62svh,690px);
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+  align-items:center;
+}
+#portfolio-site .hero-left > .kicker {align-self:flex-start;text-align:left;}
+#portfolio-site .hero-identity {
+  width:100%;
+  max-width:100%;
+  margin:clamp(44px,6vh,84px) auto clamp(28px,4vh,58px);
+  text-align:center;
+}
+#portfolio-site .hero-title.hero-signature {
+  font-size:clamp(52px,5.3vw,81px)!important;
+  line-height:1.1!important;
+  letter-spacing:-.056em!important;
+  white-space:normal;
+}
+#portfolio-site .hero-tagline {
+  font-size:clamp(15px,1.32vw,19px);
+  line-height:1.45;
+  margin-top:clamp(6px,.8vw,12px);
+}
+#portfolio-site .hero-bottom {
+  width:100%;
+  max-width:490px;
+  margin:0 auto;
+  padding:0;
+}
+#portfolio-site .hero-intro {
+  max-width:460px;
+  margin:0 auto 12px;
+  font-size:clamp(17px,1.42vw,20px);
+  line-height:1.48;
+  letter-spacing:-.028em;
+  text-align:center;
+}
+#portfolio-site .hero-bottom .kicker {
+  display:block;
+  max-width:425px;
+  margin:auto;
+  font-size:12px;
+  line-height:1.55;
+  text-align:center;
+}
+#portfolio-site .hero-right.hero-lotus-stage {
+  min-height:0;
+  align-self:center;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:14px;
+  margin:0;
+  padding:0;
+}
+#portfolio-site .hero-right .lotus-manifesto-figure {
+  width:min(100%,272px);
+  margin-inline:auto;
+}
+#portfolio-site .hero-right .lotus-manifesto-figure .lotus-manifesto {
+  display:block;
+  position:relative!important;
+  width:100%!important;
+  height:auto!important;
+  max-height:none!important;
+  aspect-ratio:791 / 1989;
+  transform:none!important;
+  rotate:none!important;
+  object-fit:contain;
+}
+#portfolio-site .hero-right.hero-lotus-stage .side-note {
+  order:2;
+  align-self:flex-end;
+  max-width:200px;
+  margin:0 4% 0 0;
+  font-size:11px;
+  text-align:right;
+}
+
+/* WORK: headline and actual project rows read as one composition. */
+#portfolio-site .works {padding-bottom:clamp(94px,10vw,155px);}
+#portfolio-site .works .section-top {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  margin-bottom:clamp(34px,4vw,60px);
+}
+#portfolio-site .works .work-list {
+  width:min(100%,1040px);
+  margin-inline:auto;
+}
+#portfolio-site .work-list .name {
+  font-size:clamp(31px,3.65vw,54px);
+  line-height:1.05;
+  letter-spacing:-.052em!important;
+}
+#portfolio-site .work-list summary {
+  min-height:clamp(74px,7.5vw,116px);
+}
+
+/* PINK STATEMENT: deliberate pause, not a mandatory full viewport. */
+#portfolio-site .note-band {
+  min-height:clamp(400px,64svh,670px);
+  padding-block:clamp(90px,11vw,150px);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+}
+#portfolio-site .note-band .inner {
+  display:grid;
+  grid-template-columns:minmax(0,.65fr) minmax(0,1.65fr);
+  align-items:center;
+  gap:clamp(26px,4vw,62px);
+  width:100%;
+  max-width:var(--editorial-width);
+  margin:auto;
+}
+#portfolio-site .note-band p {
+  font-size:clamp(63px,8.1vw,120px)!important;
+  line-height:.96!important;
+  letter-spacing:-.065em!important;
+  text-align:left!important;
+  margin:0;
+  max-width:100%;
+}
+
+/* ARCHIVE: a common 12-column rhythm, deliberately asymmetrical art.
+   Original artwork ratios and interactive anchors remain unchanged. */
+#portfolio-site .notes h2 {max-width:940px;}
+#portfolio-site .notes-lead {
+  max-width:580px;
+  margin:clamp(17px,2vw,25px) auto 0;
+  text-align:center;
+}
+#portfolio-site .notes .wall {
+  display:grid;
+  grid-template-columns:repeat(12,minmax(0,1fr));
+  align-items:start;
+  column-gap:clamp(16px,2.8vw,38px);
+  row-gap:clamp(42px,5.4vw,86px);
+  max-width:1140px;
+  margin:clamp(52px,6.5vw,96px) auto 0;
+}
+#portfolio-site .notes .wall figure {min-width:0;margin:0;}
+#portfolio-site .notes .wall .lotus {
+  grid-column:1 / 9;
+  justify-self:start;
+  width:100%;
+  max-width:760px;
+}
+#portfolio-site .notes .wall .fig {
+  grid-column:9 / 13;
+  justify-self:stretch;
+  width:100%;
+  margin-top:clamp(32px,7vw,104px);
+}
+#portfolio-site .notes .wall .breath {
+  grid-column:5 / 13;
+  justify-self:end;
+  width:min(100%,720px);
+  margin:0;
+}
+#portfolio-site .notes .wall .archive-entry-link > img {
+  display:block;
+  width:100%;
+  max-width:100%;
+  height:auto;
+  aspect-ratio:auto;
+  object-fit:contain;
+}
+#portfolio-site .notes .wall .archive-entry-meta {margin-top:14px;}
+
+/* ABOUT: left stippled <333 stays experimental but does not shout over prose. */
+#portfolio-site .about-body {
+  display:grid;
+  grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
+  align-items:center;
+  column-gap:clamp(52px,8vw,135px);
+  row-gap:0;
+  width:min(100%,1150px);
+  margin-inline:auto;
+}
+#portfolio-site .about-body .about-identity {
+  position:relative;
+  min-height:clamp(420px,47vw,580px);
+  grid-column:1;
+  grid-row:1;
+  margin:0;
+  width:100%;
+  align-self:center;
+  overflow:visible;
+}
+#portfolio-site .about-body .about-identity .question {
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:max-content;
+  max-width:none;
+  font-size:clamp(88px,10vw,150px)!important;
+  line-height:1!important;
+  transform:translate(-50%,-50%) scaleY(2.2)!important;
+  transform-origin:center;
+  white-space:nowrap;
+}
+#portfolio-site .about-body .about-poem {
+  grid-column:2;
+  grid-row:1;
+  width:100%;
+  max-width:580px;
+  font-size:clamp(16px,1.25vw,19px);
+  line-height:1.65;
+}
+#portfolio-site .about-body .about-poem .about-name {
+  font-size:clamp(45px,4.5vw,68px)!important;
+  line-height:1.06;
+}
+#portfolio-site .about-body .about-poem .about-given-name {margin-bottom:clamp(22px,2.4vw,38px);}
+#portfolio-site .about-body .about-poem p+p {margin-top:clamp(16px,1.7vw,25px);}
+#portfolio-site .about-body .about-poem .about-slogan {margin-top:clamp(34px,4vw,54px);}
+
+/* CONTACT: expressive oversized headline, but with the same proportion
+   discipline as Home and About; preserve the animated Angel canvas. */
+#portfolio-site .contact {
+  min-height:0;
+  padding-block:clamp(32px,4vw,58px) clamp(70px,7.5vw,115px);
+  overflow:hidden;
+}
+#portfolio-site .contact-layout {
+  display:grid;
+  grid-template-columns:minmax(0,.96fr) minmax(0,1.04fr);
+  align-items:center;
+  gap:clamp(34px,5.4vw,86px);
+  min-height:clamp(520px,67svh,710px);
+  margin-top:0;
+}
+#portfolio-site .contact .contact-heading {min-width:0;}
+#portfolio-site .contact .contact-heading h2 {
+  font-size:clamp(118px,12.6vw,240px)!important;
+  line-height:.9!important;
+  letter-spacing:-.082em!important;
+  transform:scaleX(.9);
+  transform-origin:left center;
+}
+#portfolio-site .contact-line-two {margin-left:clamp(45px,7vw,130px);}
+#portfolio-site .contact-details {
+  min-width:0;
+  padding:clamp(16px,4vh,45px) 0 0;
+}
+#portfolio-site .contact-email {
+  font-size:clamp(22px,2.25vw,36px)!important;
+  max-width:100%;
+  white-space:normal;
+  overflow-wrap:anywhere;
+}
+#portfolio-site .contact-socials {
+  margin-top:clamp(44px,6vw,86px);
+  gap:clamp(14px,1.6vw,28px);
+}
+
+/* All white panels have natural intrinsic height. Unlike the previous
+   100svh sticky stack, no section waits pinned while the next moves over it.
+   Motion only gently moves its existing content inside these full-size boxes. */
+html.paper-stack-enabled .site > main > section.paper-stack-panel {
+  position:relative!important;
+  top:auto!important;
+  min-height:0;
+  z-index:auto;
+  border-radius:0!important;
+  border-top:0;
+  box-shadow:none!important;
+  outline:0;
+  transform:none!important;
+  overflow:visible;
+}
+html.paper-stack-enabled .site > main > section.paper-stack-panel > :not(.contact-angel-canvas) {
+  translate:0 var(--editorial-content-y,0px);
+  opacity:var(--editorial-content-alpha,1);
+  transition:none;
+}
+html.paper-stack-enabled .site > main > footer.footer {
+  box-shadow:none!important;
+  border-top:1px solid var(--theme-line,#d7d1cc);
+}
+/* Preserve scroll-motion line wrappers for intended text breaks but let
+   whole-section editorial rhythm replace per-line/per-row reveals. */
+html.paper-stack-enabled .motion-lines .motion-line-mask,
+html.paper-stack-enabled .motion-lines .motion-line-text {display:block;}
+html.paper-stack-enabled .motion-lines .motion-line-text {
+  opacity:1!important;
+  transform:none!important;
+  transition:none!important;
+}
+html.paper-stack-enabled .works .work-list details[data-row-reveal] {
+  opacity:1!important;
+  translate:0 0!important;
+  transition:none!important;
+}
+html.paper-stack-enabled [data-reveal] {
+  opacity:1!important;
+  transform:none!important;
+  transition:none!important;
+}
+
+/* TABLET — two columns where useful, but no forced full-screen stickiness. */
+@media (max-width:1100px) and (min-width:701px) {
+  #portfolio-site .hero {
+    grid-template-columns:minmax(0,1fr) minmax(0,.8fr);
+    gap:clamp(22px,3.2vw,52px);
+    min-height:690px;
+  }
+  #portfolio-site .hero-left {min-height:570px;}
+  #portfolio-site .hero-right .lotus-manifesto-figure {width:min(100%,250px);}
+  #portfolio-site .notes .wall {grid-template-columns:repeat(2,minmax(0,1fr));}
+  #portfolio-site .notes .wall .lotus {grid-column:1/-1;width:min(100%,650px);}
+  #portfolio-site .notes .wall .fig {grid-column:1; margin-top:0; width:100%;}
+  #portfolio-site .notes .wall .breath {grid-column:2; width:100%;}
+  #portfolio-site .about-body {column-gap:clamp(36px,4vw,70px);}
+  #portfolio-site .about-body .about-identity .question {font-size:clamp(88px,11vw,120px)!important;}
+  #portfolio-site .contact-layout {grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:30px;}
+  #portfolio-site .contact .contact-heading h2{font-size:clamp(105px,13.6vw,170px)!important;}
+}
+
+/* MOBILE — restore comfortable reading flow. No compressed full-height
+   pinning, transforms or oversized independent image margins. */
+@media (max-width:700px) {
+  :root {
+    --editorial-gutter:clamp(20px,5.2vw,26px);
+    --editorial-space:clamp(72px,13vw,98px);
+    --editorial-section-title:clamp(55px,12vw,75px);
+  }
+  #portfolio-site > .site {padding-inline:var(--editorial-gutter);}
+  #portfolio-site .site > main > section,
+  #portfolio-site .site > main > footer.footer {
+    padding-inline:var(--editorial-gutter);
+  }
+  #portfolio-site .hero {
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:clamp(24px,5vw,38px);
+    min-height:0;
+    padding-block:clamp(32px,7vw,52px) clamp(70px,11vw,98px);
+  }
+  #portfolio-site .hero-left {
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    min-height:0;
+  }
+  #portfolio-site .hero-left > .kicker {font-size:11px;}
+  #portfolio-site .hero-identity {margin:clamp(34px,9vw,56px) auto 25px;}
+  #portfolio-site .hero-title.hero-signature {
+    font-size:clamp(40px,10.2vw,61px)!important;
+    line-height:1.15!important;
+  }
+  #portfolio-site .hero-tagline {font-size:clamp(14px,3.8vw,17px);}
+  #portfolio-site .hero-bottom {max-width:420px;margin:0 auto;}
+  #portfolio-site .hero-intro {font-size:clamp(16px,4vw,18px);line-height:1.5;}
+  #portfolio-site .hero-bottom .kicker {font-size:11px;line-height:1.55;}
+  #portfolio-site .hero-right.hero-lotus-stage {min-height:0;margin:0;gap:12px;}
+  #portfolio-site .hero-right .lotus-manifesto-figure {
+    width:min(68vw,238px);
+    margin:auto;
+  }
+  #portfolio-site .hero-right.hero-lotus-stage .side-note {font-size:10px;margin-right:0;}
+  #portfolio-site .works .section-top,
+  #portfolio-site .about .section-top {margin-bottom:clamp(32px,8vw,50px);}
+  #portfolio-site .work-list .name {font-size:clamp(28px,7.7vw,41px);}
+  #portfolio-site .work-list summary {min-height:0;padding-block:clamp(18px,5vw,27px);}
+  #portfolio-site .note-band {
+    min-height:0;
+    padding-block:clamp(86px,16vw,115px);
+  }
+  #portfolio-site .note-band .inner {
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:clamp(25px,5vw,42px);
+  }
+  #portfolio-site .note-band p {
+    font-size:clamp(53px,12.6vw,80px)!important;
+    line-height:1!important;
+  }
+  #portfolio-site .notes .wall {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:clamp(28px,7vw,46px) clamp(18px,4vw,26px);
+    margin-top:clamp(38px,9vw,54px);
+  }
+  #portfolio-site .notes .wall .lotus {
+    grid-column:1/-1;
+    width:100%;
+    max-width:none;
+  }
+  #portfolio-site .notes .wall .fig {
+    grid-column:1/-1;
+    width:min(78%,370px);
+    justify-self:start;
+    margin:0;
+  }
+  #portfolio-site .notes .wall .breath {
+    grid-column:1/-1;
+    width:min(86%,490px);
+    justify-self:end;
+    margin:0;
+  }
+  #portfolio-site .about-body {
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:clamp(32px,7vw,52px);
+  }
+  #portfolio-site .about-body .about-identity {
+    position:relative;
+    min-height:clamp(190px,48vw,300px);
+    width:100%;
+  }
+  #portfolio-site .about-body .about-identity .question {
+    left:50%;
+    top:50%;
+    font-size:clamp(65px,16vw,96px)!important;
+    transform:translate(-50%,-50%) scaleY(1.65)!important;
+  }
+  #portfolio-site .about-body .about-poem {
+    width:100%;
+    max-width:560px;
+    font-size:16px;
+    line-height:1.62;
+  }
+  #portfolio-site .about-body .about-poem .about-name {
+    font-size:clamp(46px,11vw,62px)!important;
+  }
+  #portfolio-site .contact {
+    min-height:0;
+    padding-block:28px clamp(78px,12vw,110px);
+  }
+  #portfolio-site .contact-layout {
+    display:flex;
+    flex-direction:column;
+    align-items:stretch;
+    gap:clamp(50px,11vw,80px);
+    min-height:0;
+    margin-top:clamp(54px,10vw,80px);
+  }
+  #portfolio-site .contact .contact-heading {
+    align-self:stretch;
+    justify-content:flex-start;
+  }
+  #portfolio-site .contact .contact-heading h2 {
+    font-size:clamp(84px,20vw,143px)!important;
+    line-height:.91!important;
+    transform:scaleX(.9);
+  }
+  #portfolio-site .contact-line-two {margin-left:clamp(40px,15vw,92px);}
+  #portfolio-site .contact-details {margin:0;padding:0;align-self:stretch;}
+  #portfolio-site .contact-email {
+    font-size:clamp(20px,5vw,29px)!important;
+    white-space:normal;
+  }
+  #portfolio-site .contact-socials {margin-top:clamp(38px,8vw,55px);}
+  html.paper-stack-enabled .site > main > section.paper-stack-panel > :not(.contact-angel-canvas) {
+    /* Avoid visual collisions on narrow and tall mobile sections. */
+    translate:0 0!important;
+    opacity:1!important;
+  }
+}
+@media(max-width:360px) {
+  :root {--editorial-gutter:20px;--editorial-section-title:52px;}
+  #portfolio-site .hero-title.hero-signature {font-size:40px!important;}
+  #portfolio-site .contact .contact-heading h2 {font-size:80px!important;}
+  #portfolio-site .contact-line-two {margin-left:40px;}
+}
+/* Motion accessibility, no layout collapse. */
+@media(prefers-reduced-motion:reduce) {
+  html.paper-stack-enabled .site > main > section.paper-stack-panel > * {
+    opacity:1!important;
+    translate:0 0!important;
+  }
+}
