@@ -1,4 +1,4 @@
-/* v69: Full-site editorial rhythm audit, using the REAL Next.js export.
+/* v72: Experimental art-zine responsive layout audit using the REAL Next.js export.
    No screenshot-only or viewport-only smoke claims: check actual geometry
    across sections, intrinsic image ratios, layout, mobile and scroll motion. */
 import puppeteer from 'puppeteer-core';
@@ -120,18 +120,18 @@ for(const [name,width,height] of cases){
    'paper texture unexpectedly returned');
   assert.deepEqual(initial.heroColumns.intrinsic,[791,1989],'lotus original image resized');
   assert(initial.heroColumns.imgSource.startsWith('data:image/png;base64,'),'lotus white matte restored');
-  assert(initial.headings.every(x=>x.font>=40&&x.font<=116),'headline scale outside readable bounds');
-  assert(Math.abs(initial.headings[0].font-initial.headings[2].font)<2,
-    'work and about must retain their shared main-section heading scale');
-  assert(initial.headings[1].font<initial.headings[0].font*.9
-      && initial.headings[1].font>=initial.headings[0].font*.6,
-    'the smaller Things on My Desktop heading is disproportionate');
+  assert(initial.headings.every(x=>x.font>=40&&x.font<=138),'headline scale outside readable bounds');
+  assert(initial.headings[0].font>initial.headings[1].font*1.03,
+    'experimental editorial index should be more prominent than archive heading');
+  assert(initial.headings[2].font>=initial.headings[0].font*.72 &&
+         initial.headings[2].font<=initial.headings[0].font*1.4,
+    'About headline is out of scale with the editorial index');
   if(width>700) {
-    assert(initial.archive.figures[0].w<=600,
+    assert(initial.archive.figures[0].w<=765,
       'first Archive artwork overpowers the editorial column');
-    assert(initial.archive.figures[1].w>=initial.archive.figures[0].w*.60,
+    assert(initial.archive.figures[1].w>=initial.archive.figures[0].w*.38,
       'second Archive artwork is visually lost beside the first');
-    assert(initial.about.identity.h<=450,
+    assert(initial.about.identity.h<=initial.about.prose.h*1.2,
       'desktop About decoration reserves too much empty vertical space');
     assert(initial.about.glyphScale!=='' && initial.about.question.h>=initial.about.prose.h*.82,
       'desktop stippled <333 is not stretched to the biography height');
