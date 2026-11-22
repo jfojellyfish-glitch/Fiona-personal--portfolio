@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap");
 /* v46 — three small content drawers. Extends v45; does not restyle the homepage. */
 .archive-collection {width:min(100%,1040px);margin:6px auto clamp(75px,9vw,150px);}
 .archive-collection[hidden],.pearl-reader[hidden],.photo-lightbox[hidden] {display:none!important;}
@@ -109,3 +110,173 @@
 .archive-search-count,.archive-search-empty{font:400 12px/1.6 Arial,sans-serif;color:var(--theme-secondary,#67615f)}
 .archive-search-empty{text-align:center;margin:80px 0}
 @media(max-width:700px){.archive-search-label input{width:min(60vw,260px)}}
+
+/* Pearls / literary editorial typography.
+   Purposefully isolated from the art-zine homepage, other drawers and intro.
+   Display: Cormorant Garamond / prose: Newsreader / verses: Songti. */
+#writing-page {
+  --pearl-display:"Cormorant Garamond","Iowan Old Style","Baskerville",Georgia,serif;
+  --pearl-prose:"Newsreader","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --pearl-han:"Songti SC","STSong","Noto Serif CJK SC","Source Han Serif SC","SimSun",serif;
+}
+#writing-page .pearl-card {
+  padding-block:clamp(30px,4vw,54px);
+}
+#writing-page .pearl-card-title {
+  font-family:var(--pearl-display)!important;
+  font-size:clamp(41px,4.8vw,72px);
+  font-weight:500!important;
+  font-style:normal;
+  line-height:.99;
+  letter-spacing:-.039em!important;
+  text-transform:none;
+  text-wrap:balance;
+  margin-bottom:13px;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+#writing-page .pearl-card-date,
+#writing-page .pearl-reader-date {
+  font:400 10px/1.55 Arial,Helvetica,sans-serif;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:#736e6b;
+}
+#writing-page .pearl-card-description {
+  font-family:var(--pearl-prose);
+  font-style:italic;
+  font-size:clamp(15px,1.4vw,18px);
+  line-height:1.5;
+  color:#615b58;
+  max-width:46ch;
+}
+#writing-page .pearl-reader {
+  max-width:720px;
+  margin:clamp(30px,5vw,72px) auto clamp(75px,9vw,140px);
+}
+#writing-page .pearl-reader-date {
+  margin:clamp(53px,8vw,100px) 0 24px;
+}
+#writing-page .pearl-reader > h2 {
+  font-family:var(--pearl-display)!important;
+  font-size:clamp(61px,8.3vw,114px);
+  font-weight:500!important;
+  font-style:normal!important;
+  line-height:.94;
+  letter-spacing:-.047em!important;
+  text-transform:none!important;
+  text-wrap:balance;
+  overflow-wrap:normal;
+  hyphens:none;
+  margin:0 0 clamp(57px,7vw,92px);
+  color:#282320;
+  text-rendering:optimizeLegibility;
+  -webkit-font-smoothing:antialiased;
+}
+#writing-page .pearl-reader-body {
+  font-family:var(--pearl-prose);
+  font-size:clamp(18px,1.63vw,21px);
+  font-weight:400;
+  font-style:normal;
+  line-height:1.74;
+  letter-spacing:-.007em;
+  color:#332e2c;
+  font-optical-sizing:auto;
+  font-kerning:normal;
+  font-variant-ligatures:common-ligatures;
+  text-rendering:optimizeLegibility;
+  overflow-wrap:break-word;
+  -webkit-font-smoothing:antialiased;
+}
+#writing-page .pearl-reader-body > p {
+  margin:0 0 1.55em;
+}
+#writing-page .pearl-reader-body > p:first-child {
+  font-size:clamp(22px,2.1vw,27px);
+  line-height:1.53;
+  letter-spacing:-.022em;
+  color:#292421;
+  margin-bottom:2em;
+}
+#writing-page .pearl-reader-body blockquote {
+  max-width:100%;
+  margin:2.1em 0 2.2em;
+  padding:0 0 0 clamp(23px,3.2vw,35px);
+  border-left:1px solid #b9b0aa;
+  color:#58504c;
+  font-family:var(--pearl-display);
+  font-size:clamp(27px,3vw,37px);
+  font-weight:400;
+  font-style:italic;
+  line-height:1.3;
+  letter-spacing:-.012em;
+}
+#writing-page .pearl-reader-body blockquote p {
+  margin:0;
+  white-space:pre-line;
+}
+#writing-page .pearl-reader-body blockquote[lang="zh"] {
+  font-family:var(--pearl-han);
+  font-size:clamp(20px,2vw,24px);
+  font-weight:400;
+  font-style:normal;
+  line-height:2.0;
+  letter-spacing:.075em;
+  color:#4f4743;
+}
+#writing-page .pearl-reader-body p[lang="zh"] {
+  font-family:var(--pearl-han);
+  font-style:normal;
+  line-height:1.9;
+}
+#writing-page .pearl-reader-body p.pearl-interlude {
+  font-size:clamp(21px,2.1vw,26px);
+  letter-spacing:.09em;
+  color:#635850;
+  text-align:center;
+  margin:clamp(65px,9vw,114px) 0;
+}
+#writing-page .pearl-reader-body h2,
+#writing-page .pearl-reader-body h3 {
+  font-family:var(--pearl-display)!important;
+  font-weight:500!important;
+  text-transform:none!important;
+  letter-spacing:-.027em!important;
+  line-height:1.08;
+}
+#writing-page .pearl-reader-back,
+#writing-page .pearl-reader-bottom {
+  font:400 11px/1.6 Arial,Helvetica,sans-serif;
+  letter-spacing:.05em;
+}
+@media(max-width:700px) {
+  #writing-page .pearl-card {padding-block:29px;}
+  #writing-page .pearl-card-title {font-size:clamp(35px,9.1vw,53px);letter-spacing:-.032em!important;}
+  #writing-page .pearl-card-date {font-size:9px;letter-spacing:.07em;}
+  #writing-page .pearl-card-description {font-size:15px;}
+  #writing-page .pearl-reader {margin:24px auto 80px;}
+  #writing-page .pearl-reader-date {margin:62px 0 20px;}
+  #writing-page .pearl-reader > h2 {
+    font-size:clamp(52px,12.6vw,75px);
+    line-height:.98;
+    letter-spacing:-.04em!important;
+    margin-bottom:52px;
+  }
+  #writing-page .pearl-reader-body {
+    font-size:18px;
+    line-height:1.78;
+    letter-spacing:-.004em;
+  }
+  #writing-page .pearl-reader-body > p:first-child {font-size:22px;line-height:1.53;}
+  #writing-page .pearl-reader-body blockquote {font-size:29px;padding-left:17px;margin:2em 0;}
+  #writing-page .pearl-reader-body blockquote[lang="zh"] {
+    font-size:18px;
+    letter-spacing:.035em;
+    line-height:2.05;
+  }
+  #writing-page .pearl-reader-body p.pearl-interlude {
+    font-size:21px;
+    letter-spacing:.04em;
+    margin:65px 0;
+  }
+}

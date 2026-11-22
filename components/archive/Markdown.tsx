@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 
 /** Minimal Markdown subset rendered as React elements: no raw HTML or injection. */
 const rx=/(\[[^\]\n]+\]\(https?:\/\/[^\s)]+\)|\*\*[^*\n]+\*\*|\*[^*\n]+\*)/g;
+const isChineseOnly=(value:string)=>/[\u3400-\u9fff]/.test(value)&&!/[A-Za-z]/.test(value);
 function inline(text:string):ReactNode[]{
  const parts=text.split(rx);
  return parts.filter(Boolean).map((part,i)=>{
@@ -29,7 +30,8 @@ export function Markdown({text}:{text:string}){
    }
    if(/^>\s/.test(line)){const start=i;const quote:string[]=[];
      while(i<lines.length&&/^>\s/.test(lines[i].trim()))quote.push(lines[i++].trim().slice(2));
-     out.push(<blockquote key={start}><p>{inline(quote.join(' '))}</p></blockquote>);continue;
+     const quoteText=quote.join('\n');
+     out.push(<blockquote key={start} lang={isChineseOnly(quoteText)?'zh':undefined}><p>{inline(quoteText)}</p></blockquote>);continue;
    }
    const unordered=/^[-*]\s+/.test(line),ordered=/^\d+\.\s+/.test(line);
    if(unordered||ordered){const start=i;const items:ReactNode[]=[];const pattern=unordered?/^[-*]\s+(.+)$/:/^\d+\.\s+(.+)$/;
@@ -38,7 +40,10 @@ export function Markdown({text}:{text:string}){
    }
    const start=i,paragraph:string[]=[];
    while(i<lines.length){const t=lines[i].trim();if(!t||/^(#{1,3})\s|^>\s|^[-*]\s|^\d+\.\s|^---+$/.test(t))break;paragraph.push(t);i++;}
-   if(paragraph.length)out.push(<p key={start}>{inline(paragraph.join(' '))}</p>);
+   if(paragraph.length){
+     const paragraphText=paragraph.join(' '),isHan=isChineseOnly(paragraphText);
+     out.push(<p key={start} lang={isHan?'zh':undefined} className={isHan&&[...paragraphText].length<=30?'pearl-interlude':undefined}>{inline(paragraphText)}</p>);
+   }
  }
  return <>{out}</>;
 }
