@@ -1,13 +1,13 @@
 {
   "photos": [
     {
-      "title": "01",
-      "file": "assets/photography/green-threshold-2025-07-25.webp",
-      "alt": "Deep green leaves framing a sunlit lawn and garden path",
+      "file": "assets/photography/cafe-2025-05-16.webp",
+      "alt": "A warmly lit cafe filled with theatrical posters, wooden chairs and people seated at tables",
       "year": "2025",
-      "date": "2025-07-25",
+      "date": "2025-05-16",
       "width": 1152,
-      "height": 1536
+      "height": 1536,
+      "title": "01"
     },
     {
       "title": "02",
@@ -20,15 +20,60 @@
     },
     {
       "title": "03",
-      "file": "assets/photography/bench-by-the-sea-2025-12-16.webp",
-      "alt": "Two distant people seated by the sea, viewed through a temporary fence beneath trees",
+      "file": "assets/photography/green-threshold-2025-07-25.webp",
+      "alt": "Deep green leaves framing a sunlit lawn and garden path",
       "year": "2025",
-      "date": "2025-12-16",
-      "width": 1536,
-      "height": 1152
+      "date": "2025-07-25",
+      "width": 1152,
+      "height": 1536
     },
     {
-      "title": "04",
+      "file": "assets/photography/jellyfish-2025-08-27.webp",
+      "alt": "Glowing jellyfish in a vivid blue circular aquarium, partly framed by a visitor silhouette",
+      "year": "2025",
+      "date": "2025-08-27",
+      "width": 1152,
+      "height": 1536,
+      "title": "04"
+    },
+    {
+      "file": "assets/photography/angel-2025-08-28.webp",
+      "alt": "A white winged angel sculpture in front of a saturated red wall",
+      "year": "2025",
+      "date": "2025-08-28",
+      "width": 1152,
+      "height": 1536,
+      "title": "05"
+    },
+    {
+      "file": "assets/photography/coast-2025-09-09.webp",
+      "alt": "Blue sea and a rocky headland beyond a sunlit field of dry golden grass",
+      "year": "2025",
+      "date": "2025-09-09",
+      "width": 1152,
+      "height": 1536,
+      "title": "06"
+    },
+    {
+      "file": "assets/photography/cat-2025-11-16.webp",
+      "alt": "A grey and white cat peeking out between pale blankets",
+      "year": "2025",
+      "date": "2025-11-16",
+      "width": 1536,
+      "height": 1152,
+      "title": "07"
+    },
+    {
+      "file": "assets/photography/shadows-2025-12-16.webp",
+      "alt": "Two overlapping human shadows on sunlit pavement made of square stone tiles",
+      "year": "2025",
+      "date": "2025-12-16",
+      "width": 1152,
+      "height": 1536,
+      "title": "08"
+    },
+    {
+      "title": "09",
       "file": "assets/photography/sea-inlet-2025-12-16.webp",
       "alt": "A sheltered pool between sandy banks opening toward the sea beneath cloudy skies",
       "year": "2025",
@@ -37,7 +82,16 @@
       "height": 1152
     },
     {
-      "title": "05",
+      "title": "10",
+      "file": "assets/photography/bench-by-the-sea-2025-12-16.webp",
+      "alt": "Two distant people seated by the sea, viewed through a temporary fence beneath trees",
+      "year": "2025",
+      "date": "2025-12-16",
+      "width": 1536,
+      "height": 1152
+    },
+    {
+      "title": "11",
       "file": "assets/photography/hall-of-light-2025-12-17.webp",
       "alt": "A large sunlit hall with repeating arches, worn walls and reflective dark floor",
       "year": "2025",
@@ -46,22 +100,22 @@
       "height": 1536
     },
     {
-      "title": "06",
-      "file": "assets/photography/radiology-2025-12-17.webp",
-      "alt": "An illuminated display of historic radiology prints and a medical advertisement",
-      "year": "2025",
-      "date": "2025-12-17",
-      "width": 1152,
-      "height": 1536
-    },
-    {
-      "title": "07",
+      "title": "12",
       "file": "assets/photography/fruit-market-2025-12-17.webp",
       "alt": "Market baskets of apples, oranges, persimmons, avocados and pears",
       "year": "2025",
       "date": "2025-12-17",
       "width": 1536,
       "height": 1152
+    },
+    {
+      "title": "13",
+      "file": "assets/photography/radiology-2025-12-17.webp",
+      "alt": "An illuminated display of historic radiology prints and a medical advertisement",
+      "year": "2025",
+      "date": "2025-12-17",
+      "width": 1152,
+      "height": 1536
     }
   ]
 }
