@@ -39,7 +39,7 @@ jobs:
         run: node scripts/audit-contact.mjs
       - name: Verify Retrogression webfont on desktop and mobile
         run: node scripts/audit-intro-font.mjs
-      - name: Verify whole-section paper stacking on desktop, iPad and mobile
+      - name: Verify editorial rhythm, artwork proportions and mobile section flow
         run: node scripts/audit-paper-stack.mjs
       - uses: actions/upload-artifact@v4
         if: always()
@@ -49,3 +49,4 @@ jobs:
             smoke-*.png
             contact-audit-*.jpg
             paper-stack-*.png
+            editorial-*.png
