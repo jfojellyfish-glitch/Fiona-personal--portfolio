@@ -108,9 +108,16 @@ for(const [name,width,height] of cases){
    'paper texture unexpectedly returned');
   assert.deepEqual(initial.heroColumns.intrinsic,[791,1989],'lotus original image resized');
   assert(initial.heroColumns.imgSource.startsWith('data:image/png;base64,'),'lotus white matte restored');
-  assert(initial.headings.every(x=>x.font>=48&&x.font<=116),'headings no longer share an editorial type scale');
-  assert(Math.max(...initial.headings.map(x=>x.font)) - Math.min(...initial.headings.map(x=>x.font))<2,
-   'work, notes and about headings diverged');
+  assert(initial.headings.every(x=>x.font>=40&&x.font<=116),'headline scale outside readable bounds');
+  assert(Math.abs(initial.headings[0].font-initial.headings[2].font)<2,
+    'work and about must retain their shared main-section heading scale');
+  assert(initial.headings[1].font<initial.headings[0].font*.9
+      && initial.headings[1].font>=initial.headings[0].font*.6,
+    'the smaller Things on My Desktop heading is disproportionate');
+  if(width>700) {
+    assert(initial.archive.figures[0].w<=640,
+      'first Archive artwork overpowers the editorial column');
+  }
   assert(initial.archive.images.length===3 && initial.archive.figures.length===3);
   assert(initial.archive.images.every(i=>i.h>25),
     'lazy archive image collapsed before entering the viewport');
