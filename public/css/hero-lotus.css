@@ -56,3 +56,10 @@ html.motion-v28 .hero-right .lotus-manifesto-figure .apple.lotus-manifesto {
   .hero-right .lotus-manifesto-figure { width: min(76vw, 265px); }
   .hero-right.hero-lotus-stage .side-note { margin-right: 0; font-size: 10px; }
 }
+
+/* v65: when the actual PNG matte has been cleared to alpha, blend the
+   preserved lotus/annotations normally against the site's solid background. */
+.hero-right .lotus-manifesto-figure img.lotus-manifesto[data-matte-removed="true"] {
+  mix-blend-mode:normal!important;
+  background:transparent!important;
+}
