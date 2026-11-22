@@ -316,11 +316,12 @@
 #photography-page .photo-card .photo-caption {
   display:block;
   margin-top:12px;
-  font-family:"Retrogression","Courier New",monospace;
-  font-size:clamp(12px,1.1vw,15px);
-  line-height:1.4;
-  font-weight:400;
-  letter-spacing:.045em;
+  /* Match the exact type, muted tone and opacity of "drawer no. 03 / photographs". */
+  font:11px Arial,sans-serif;
+  letter-spacing:.035em;
+  text-transform:lowercase;
+  color:#666;
+  opacity:1;
 }
 #photography-page .photo-card .photo-meta {
   font-family:"Retrogression","Courier New",monospace;
