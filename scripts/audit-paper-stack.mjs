@@ -153,6 +153,20 @@ for(const [name,width,height] of cases){
                 || motion.actualTextTranslate==='0px 0px',
                 'mobile section content moves and may overlap');
 
+  const imageGeometry=await page.evaluate(async()=>{
+    const images=[...document.querySelectorAll('#notes .wall figure img')];
+    const before=images.map(i=>i.getBoundingClientRect().height);
+    const note=document.querySelector('#notes');
+    const initialNoteHeight=note.getBoundingClientRect().height;
+    await Promise.all(images.map(async i=>{
+      i.loading='eager';
+      try {await i.decode();}catch{}
+    }));
+    const after=images.map(i=>i.getBoundingClientRect().height);
+    return {before,after,images:images.map(i=>({w:i.naturalWidth,h:i.naturalHeight,complete:i.complete,src:i.currentSrc.split('/').at(-1)})),
+      noteBefore:initialNoteHeight,noteAfter:note.getBoundingClientRect().height};
+  });
+  console.log('EDITORIAL_IMAGE_GEOMETRY '+name+' '+JSON.stringify(imageGeometry));
   await page.screenshot({path:'paper-stack-'+name+'.png'});
   if(['desktop','mobile'].includes(name)){
    for(const section of ['notes','about','contact']){
