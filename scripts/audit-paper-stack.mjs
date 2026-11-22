@@ -81,7 +81,8 @@ for(const [name,width,height] of cases){
        textAlign:style(note.querySelector('.inner > p')).textAlign},
      archive:{figures:ns.map(rect),images:noteImages.map(rect)},
      about:{identity:rect(about.querySelector('.about-identity')),prose:rect(about.querySelector('.about-poem')),
-       question:rect(about.querySelector('.question'))},
+       question:rect(about.querySelector('.question')),
+        glyphScale:getComputedStyle(about.querySelector('.question')).getPropertyValue('--about-vertical-scale').trim()},
      contact:{heading:rect(contact.querySelector('.contact-heading')),
        details:rect(contact.querySelector('.contact-details')),
        email:rect(contact.querySelector('.contact-email')),
@@ -132,11 +133,17 @@ for(const [name,width,height] of cases){
       'second Archive artwork is visually lost beside the first');
     assert(initial.about.identity.h<=450,
       'desktop About decoration reserves too much empty vertical space');
+    assert(initial.about.glyphScale!=='' && initial.about.question.h>=initial.about.prose.h*.82,
+      'desktop stippled <333 is not stretched to the biography height');
+    assert(initial.about.question.h<=initial.about.prose.h*1.65,
+      'desktop stippled <333 extends too far beyond the biography');
     assert(initial.heroColumns.intro.y-initial.heroColumns.identity.bottom<150,
       'hero introduction is disconnected from the signature');
   } else {
     assert(initial.about.identity.h<=170,
       'mobile About decoration pushes biography too far down');
+    assert(initial.about.glyphScale==='',
+      'mobile About decoration inherited the desktop vertical stretch');
   }
   assert(initial.archive.images.length===3 && initial.archive.figures.length===3);
   assert(initial.archive.images.every(i=>i.h>25),
