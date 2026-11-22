@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="color-scheme" content="light" />
         <meta name="theme-color" content="#f8f5f1" />
         <link rel="icon" type="image/png" href={`${prefix}/assets/lotus-growth.png`} />
-        {styles.map(name => <link key={name} rel="stylesheet" href={`${prefix}/css/${name}.css${name === "paper-stack" ? "?v=67-archive-balance" : ""}`} />)}
+        {styles.map(name => <link key={name} rel="stylesheet" href={`${prefix}/css/${name}.css${name === "paper-stack" ? "?v=68-statement-top" : ""}`} />)}
       </head>
       <body className="intro-locked">{children}</body>
     </html>
