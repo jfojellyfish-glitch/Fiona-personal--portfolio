@@ -1,12 +1,13 @@
 'use client';
 import {PlainArrow} from '@/components/PlainArrow';
-import {useEffect,useRef,useState} from 'react';
+import {useEffect,useLayoutEffect,useRef,useState} from 'react';
 import {assetUrl,formatDate} from './types';
 import type {Photo} from './types';
 
 export function PhotographyDrawer({photos,active}:{photos:Photo[];active:boolean}){
  const [selected,setSelected]=useState<number|null>(null);
  const closeRef=useRef<HTMLButtonElement>(null);
+ const sectionRef=useRef<HTMLElement>(null);
  const prior=useRef<HTMLElement|null>(null);
  const close=()=>{setSelected(null);};
  const open=(p:Photo)=>{
@@ -32,8 +33,36 @@ export function PhotographyDrawer({photos,active}:{photos:Photo[];active:boolean
    document.addEventListener('keydown',handler,true);
    return ()=>document.removeEventListener('keydown',handler,true);
  },[selected,photos.length]);
+ // Reveal photographs as they enter the viewport, without changing layout or crop.
+ // Disconnect once visible, and retain a visible fallback for old browsers.
+ useLayoutEffect(()=>{
+   if(!active || typeof window==='undefined')return;
+   const section=sectionRef.current;
+   if(!section)return;
+   if(!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+   const cards=Array.from(section.querySelectorAll<HTMLButtonElement>('.photo-card'));
+   const observer=new IntersectionObserver(entries=>{
+     entries.forEach(entry=>{
+       if(!entry.isIntersecting)return;
+       entry.target.classList.add('photo-revealed');
+       observer.unobserve(entry.target);
+     });
+   },{rootMargin:'0px 0px -7% 0px',threshold:0.04});
+   cards.forEach((card,index)=>{
+     card.style.setProperty('--photo-reveal-delay',`${index%3*70}ms`);
+     card.classList.add('photo-awaiting');
+     observer.observe(card);
+   });
+   return ()=>{
+     observer.disconnect();
+     cards.forEach(card=>{
+       card.classList.remove('photo-awaiting','photo-revealed');
+       card.style.removeProperty('--photo-reveal-delay');
+     });
+   };
+ },[active,photos]);
  const selectedPhoto=selected!==null?photos[selected]:null;
- return <section aria-label="Photography" className="archive-page" data-archive-page="photography" id="photography-page" hidden={!active}>
+ return <section ref={sectionRef} aria-label="Photography" className="archive-page" data-archive-page="photography" id="photography-page" hidden={!active}>
    <div className="archive-page-inner">
      <div className="archive-page-top"><a className="archive-back" href="#notes"><PlainArrow direction="left" /> back to index</a><span>fᵢₒₙₐ / 03</span></div>
      <header className="archive-page-heading"><p className="archive-overline">drawer no. 03 / photographs</p>
@@ -53,7 +82,7 @@ export function PhotographyDrawer({photos,active}:{photos:Photo[];active:boolean
          <button ref={closeRef} type="button" className="photo-close" aria-label="Close photograph" onClick={close}>close ×</button></div>
        <div className="photo-lightbox-body">
          <button type="button" aria-label="Previous photograph" onClick={()=>setSelected(n=>n===null?null:(n-1+photos.length)%photos.length)}><PlainArrow direction="left" /></button>
-         <img src={assetUrl(selectedPhoto.file)} alt={selectedPhoto.alt||selectedPhoto.title} width={selectedPhoto.width} height={selectedPhoto.height}/>
+         <img key={selectedPhoto.file} src={assetUrl(selectedPhoto.file)} alt={selectedPhoto.alt||selectedPhoto.title} width={selectedPhoto.width} height={selectedPhoto.height}/>
          <button type="button" aria-label="Next photograph" onClick={()=>setSelected(n=>n===null?null:(n+1)%photos.length)}><PlainArrow direction="right" /></button>
        </div>
        <div className="photo-lightbox-caption"><span>{formatDate(selectedPhoto.date)||selectedPhoto.year}</span></div>
