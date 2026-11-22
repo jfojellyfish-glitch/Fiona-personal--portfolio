@@ -9,6 +9,10 @@
    --section-space: consistent vertical rhythm, with intentional exceptions
    --section-heading: related type sizes across Work / Notes / About
 */
+/* Provide actual glyph coverage for the Bamum and Syriac marks in the
+   original handwritten slogan, without replacing its characters. */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Bamum&family=Noto+Sans+Syriac&display=swap");
+
 :root {
   --fiona-paper-white:#f9f9f7;
   --editorial-bg:#f9f9f7;
@@ -355,7 +359,14 @@ body::after {display:none!important;opacity:0!important;}
 }
 #portfolio-site .about-body .about-poem .about-given-name {margin-bottom:clamp(22px,2.4vw,38px);}
 #portfolio-site .about-body .about-poem p+p {margin-top:clamp(16px,1.7vw,25px);}
-#portfolio-site .about-body .about-poem .about-slogan {margin-top:clamp(34px,4vw,54px);}
+#portfolio-site .about-body .about-poem .about-slogan {
+  margin-top:clamp(34px,4vw,54px);
+  font-family:Arial,"Noto Sans Bamum","Noto Sans Syriac","Noto Sans Symbols 2",sans-serif!important;
+  font-size:clamp(15px,1.3vw,18px)!important;
+  letter-spacing:-.025em!important;
+  line-height:1.55;
+  overflow-wrap:anywhere;
+}
 
 /* CONTACT: expressive oversized headline, but with the same proportion
    discipline as Home and About; preserve the animated Angel canvas. */
