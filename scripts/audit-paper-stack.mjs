@@ -99,10 +99,10 @@ for(const [name,width,height] of cases){
    assert(initial.stack.every(n=>n.position==='sticky'),'panel not sticky');
    assert(initial.paperStyling.rootWidth>=width-3,'outer site shell is still card-width');
    assert(initial.paperStyling.bodyImage.includes('handmade-paper-v12-soft-white.jpg'));
-   assert.equal(initial.paperStyling.bodySize,'cover','body background doesn't match section');
-   assert.equal(initial.paperStyling.firstSize,'cover','hero background doesn't match body');
-   assert.equal(initial.paperStyling.contactSize,'cover','contact background doesn't match body');
-   assert.equal(initial.paperStyling.footerSize,'cover','footer background doesn't match body');
+   assert.equal(initial.paperStyling.bodySize,'cover','body background does not match section');
+   assert.equal(initial.paperStyling.firstSize,'cover','hero background does not match body');
+   assert.equal(initial.paperStyling.contactSize,'cover','contact background does not match body');
+   assert.equal(initial.paperStyling.footerSize,'cover','footer background does not match body');
    assert.equal(initial.paperStyling.firstPosition,initial.paperStyling.bodyPosition,'paper origins differ');
    assert.equal(initial.paperStyling.firstAttachment,initial.paperStyling.bodyAttachment,'paper attachment differs');
    assert.equal(initial.paperStyling.shadow,'none','visible section outline still present');
