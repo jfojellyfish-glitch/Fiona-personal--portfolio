@@ -105,6 +105,8 @@ for(const [name,width,height] of cases){
   assert(Math.max(...initial.headings.map(x=>x.font)) - Math.min(...initial.headings.map(x=>x.font))<2,
    'work, notes and about headings diverged');
   assert(initial.archive.images.length===3 && initial.archive.figures.length===3);
+  assert(initial.archive.images.every(i=>i.h>25),
+    'lazy archive image collapsed before entering the viewport');
   assert(initial.content.worksLinks>=2 && initial.content.archiveLinks===3 &&
          initial.content.aboutName && initial.content.contactMail,'content/link lost');
   assert.equal(initial.contact.canvasOpacity,'0.18','Angel stipple opacity changed');
@@ -166,6 +168,14 @@ for(const [name,width,height] of cases){
     return {before,after,images:images.map(i=>({w:i.naturalWidth,h:i.naturalHeight,complete:i.complete,src:i.currentSrc.split('/').at(-1)})),
       noteBefore:initialNoteHeight,noteAfter:note.getBoundingClientRect().height};
   });
+  assert(imageGeometry.images.every(i=>i.complete&&i.w>0&&i.h>0),
+    'Archive images failed to load');
+  assert(imageGeometry.before.every(h=>h>25),
+    'Archive image had no reserved height before lazy loading');
+  assert(imageGeometry.after.every((h,i)=>Math.abs(h-imageGeometry.before[i])<3),
+    'Archive image jumped in size after loading');
+  assert(Math.abs(imageGeometry.noteAfter-imageGeometry.noteBefore)<3,
+    'Archive section changed height while images loaded');
   console.log('EDITORIAL_IMAGE_GEOMETRY '+name+' '+JSON.stringify(imageGeometry));
   await page.screenshot({path:'paper-stack-'+name+'.png'});
   if(['desktop','mobile'].includes(name)){
