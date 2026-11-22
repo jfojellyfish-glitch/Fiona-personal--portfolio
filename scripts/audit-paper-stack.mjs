@@ -61,6 +61,31 @@ for(const [name,width,height] of cases){
          contentCount:n.children.length,
        })),
        introTexture:getComputedStyle(document.querySelector('#intro-screen')).backgroundImage,
+       paperStyling:(()=>{
+         const bodyStyle=getComputedStyle(document.body);
+         const sections=nodes.filter(n=>!n.classList.contains('note-band'));
+         const first=getComputedStyle(sections[0]);
+         const last=getComputedStyle(sections[sections.length-1]);
+         const root=document.querySelector('#portfolio-site > .site');
+         const footer=document.querySelector('.site > main > footer');
+         const footerStyle=footer&&getComputedStyle(footer);
+         return {
+           rootWidth:Math.round(root?.getBoundingClientRect().width||0),
+           bodyImage:bodyStyle.backgroundImage,
+           bodySize:bodyStyle.backgroundSize,
+           bodyPosition:bodyStyle.backgroundPosition,
+           bodyAttachment:bodyStyle.backgroundAttachment,
+           firstSize:first.backgroundSize,
+           firstPosition:first.backgroundPosition,
+           firstAttachment:first.backgroundAttachment,
+           contactSize:last.backgroundSize,
+           contactAttachment:last.backgroundAttachment,
+           footerSize:footerStyle?.backgroundSize,
+           footerAttachment:footerStyle?.backgroundAttachment,
+           shadow:getComputedStyle(nodes[0]).boxShadow,
+           firstBorder:getComputedStyle(nodes[0]).borderTopWidth
+         };
+       })(),
        footer:(()=>{const r=document.querySelector('.site > main > footer')?.getBoundingClientRect();return r?{left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width)}:null})(),
        contact:!!document.querySelector('#contact-angel-canvas'),
        entries:document.querySelectorAll('#notes .archive-entry-link').length,
@@ -72,6 +97,16 @@ for(const [name,width,height] of cases){
    assert.equal(initial.enabled,true);
    assert.equal(initial.count,6);
    assert(initial.stack.every(n=>n.position==='sticky'),'panel not sticky');
+   assert(initial.paperStyling.rootWidth>=width-3,'outer site shell is still card-width');
+   assert(initial.paperStyling.bodyImage.includes('handmade-paper-v12-soft-white.jpg'));
+   assert.equal(initial.paperStyling.bodySize,'cover','body background doesn't match section');
+   assert.equal(initial.paperStyling.firstSize,'cover','hero background doesn't match body');
+   assert.equal(initial.paperStyling.contactSize,'cover','contact background doesn't match body');
+   assert.equal(initial.paperStyling.footerSize,'cover','footer background doesn't match body');
+   assert.equal(initial.paperStyling.firstPosition,initial.paperStyling.bodyPosition,'paper origins differ');
+   assert.equal(initial.paperStyling.firstAttachment,initial.paperStyling.bodyAttachment,'paper attachment differs');
+   assert.equal(initial.paperStyling.shadow,'none','visible section outline still present');
+   assert.equal(initial.paperStyling.firstBorder,'0px','paper edge line still present');
    assert(initial.stack.every(n=>n.scale==='none'),'a whole panel was transformed');
    assert(initial.stack.every(n=>Math.abs(n.top-n.expected)<3),'long content might be clipped');
    assert(initial.stack.every(n=>n.width>=width-3),'full-bleed paper misses viewport edge');
