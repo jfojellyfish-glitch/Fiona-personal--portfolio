@@ -1,33 +1,27 @@
-/* v61 — Section motion based on the approved V12: never scale a panel,
- * keep paper full-bleed, animate only existing content groups.
- * Tall sections (especially mobile Notes/About) scroll to their natural end
- * before the next paper covers them. Respect reduced motion. */
+/* v66 — Fiona's editorial section rhythm.
+ * Keeps the real six section nodes and all existing links/drawers.
+ * Previous six-panel sticky/100svh stack caused unbalanced blank areas and
+ * awkward long-content scrolling. New transition: a short, reversible lift
+ * INSIDE natural-height full-bleed sections; no scaling, no pinning.
+ * On phones the content is completely stationary to avoid overlaps.
+ */
 (() => {
-  const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
-  if (reduced.matches || !CSS.supports('position','sticky')) return;
-
   const root=document.getElementById('portfolio-site');
   const site=root?.querySelector(':scope > .site');
   const main=site?.querySelector(':scope > main');
   const band=root?.querySelector(':scope > section.note-band');
   const lastSite=root?.querySelectorAll(':scope > .site')[1];
-  if (!site || !main || !band || !lastSite) return;
+  if(!site||!main||!band||!lastSite)return;
 
-  // Original markup is split into two .site shells with a full-width pink
-  // statement between them. Bring the same real elements into one main so
-  // their sticky layer order is continuous. Nothing is cloned or clipped.
+  // Preserve the original artwork and archive DOM. They were separated by
+  // two .site shells; give them a single flow for one coherent layout grid.
   main.appendChild(band);
-  while (lastSite.firstChild) main.appendChild(lastSite.firstChild);
+  while(lastSite.firstChild) main.appendChild(lastSite.firstChild);
   lastSite.remove();
 
-  const selectors=['.hero','.works','.note-band','.notes','.about','.contact'];
-  const panels=selectors.map(s=>main.querySelector(':scope > section'+s));
-  if (panels.some(p=>!p)) return;
-
-  const clamp=n=>Math.max(0,Math.min(1,n));
-  const smooth=n=>{const t=clamp(n);return t*t*(3-2*t);};
-  let ticking=false;
-  let drawerOpen=false;
+  const panels=['.hero','.works','.note-band','.notes','.about','.contact']
+    .map(s=>main.querySelector(':scope > section'+s));
+  if(panels.some(p=>!p))return;
 
   panels.forEach((panel,i)=>{
     panel.classList.add('paper-stack-panel');
@@ -35,58 +29,47 @@
   });
   document.documentElement.classList.add('paper-stack-enabled');
 
-  function measure() {
+  const reduced=window.matchMedia('(prefers-reduced-motion:reduce)');
+  const clamp=n=>Math.max(0,Math.min(1,n));
+  const ease=x=>{const t=clamp(x);return t*t*(3-2*t);};
+  let pending=false;
+  let archiveOpen=false;
+  function update(){
+    pending=false;
+    if(document.hidden||archiveOpen)return;
     const vh=window.innerHeight;
-    for (const panel of panels) {
-      // Tall chapters must be able to reveal their bottom-most paragraphs.
-      // Negative sticky top is crucial on narrow/mobile viewports.
-      const height=panel.offsetHeight;
-      panel.style.setProperty('--paper-stick-top',Math.min(0,vh-height)+'px');
+    const phone=window.innerWidth<=700;
+    const silent=phone||reduced.matches;
+    for(let i=0;i<panels.length;i++){
+      const el=panels[i];
+      const r=el.getBoundingClientRect();
+      // Enter near the bottom of the viewport, settle by its upper quarter.
+      const enters=i===0?1:ease((vh-r.top)/(vh*.78));
+      // Ease out only when the LAST content is leaving the upper viewport;
+      // this is independent of a panel's intrinsic content height.
+      const exits=ease((vh*.20-r.bottom)/(vh*.46));
+      const y=silent?0:Math.round(((1-enters)*16-exits*7)*100)/100;
+      const opacity=silent?1:Math.max(.94,1-(1-enters)*.055-exits*.022);
+      el.style.setProperty('--editorial-content-y',y.toFixed(2)+'px');
+      el.style.setProperty('--editorial-content-alpha',opacity.toFixed(3));
     }
-    schedule();
   }
-
-  function update() {
-    ticking=false;
-    if (document.hidden || drawerOpen) return;
-    const vh=window.innerHeight;
-    const narrow=window.innerWidth<=700;
-    const rects=panels.map(p=>p.getBoundingClientRect());
-    panels.forEach((panel,i)=>{
-      const rect=rects[i];
-      const next=rects[i+1];
-      const entering=i===0?1:smooth((vh-rect.top)/(vh*.74));
-      const leaving=next?smooth((vh-next.top)/(vh*.88)):0;
-      const tall=panel.offsetHeight>vh*1.07;
-      const safeMobile=narrow && (tall || window.innerWidth<360);
-
-      // Keep the actual panel fully sized at all times. Move all direct child
-      // groups by the same small amount, never reflow a paragraph individually.
-      const rise=safeMobile?0:narrow?9:25;
-      const recede=safeMobile?0:narrow?6:20;
-      const y=(1-entering)*rise-leaving*recede;
-      const fade=safeMobile?1:1-(1-entering)*(narrow?.02:.055)-leaving*(narrow?.025:.11);
-      panel.style.setProperty('--paper-content-y',y.toFixed(2)+'px');
-      panel.style.setProperty('--paper-content-opacity',fade.toFixed(3));
-      panel.classList.toggle('paper-stack-active',rect.top<vh*1.05 && rect.bottom>-vh*.08);
-    });
-  }
-
-  function schedule() {
-    if (ticking) return;
-    ticking=true;
+  function request(){
+    if(pending)return;
+    pending=true;
     requestAnimationFrame(update);
   }
-  window.addEventListener('scroll',schedule,{passive:true});
-  window.addEventListener('resize',measure,{passive:true});
-  document.addEventListener('visibilitychange',schedule);
-  document.getElementById('intro-enter')?.addEventListener('click',()=>requestAnimationFrame(schedule));
-
-  const observer=new ResizeObserver(measure);
-  panels.forEach(panel=>observer.observe(panel));
-  if (document.fonts?.ready) document.fonts.ready.then(measure);
-  window.visualViewport?.addEventListener('resize',measure,{passive:true});
-  const setDrawer=()=>{drawerOpen=document.body.classList.contains('archive-open');if(!drawerOpen)schedule();};
-  new MutationObserver(setDrawer).observe(document.body,{attributes:true,attributeFilter:['class']});
-  measure();
+  const checkArchive=()=>{
+    archiveOpen=document.body.classList.contains('archive-open');
+    if(!archiveOpen)request();
+  };
+  window.addEventListener('scroll',request,{passive:true});
+  window.addEventListener('resize',request,{passive:true});
+  document.addEventListener('visibilitychange',request);
+  reduced.addEventListener?.('change',request);
+  new MutationObserver(checkArchive).observe(document.body,
+    {attributes:true,attributeFilter:['class']});
+  document.getElementById('intro-enter')?.addEventListener('click',request);
+  document.fonts?.ready?.then(request);
+  request();
 })();
