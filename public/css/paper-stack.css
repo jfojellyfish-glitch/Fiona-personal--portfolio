@@ -79,7 +79,7 @@ body::after { opacity:0!important; }
   }
   /* This is the V12 floating editorial motion: move only content groups
      as a unit; no individual line-by-line or row stagger. */
-  html.paper-stack-enabled .site > main > section.paper-stack-panel > * {
+  html.paper-stack-enabled .site > main > section.paper-stack-panel > :not(.contact-angel-canvas) {
     translate:0 var(--paper-content-y,0px);
     opacity:var(--paper-content-opacity,1);
     transition:none;
@@ -119,7 +119,7 @@ body::after { opacity:0!important; }
       box-shadow:0 -1px 1px rgba(54,44,39,.045),
                  0 -8px 22px rgba(54,44,39,.055);
     }
-    html.paper-stack-enabled .site > main > section.paper-stack-panel > * {
+    html.paper-stack-enabled .site > main > section.paper-stack-panel > :not(.contact-angel-canvas) {
       /* On narrow screens all existing content groups keep their relative
          layout: mobile scrolling changes at most a handful of pixels. */
       translate:0 var(--paper-content-y,0px);
