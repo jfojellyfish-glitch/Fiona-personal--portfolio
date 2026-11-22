@@ -2,7 +2,7 @@
 import {PlainArrow} from '@/components/PlainArrow';
 import {useEffect,useMemo,useRef,useState} from 'react';
 import {CollectionSearch} from './CollectionSearch';
-import {assetUrl} from './types';
+import {assetUrl,formatDate} from './types';
 import type {Photo} from './types';
 
 export function PhotographyDrawer({photos,active}:{photos:Photo[];active:boolean}){
@@ -10,7 +10,7 @@ export function PhotographyDrawer({photos,active}:{photos:Photo[];active:boolean
  const [selected,setSelected]=useState<number|null>(null);
  const closeRef=useRef<HTMLButtonElement>(null);
  const prior=useRef<HTMLElement|null>(null);
- const shown=useMemo(()=>photos.filter(p=>[p.title,p.year,p.location].join(' ').toLocaleLowerCase()
+ const shown=useMemo(()=>photos.filter(p=>[p.title,p.year,p.date,p.location].join(' ').toLocaleLowerCase()
    .includes(query.trim().toLocaleLowerCase())),[photos,query]);
  const close=()=>{setSelected(null);};
  const open=(p:Photo)=>{
@@ -48,9 +48,9 @@ export function PhotographyDrawer({photos,active}:{photos:Photo[];active:boolean
          <div className="photo-grid">
            {shown.map(p=><button key={p.file} type="button" className="photo-card" onClick={()=>open(p)}
                 aria-label={'Open photograph: '+p.title}>
-             <img src={assetUrl(p.file)} alt={p.alt||p.title} loading="lazy" decoding="async"/>
+             <img src={assetUrl(p.file)} alt={p.alt||p.title} width={p.width} height={p.height} loading="lazy" decoding="async"/>
              <span className="photo-caption">{p.title}</span>
-             <span className="photo-meta">{[p.year,p.location].filter(Boolean).join(' · ')}</span>
+             <span className="photo-meta">{[formatDate(p.date)||p.year,p.location].filter(Boolean).join(' · ')}</span>
            </button>)}
          </div>{query&&shown.length===0&&<p className="archive-search-empty">nothing found.</p>}
        </div>}
@@ -59,11 +59,11 @@ export function PhotographyDrawer({photos,active}:{photos:Photo[];active:boolean
          <button ref={closeRef} type="button" className="photo-close" aria-label="Close photograph" onClick={close}>close ×</button></div>
        <div className="photo-lightbox-body">
          <button type="button" aria-label="Previous photograph" onClick={()=>setSelected(n=>n===null?null:(n-1+photos.length)%photos.length)}><PlainArrow direction="left" /></button>
-         <img src={assetUrl(selectedPhoto.file)} alt={selectedPhoto.alt||selectedPhoto.title}/>
+         <img src={assetUrl(selectedPhoto.file)} alt={selectedPhoto.alt||selectedPhoto.title} width={selectedPhoto.width} height={selectedPhoto.height}/>
          <button type="button" aria-label="Next photograph" onClick={()=>setSelected(n=>n===null?null:(n+1)%photos.length)}><PlainArrow direction="right" /></button>
        </div>
        <div className="photo-lightbox-caption"><span>{selectedPhoto.title}</span>
-         <span>{[selectedPhoto.year,selectedPhoto.location].filter(Boolean).join(' · ')}</span></div>
+         <span>{[formatDate(selectedPhoto.date)||selectedPhoto.year,selectedPhoto.location].filter(Boolean).join(' · ')}</span></div>
      </div>}
      <nav aria-label="Archive pages" className="archive-page-bottom"><a href="#objects"><PlainArrow direction="left" /> 3d objects</a><span>© 2026 Fiona Qian</span></nav>
    </div>

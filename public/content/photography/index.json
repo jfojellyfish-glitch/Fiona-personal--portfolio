@@ -1,3 +1,22 @@
 {
-  "photos": []
+  "photos": [
+    {
+      "title": "The Staircase",
+      "file": "assets/photography/stairs-2026-07-22.webp",
+      "alt": "A person in a light jacket ascending a grand marble staircase beneath an ornate stone arch",
+      "year": "2026",
+      "date": "2026-07-22",
+      "width": 960,
+      "height": 1439
+    },
+    {
+      "title": "The Figures",
+      "file": "assets/photography/figures-2026-07-22.webp",
+      "alt": "Two large folkloric human figures standing together in a stone hall with hanging lanterns",
+      "year": "2026",
+      "date": "2026-07-22",
+      "width": 960,
+      "height": 1440
+    }
+  ]
 }
