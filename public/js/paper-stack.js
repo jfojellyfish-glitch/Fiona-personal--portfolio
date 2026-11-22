@@ -29,6 +29,37 @@
   });
   document.documentElement.classList.add('paper-stack-enabled');
 
+  // Keep the original dotted <333 as live type, not a stretched image.
+  // Match its visible ink height to the neighbouring biography at every desktop
+  // width. A fixed scaleY(1.85) previously left the mark looking squat.
+  const about=main.querySelector(':scope > section.about');
+  const poem=about?.querySelector('.about-poem');
+  const glyph=about?.querySelector('.about-identity .question');
+  const metricsCanvas=document.createElement('canvas');
+  const metricsContext=metricsCanvas.getContext('2d');
+  function sizeAboutGlyph(){
+    if(!poem||!glyph)return;
+    if(window.innerWidth<=700){
+      glyph.style.removeProperty('--about-vertical-scale');
+      return;
+    }
+    const computed=getComputedStyle(glyph);
+    const fontSize=parseFloat(computed.fontSize)||120;
+    if(metricsContext){
+      metricsContext.font=`${computed.fontStyle} ${computed.fontWeight} ${computed.fontSize} ${computed.fontFamily}`;
+    }
+    const m=metricsContext?.measureText(glyph.textContent?.trim()||'<333');
+    const inkHeight=(m?.actualBoundingBoxAscent||0)+(m?.actualBoundingBoxDescent||0);
+    const nominalInk=inkHeight>0?inkHeight:fontSize*.78;
+    const target=poem.getBoundingClientRect().height*.91;
+    const scale=Math.min(8,Math.max(2,target/nominalInk));
+    glyph.style.setProperty('--about-vertical-scale',scale.toFixed(3));
+  }
+  if(typeof ResizeObserver!=='undefined'&&poem){
+    new ResizeObserver(sizeAboutGlyph).observe(poem);
+  }
+  sizeAboutGlyph();
+
   const reduced=window.matchMedia('(prefers-reduced-motion:reduce)');
   const clamp=n=>Math.max(0,Math.min(1,n));
   const ease=x=>{const t=clamp(x);return t*t*(3-2*t);};
@@ -64,12 +95,12 @@
     if(!archiveOpen)request();
   };
   window.addEventListener('scroll',request,{passive:true});
-  window.addEventListener('resize',request,{passive:true});
+  window.addEventListener('resize',()=>{sizeAboutGlyph();request();},{passive:true});
   document.addEventListener('visibilitychange',request);
   reduced.addEventListener?.('change',request);
   new MutationObserver(checkArchive).observe(document.body,
     {attributes:true,attributeFilter:['class']});
   document.getElementById('intro-enter')?.addEventListener('click',request);
-  document.fonts?.ready?.then(request);
+  document.fonts?.ready?.then(()=>{sizeAboutGlyph();request();});
   request();
 })();
