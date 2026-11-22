@@ -1,4 +1,4 @@
-/* v66: Full-site editorial rhythm audit, using the REAL Next.js export.
+/* v69: Full-site editorial rhythm audit, using the REAL Next.js export.
    No screenshot-only or viewport-only smoke claims: check actual geometry
    across sections, intrinsic image ratios, layout, mobile and scroll motion. */
 import puppeteer from 'puppeteer-core';
@@ -74,7 +74,8 @@ for(const [name,width,height] of cases){
        title:rect(hero.querySelector('.hero-title')),image:rect(lotus),
        intrinsic:[lotus.naturalWidth,lotus.naturalHeight],
        imgSource:lotus.src.slice(0,22),overline:rect(hero.querySelector('.hero-left > .kicker')),
-       intro:rect(hero.querySelector('.hero-intro'))},
+       intro:rect(hero.querySelector('.hero-intro')),
+        identity:rect(hero.querySelector('.hero-identity'))},
      noteStatement:{kicker:rect(note.querySelector('.inner > .kicker')),
        message:rect(note.querySelector('.inner > p')),
        textAlign:style(note.querySelector('.inner > p')).textAlign},
@@ -125,8 +126,17 @@ for(const [name,width,height] of cases){
       && initial.headings[1].font>=initial.headings[0].font*.6,
     'the smaller Things on My Desktop heading is disproportionate');
   if(width>700) {
-    assert(initial.archive.figures[0].w<=640,
+    assert(initial.archive.figures[0].w<=600,
       'first Archive artwork overpowers the editorial column');
+    assert(initial.archive.figures[1].w>=initial.archive.figures[0].w*.60,
+      'second Archive artwork is visually lost beside the first');
+    assert(initial.about.identity.h<=450,
+      'desktop About decoration reserves too much empty vertical space');
+    assert(initial.heroColumns.intro.y-initial.heroColumns.identity.bottom<150,
+      'hero introduction is disconnected from the signature');
+  } else {
+    assert(initial.about.identity.h<=170,
+      'mobile About decoration pushes biography too far down');
   }
   assert(initial.archive.images.length===3 && initial.archive.figures.length===3);
   assert(initial.archive.images.every(i=>i.h>25),
@@ -203,7 +213,7 @@ for(const [name,width,height] of cases){
   console.log('EDITORIAL_IMAGE_GEOMETRY '+name+' '+JSON.stringify(imageGeometry));
   await page.screenshot({path:'paper-stack-'+name+'.png'});
   if(['desktop','mobile'].includes(name)){
-   for(const section of ['notes','about','contact']){
+   for(const section of ['hero','works','note-band','notes','about','contact']){
      await page.evaluate(key=>{
        const el=document.querySelector('section.'+key);
        window.scrollTo({top:window.scrollY+el.getBoundingClientRect().top,behavior:'instant'});
