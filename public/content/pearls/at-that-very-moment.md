@@ -28,4 +28,4 @@ Naomi kissed his almost nonexistent upper lip, just as she kissed the breakdown 
 
 Western feng shui amounted to little more than placing a screen between a bookcase and a bed. And across the bedsheets, amid all the crossings and manoeuvres, fell a copy of the *I Ching*, long since drained of its flavour.
 
-After that May, she and he never saw each other again.
+After that May, they never saw each other again.
