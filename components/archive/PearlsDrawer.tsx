@@ -25,7 +25,7 @@ export function PearlsDrawer({entries,active,slug}:{entries:Pearl[];active:boole
      .then(setMarkdown).catch(e=>{if(e.name!=='AbortError')setLoadError(true);});
    return ()=>ctrl.abort();
  },[selectedPath,active]);
- return <section aria-label="Pearls" className="archive-page" data-archive-page="writing" id="writing-page" hidden={!active}>
+ return <section aria-label="Pearls" className={selected?"archive-page pearl-reader-open":"archive-page"} data-archive-page="writing" id="writing-page" hidden={!active}>
    <div className="archive-page-inner">
      <div className="archive-page-top"><a className="archive-back" href="#notes"><PlainArrow direction="left" /> back to index</a><span>fᵢₒₙₐ / 01</span></div>
      <header className="archive-page-heading"><p className="archive-overline">drawer no. 01 / pearls</p>
