@@ -25,6 +25,15 @@
       "file": "content/pearls/ten-thousand-rivers-ten-thousand-mountains.md"
     },
     {
+      "slug": "random-words",
+      "title": "Random Words",
+      "date": "2025-12",
+      "description": "On time, partings, and what becomes of old heartbreaks.",
+      "category": "fragment",
+      "file": "content/pearls/random-words.md",
+      "englishFile": "content/pearls/random-words.en.md"
+    },
+    {
       "slug": "random-murmur-2",
       "title": "Random murmur #2",
       "date": "2026-05",
