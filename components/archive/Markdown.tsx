@@ -8,7 +8,7 @@ const isChineseOnly=(value:string)=>/[\u3400-\u9fff]/.test(value)&&!/[A-Za-z]/.t
 function languageRuns(value:string):ReactNode[]{
  return value.split(/([\u3400-\u9fff]+(?:[，。！？、；：（）]*[\u3400-\u9fff]+)*)/g)
   .filter(Boolean).map((part,i)=>/[\u3400-\u9fff]/.test(part)
-   ? <span key={i} lang="zh" className="pearl-han-inline">{part}</span>:part);
+   ? <span key={i} lang="zh-Hant" className="pearl-han-inline">{part}</span>:part);
 }
 
 function inline(text:string):ReactNode[]{
@@ -39,7 +39,7 @@ export function Markdown({text}:{text:string}){
    if(/^>\s/.test(line)){const start=i;const quote:string[]=[];
      while(i<lines.length&&/^>\s/.test(lines[i].trim()))quote.push(lines[i++].trim().slice(2));
      const quoteText=quote.join('\n');
-     out.push(<blockquote key={start} lang={isChineseOnly(quoteText)?'zh':undefined}><p>{inline(quoteText)}</p></blockquote>);continue;
+     out.push(<blockquote key={start} lang={isChineseOnly(quoteText)?'zh-Hant':undefined}><p>{inline(quoteText)}</p></blockquote>);continue;
    }
    const unordered=/^[-*]\s+/.test(line),ordered=/^\d+\.\s+/.test(line);
    if(unordered||ordered){const start=i;const items:ReactNode[]=[];const pattern=unordered?/^[-*]\s+(.+)$/:/^\d+\.\s+(.+)$/;
@@ -50,7 +50,7 @@ export function Markdown({text}:{text:string}){
    while(i<lines.length){const t=lines[i].trim();if(!t||/^(#{1,3})\s|^>\s|^[-*]\s|^\d+\.\s|^---+$/.test(t))break;paragraph.push(t);i++;}
    if(paragraph.length){
      const paragraphText=paragraph.join(' '),isHan=isChineseOnly(paragraphText);
-     out.push(<p key={start} lang={isHan?'zh':undefined} className={isHan&&[...paragraphText].length<=30?'pearl-interlude':undefined}>{inline(paragraphText)}</p>);
+     out.push(<p key={start} lang={isHan?'zh-Hant':undefined} className={isHan&&[...paragraphText].length<=30?'pearl-interlude':undefined}>{inline(paragraphText)}</p>);
    }
  }
  return <>{out}</>;
