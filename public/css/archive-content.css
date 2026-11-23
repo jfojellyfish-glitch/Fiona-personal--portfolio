@@ -617,3 +617,32 @@
 @media(prefers-reduced-motion:reduce) {
   #writing-page .pearl-audio-button {transition:none;}
 }
+
+/* Quiet native voice picker, visually paired with listen. */
+#writing-page .pearl-audio-voice {
+  appearance:none;
+  -webkit-appearance:none;
+  max-width:160px;
+  min-width:0;
+  padding:5px 13px 5px 0;
+  border:0;
+  border-bottom:1px solid #c6bcb5;
+  border-radius:0;
+  background:transparent;
+  color:#68615d;
+  font:400 11px/1.6 var(--pearl-english,"Courier New",monospace);
+  letter-spacing:.015em;
+  cursor:pointer;
+  text-overflow:ellipsis;
+}
+#writing-page .pearl-audio-voice:focus-visible {
+  outline:2px solid currentColor;
+  outline-offset:3px;
+}
+#writing-page .pearl-audio-voice:disabled {
+  opacity:.42;
+  cursor:not-allowed;
+}
+@media(max-width:700px) {
+  #writing-page .pearl-audio-voice {max-width:125px;}
+}
