@@ -27,3 +27,5 @@ Loved the bones of his brow, loved his eyelashes, so beautiful they looked almos
 Naomi kissed his almost nonexistent upper lip, just as she kissed the breakdown she had lived with for so long. That morning she took Plan B. She knew the mine disaster had already happened somewhere inside her.
 
 Western feng shui amounted to little more than placing a screen between a bookcase and a bed. And across the bedsheets, amid all the crossings and manoeuvres, fell a copy of the *I Ching*, long since drained of its flavour.
+
+Naomi never saw Amir again.
