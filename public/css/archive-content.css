@@ -459,3 +459,15 @@
   #photography-page .photo-grid .photo-card:nth-child(2n+1) {justify-self:start;}
   #photography-page .photo-grid .photo-card:nth-child(2n) {justify-self:end;}
 }
+
+/* Pearls divider-free editorial spacing.
+   Keep the existing type, links and rhythm; remove the horizontal rules
+   only inside drawer 01 (desktop and mobile). */
+#writing-page .archive-page-top,
+#writing-page .archive-page-bottom,
+#writing-page .pearl-list,
+#writing-page .pearl-card,
+#writing-page .archive-search {
+  border-top:0;
+  border-bottom:0;
+}
