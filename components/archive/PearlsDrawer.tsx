@@ -10,18 +10,21 @@ export function PearlsDrawer({entries,active,slug}:{entries:Pearl[];active:boole
  const [query,setQuery]=useState('');
  const [markdown,setMarkdown]=useState('');
  const [loadError,setLoadError]=useState(false);
+ const [languageChoice,setLanguageChoice]=useState<{slug:string;language:'zh'|'en'}>({slug:'',language:'zh'});
  const selected=entries.find(e=>e.slug===slug);
+ const language=languageChoice.slug===slug?languageChoice.language:'zh';
+ const selectedPath=selected?.englishFile&&language==='en'?selected.englishFile:selected?.file;
  const visible=useMemo(()=>entries.filter(e=>[e.title,e.description,e.category,e.date]
    .join(' ').toLocaleLowerCase().includes(query.trim().toLocaleLowerCase())),[entries,query]);
  useEffect(()=>{
-   if(!selected||!active){setMarkdown('');setLoadError(false);return;}
+   if(!selectedPath||!active){setMarkdown('');setLoadError(false);return;}
    const ctrl=new AbortController();
    setMarkdown('');setLoadError(false);
-   fetch(assetUrl(selected.file),{signal:ctrl.signal,cache:'no-cache'})
+   fetch(assetUrl(selectedPath),{signal:ctrl.signal,cache:'no-cache'})
      .then(r=>{if(!r.ok)throw new Error('Markdown missing');return r.text();})
      .then(setMarkdown).catch(e=>{if(e.name!=='AbortError')setLoadError(true);});
    return ()=>ctrl.abort();
- },[selected,active]);
+ },[selectedPath,active]);
  return <section aria-label="Pearls" className="archive-page" data-archive-page="writing" id="writing-page" hidden={!active}>
    <div className="archive-page-inner">
      <div className="archive-page-top"><a className="archive-back" href="#notes"><PlainArrow direction="left" /> back to index</a><span>fᵢₒₙₐ / 01</span></div>
@@ -31,9 +34,16 @@ export function PearlsDrawer({entries,active,slug}:{entries:Pearl[];active:boole
      <div className="archive-collection" aria-label="Published pearls">
        {selected?<article className="pearl-reader">
          <a className="pearl-reader-back" href="#writing"><PlainArrow direction="left" /> all pearls</a>
-         <p className="pearl-reader-date">{[formatDate(selected.date),selected.category].filter(Boolean).join(' / ')}</p>
+         <div className="pearl-reader-meta">
+           <p className="pearl-reader-date">{[formatDate(selected.date),selected.category].filter(Boolean).join(' / ')}</p>
+           {selected.englishFile&&<button type="button" className="pearl-language-switch"
+             aria-label={language==='zh'?'Read in English':'切换到中文'}
+             onClick={()=>setLanguageChoice({slug:selected.slug,language:language==='zh'?'en':'zh'})}>
+             <span>{language==='zh'?'EN':'中文'}</span><span aria-hidden="true">↔</span>
+           </button>}
+         </div>
          <h2>{selected.title}</h2>
-         <div className="pearl-reader-body">{loadError?<p>This pearl could not be opened. Please check its file path.</p>:
+         <div className="pearl-reader-body" lang={selected.englishFile?(language==='zh'?'zh-Hans':'en'):undefined} data-language={selected.englishFile?language:undefined}>{loadError?<p>This pearl could not be opened. Please check its file path.</p>:
            markdown?<Markdown text={markdown}/>:<p>loading…</p>}</div>
          <a className="pearl-reader-bottom" href="#writing"><PlainArrow direction="left" /> back to pearls</a>
        </article>:<>
