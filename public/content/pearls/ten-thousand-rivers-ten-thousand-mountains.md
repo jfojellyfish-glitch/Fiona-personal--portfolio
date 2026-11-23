@@ -6,7 +6,7 @@ Since the summer had begun to draw to an end, I had started seeing a Polish boy,
 
 This winter was much like the last. I lay in bed and did nothing. Not even my telephone did I touch.
 
-Strangely enough, I spoke to my former boyfriend this month. Stranger still, we spoke with such composure.
+Strangely enough, I spoke to my ex this month. Stranger still, we spoke with such composure.
 
 I told him that my present boyfriend was very good to me, that he treated me well, and yet I could not seem to feel anything.
 
