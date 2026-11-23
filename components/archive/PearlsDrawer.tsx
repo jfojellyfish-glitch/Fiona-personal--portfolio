@@ -26,7 +26,7 @@ export function PearlsDrawer({entries,active,slug}:{entries:Pearl[];active:boole
    <div className="archive-page-inner">
      <div className="archive-page-top"><a className="archive-back" href="#notes"><PlainArrow direction="left" /> back to index</a><span>fᵢₒₙₐ / 01</span></div>
      <header className="archive-page-heading"><p className="archive-overline">drawer no. 01 / pearls</p>
-       <h1 tabIndex={-1}>passing<br/>thoughts.</h1><p>essays, notes, and things I wanted to write down.</p></header>
+       <h1 tabIndex={-1}>passing<br/>thoughts.</h1><p className="pearl-intro">essays, notes, and things I wanted to write down.</p><p className="pearl-zh-verse" lang="zh-Hant">筆底明珠無處賣，閒拋閒擲野藤中。</p></header>
      {entries.length===0?<div className="archive-empty archive-writing-empty"><span className="archive-small-num">01 —</span></div>:
      <div className="archive-collection" aria-label="Published pearls">
        {selected?<article className="pearl-reader">
