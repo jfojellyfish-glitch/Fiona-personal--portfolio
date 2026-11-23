@@ -1,13 +1,31 @@
 {
   "photos": [
     {
+      "file": "assets/photography/camera-at-dusk-2022-07-29.webp",
+      "date": "2022-07-29",
+      "year": "2022",
+      "width": 1800,
+      "height": 1800,
+      "alt": "An older digital camera framing a dusk landscape against the real sunset",
+      "title": "01"
+    },
+    {
+      "file": "assets/photography/snowy-carpark-2024-01-02.webp",
+      "date": "2024-01-02",
+      "year": "2024",
+      "width": 1151,
+      "height": 1536,
+      "alt": "A snow-covered hill behind parked cars on a winter morning",
+      "title": "02"
+    },
+    {
       "file": "assets/photography/forest-car-window-2024-02-13.webp",
       "date": "2024-02-13",
       "year": "2024",
       "width": 1151,
       "height": 1536,
       "alt": "Trees seen through a slanted car window in winter light",
-      "title": "01",
+      "title": "03",
       "displaySize": "medium"
     },
     {
@@ -17,7 +35,7 @@
       "width": 1536,
       "height": 1152,
       "alt": "Three sunlit leafless trees with branching twigs against a pale blue sky",
-      "title": "02",
+      "title": "04",
       "displaySize": "small"
     },
     {
@@ -27,7 +45,7 @@
       "width": 1152,
       "height": 1536,
       "alt": "Snow-covered cemetery with stone gravestones beneath a vivid blue winter sky",
-      "title": "03"
+      "title": "05"
     },
     {
       "file": "assets/photography/turquoise-chair-2024-09-03.webp",
@@ -36,7 +54,7 @@
       "width": 1152,
       "height": 1536,
       "alt": "An empty bright turquoise armchair in front of a weathered pale wall and barred window",
-      "title": "04",
+      "title": "06",
       "displaySize": "small"
     },
     {
@@ -46,7 +64,7 @@
       "width": 1800,
       "height": 1200,
       "alt": "An old red car mounted above shopfronts on a busy street",
-      "title": "05",
+      "title": "07",
       "displaySize": "medium"
     },
     {
@@ -56,7 +74,7 @@
       "width": 1023,
       "height": 1536,
       "alt": "Curving tiers of stone seats in an ancient amphitheatre, with tiny visitors below",
-      "title": "06",
+      "title": "08",
       "displaySize": "small"
     },
     {
@@ -66,7 +84,7 @@
       "width": 1152,
       "height": 1536,
       "alt": "Towering clouds and an old stone courtyard framed through a dark castle window",
-      "title": "07",
+      "title": "09",
       "displaySize": "medium"
     },
     {
@@ -76,7 +94,7 @@
       "width": 1536,
       "height": 1153,
       "alt": "Two white alpacas grazing in a grassy field with sharp afternoon shadows",
-      "title": "08",
+      "title": "10",
       "displaySize": "small"
     },
     {
@@ -86,7 +104,7 @@
       "width": 1152,
       "height": 1536,
       "alt": "Seagulls skimming over rippling blue water with small boats in the background",
-      "title": "09",
+      "title": "11",
       "displaySize": "medium"
     },
     {
@@ -96,7 +114,7 @@
       "width": 1152,
       "height": 1536,
       "alt": "A tiny performer below a huge blue illuminated projection of a face",
-      "title": "10",
+      "title": "12",
       "displaySize": "large"
     },
     {
@@ -106,7 +124,7 @@
       "width": 1151,
       "height": 1536,
       "alt": "A lone pale ceramic jar standing against a rust-coloured wall and bamboo",
-      "title": "11",
+      "title": "13",
       "displaySize": "small"
     },
     {
@@ -116,7 +134,7 @@
       "date": "2025-05-16",
       "width": 1152,
       "height": 1536,
-      "title": "12",
+      "title": "14",
       "displaySize": "medium"
     },
     {
@@ -126,11 +144,11 @@
       "width": 1152,
       "height": 1536,
       "alt": "Vivid red poppies and round seed pods in a patch of green planting",
-      "title": "13",
+      "title": "15",
       "displaySize": "small"
     },
     {
-      "title": "14",
+      "title": "16",
       "file": "assets/photography/water-lilies-2025-07-25.webp",
       "alt": "White and pale yellow water lilies floating among dark green lily pads",
       "year": "2025",
@@ -140,7 +158,7 @@
       "displaySize": "medium"
     },
     {
-      "title": "15",
+      "title": "17",
       "file": "assets/photography/green-threshold-2025-07-25.webp",
       "alt": "Deep green leaves framing a sunlit lawn and garden path",
       "year": "2025",
@@ -156,7 +174,7 @@
       "date": "2025-08-27",
       "width": 1152,
       "height": 1536,
-      "title": "16",
+      "title": "18",
       "displaySize": "medium"
     },
     {
@@ -166,7 +184,7 @@
       "date": "2025-08-28",
       "width": 1152,
       "height": 1536,
-      "title": "17",
+      "title": "19",
       "displaySize": "large"
     },
     {
@@ -176,7 +194,7 @@
       "date": "2025-09-09",
       "width": 1152,
       "height": 1536,
-      "title": "18",
+      "title": "20",
       "displaySize": "medium"
     },
     {
@@ -186,7 +204,7 @@
       "date": "2025-11-16",
       "width": 1536,
       "height": 1152,
-      "title": "19",
+      "title": "21",
       "displaySize": "small"
     },
     {
@@ -196,11 +214,11 @@
       "date": "2025-12-16",
       "width": 1152,
       "height": 1536,
-      "title": "20",
+      "title": "22",
       "displaySize": "small"
     },
     {
-      "title": "21",
+      "title": "23",
       "file": "assets/photography/sea-inlet-2025-12-16.webp",
       "alt": "A sheltered pool between sandy banks opening toward the sea beneath cloudy skies",
       "year": "2025",
@@ -210,7 +228,7 @@
       "displaySize": "medium"
     },
     {
-      "title": "22",
+      "title": "24",
       "file": "assets/photography/bench-by-the-sea-2025-12-16.webp",
       "alt": "Two distant people seated by the sea, viewed through a temporary fence beneath trees",
       "year": "2025",
@@ -220,7 +238,7 @@
       "displaySize": "medium"
     },
     {
-      "title": "23",
+      "title": "25",
       "file": "assets/photography/fruit-market-2025-12-17.webp",
       "alt": "Market baskets of apples, oranges, persimmons, avocados and pears",
       "year": "2025",
@@ -230,7 +248,7 @@
       "displaySize": "small"
     },
     {
-      "title": "24",
+      "title": "26",
       "file": "assets/photography/hall-of-light-2025-12-17.webp",
       "alt": "A large sunlit hall with repeating arches, worn walls and reflective dark floor",
       "year": "2025",
@@ -240,7 +258,7 @@
       "displaySize": "large"
     },
     {
-      "title": "25",
+      "title": "27",
       "file": "assets/photography/radiology-2025-12-17.webp",
       "alt": "An illuminated display of historic radiology prints and a medical advertisement",
       "year": "2025",
@@ -256,7 +274,7 @@
       "width": 1152,
       "height": 1536,
       "alt": "A narrow band of sunlight illuminating a decorative stone balustrade in a dark interior",
-      "title": "26",
+      "title": "28",
       "displaySize": "small"
     },
     {
@@ -266,7 +284,7 @@
       "width": 1152,
       "height": 1536,
       "alt": "Pastel pink tiled vaulted arches and carved stone columns in an ornate interior",
-      "title": "27",
+      "title": "29",
       "displaySize": "medium"
     },
     {
@@ -276,7 +294,7 @@
       "width": 1152,
       "height": 1536,
       "alt": "A faded childlike flower drawing on a textured yellow exterior wall",
-      "title": "28",
+      "title": "30",
       "displaySize": "small"
     },
     {
@@ -286,7 +304,7 @@
       "width": 1536,
       "height": 1152,
       "alt": "A car passing a gothic stone building at night while lit windows sparkle",
-      "title": "29",
+      "title": "31",
       "displaySize": "medium"
     },
     {
@@ -294,28 +312,56 @@
       "width": 1800,
       "height": 1350,
       "alt": "Golden fields, distant farm buildings and a reflected vehicle window",
-      "title": "30"
+      "title": "32"
     },
     {
       "file": "assets/photography/rainbow-hill-undated.webp",
       "width": 1152,
       "height": 1536,
       "alt": "Two people walking across a green hillside beneath a rainbow and cloudy sky",
-      "title": "31"
+      "title": "33"
     },
     {
       "file": "assets/photography/rooftop-cross-undated.webp",
       "width": 1152,
       "height": 1536,
       "alt": "White cross rising above a terracotta roof against pale blue sky",
-      "title": "32"
+      "title": "34"
     },
     {
       "file": "assets/photography/two-on-cliff-undated.webp",
       "width": 1229,
       "height": 1536,
       "alt": "Two distant people standing on a grassy cliff beside a dark blue sea",
-      "title": "33"
+      "title": "35"
+    },
+    {
+      "file": "assets/photography/beach-people-undated.webp",
+      "width": 1536,
+      "height": 1019,
+      "alt": "Distant people standing in shallow water beneath a broad pale blue sky",
+      "title": "36"
+    },
+    {
+      "file": "assets/photography/wet-sand-pattern-undated.webp",
+      "width": 1152,
+      "height": 1536,
+      "alt": "Fine branching stream patterns and small stones on wet sand",
+      "title": "37"
+    },
+    {
+      "file": "assets/photography/coral-fragments-undated.webp",
+      "width": 1152,
+      "height": 1536,
+      "alt": "A scattered cluster of pale coral fragments on smooth wet sand",
+      "title": "38"
+    },
+    {
+      "file": "assets/photography/lone-coral-undated.webp",
+      "width": 1536,
+      "height": 1152,
+      "alt": "A single white coral fragment resting on dark wet sand",
+      "title": "39"
     }
   ]
 }
