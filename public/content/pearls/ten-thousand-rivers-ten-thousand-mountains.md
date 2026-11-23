@@ -46,7 +46,7 @@ To have travelled ten thousand rivers and ten thousand mountains, only to arrive
 
 In this small town in northeast Scotland, people often asked if they'd ever come back. I could never tell whether they were asking me or themselves.
 
-For many young people, Aberdeen is a forgotten place, somewhere their youth feels shut away. There are times I don't like this town. You could call it a quiet little corner of the world, set apart from everything. Or you could simply say it lacks the bustle of London, or even Edinburgh.
+Aberdeen, for most young people, is a forgotten place, a place in which one's youth seems somehow confined. There are times when I do not like this town. One might say, rather generously, that it stands apart from the world, a small and quiet corner of human existence. Or one might simply say that it has none of the bustle of London, nor even Edinburgh.
 
 "Everything happened so fast," Joey said.
 
