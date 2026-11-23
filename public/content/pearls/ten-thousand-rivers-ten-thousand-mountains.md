@@ -1,6 +1,6 @@
 萬水千山
 
-In December 2023, I suddenly realised I was becoming numb.
+In the last month of 2023, I became suddenly aware that my mind was growing dull.
 
 Towards the end of summer, I started seeing a Polish boy and made two new friends. Before I knew it, another year was almost over. I had gradually stopped taking the little white and pale-yellow pills I'd been on for years, the ones that had helped me maintain something resembling an ordinary life. Yet somehow, even without opening the packets, without swallowing a thing, I was going numb all on my own.
 
