@@ -1,0 +1,1 @@
+Keep your gaze beyond the meetings and partings of life. Stretch the timeline out; looking back, the things that shattered you a few years ago are now little more than stories that get a laugh in conversation.
