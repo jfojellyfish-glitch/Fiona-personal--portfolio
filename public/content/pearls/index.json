@@ -47,6 +47,14 @@
       "description": "On fortune sticks, becoming, and learning to live with change.",
       "category": "essay",
       "file": "content/pearls/the-oriental-magpie-i-carry-on-my-left-shoulder.md"
+    },
+    {
+      "slug": "random-murmur-2",
+      "title": "Random murmur #2",
+      "date": "2026-11",
+      "description": "春梦、竹林、西湖与观音撒下的珍珠。",
+      "category": "fragment",
+      "file": "content/pearls/random-murmur-2.md"
     }
   ]
 }
