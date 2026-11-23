@@ -8,7 +8,7 @@ He laughed and called her toxic. One day, he said, it would fail her. Perhaps on
 
 Of course, Naomi told him luv u, too.
 
-Il se couvrit le visage et eut un petit rire.
+Il se couvrit le visage. Un rire lui échappa.
 
 Bro, you know that's a lie, she said.
 
