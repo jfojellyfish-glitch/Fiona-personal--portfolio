@@ -26,7 +26,7 @@ These days, though, I told him, I barely cared what I ate. If there was nothing 
 
 "You weren't like this before," he said. "You could spend all day talking about something you wanted to eat if you couldn't have it. Crying, complaining, making such a fuss."
 
-I thought of the girl who had once wanted things so badly.
+And I thought of that girl, who had once wanted things so terribly.
 
 Earlier that year, I told him, I'd been to an island with one of the few Vietnamese restaurants around. Compared with the countryside where I lived, it seemed almost luxurious. It was a small place run by a couple. The husband was English, the wife Vietnamese. She had once worked as a nurse in Taiwan and spoke a little Mandarin.
 
