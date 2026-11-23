@@ -1,4 +1,4 @@
-export type Pearl={title:string;slug:string;file:string;date?:string;description?:string;category?:string};
+export type Pearl={title:string;slug:string;file:string;englishFile?:string;date?:string;description?:string;category?:string};
 export type Photo={title:string;file:string;alt?:string;year?:string;date?:string;location?:string;width?:number;height?:number;displaySize?:'small'|'medium'|'large'};
 export type Model={title:string;file?:string;alt?:string;year?:string;description?:string;sketchfabId?:string;sketchfabUrl?:string;url?:string};
 export type Drawer='writing'|'objects'|'photography'|'none';
