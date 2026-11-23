@@ -515,3 +515,43 @@
   #writing-page .pearl-language-switch {font-size:11px;}
   #writing-page .pearl-reader-body[data-language="zh"] {font-size:17px;line-height:2.05;}
 }
+
+/* Pearls desktop editorial rhythm.
+   Mobile (700px and below) retains its existing typography and spacing. */
+@media (min-width:701px) {
+  #writing-page.pearl-reader-open .archive-page-heading {
+    display:none;
+  }
+  #writing-page.pearl-reader-open .archive-collection {
+    margin-top:0;
+  }
+  #writing-page .pearl-reader {
+    margin-top:clamp(26px,3vw,42px);
+    margin-bottom:clamp(65px,7vw,100px);
+  }
+  #writing-page .pearl-reader-meta {
+    margin:clamp(24px,3vw,40px) 0 22px;
+  }
+  #writing-page .pearl-reader > h2 {
+    margin-bottom:clamp(30px,3vw,44px);
+  }
+  #writing-page .pearl-reader-body {
+    line-height:1.76;
+  }
+  #writing-page .pearl-reader-body > p {
+    margin-bottom:1.12em;
+  }
+  #writing-page .pearl-reader-body > p:first-child {
+    line-height:1.77;
+    margin-bottom:1.2em;
+  }
+  #writing-page .pearl-reader-body[data-language="zh"] {
+    line-height:1.94;
+  }
+  #writing-page .pearl-reader-body[data-language="zh"] > p:first-child {
+    line-height:1.94;
+  }
+  #writing-page .pearl-card {
+    padding-block:clamp(23px,2.7vw,36px);
+  }
+}
