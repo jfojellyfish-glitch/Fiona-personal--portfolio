@@ -1,4 +1,5 @@
 import {PlainArrow} from '@/components/PlainArrow';
+import {formatDate} from '@/components/archive/types';
 import type { Metadata } from 'next';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -23,7 +24,7 @@ export default function ArchivePage(){
     <p className="archive-explainer">three drawers: one for words, one for objects, and one for photographs.</p>
     <div className="archive-collections">{collections.map(c=><section key={c.id}>
       <div className="archive-collection-heading"><span>{c.id} / {c.name}</span><a href={`${homeUrl}${c.route.slice(1)}`}>open drawer <PlainArrow direction="up-right" /></a></div>
-      {c.data.length?<ul>{c.data.map((item,i)=><li key={item.title+i}><span>{item.title}</span><small>{item.year??item.date??item.location??''}</small></li>)}</ul>:<p className="archive-empty-state">a little space for things to come.</p>}
+      {c.data.length?<ul>{c.data.map((item,i)=><li key={item.title+i}><span>{item.title}</span><small>{item.date?formatDate(item.date):(item.year??item.location??'')}</small></li>)}</ul>:<p className="archive-empty-state">a little space for things to come.</p>}
     </section>)}</div>
     <footer>© 2026 Fiona Qian</footer>
   </main>;
