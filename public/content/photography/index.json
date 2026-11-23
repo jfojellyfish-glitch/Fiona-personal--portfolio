@@ -308,60 +308,78 @@
       "displaySize": "medium"
     },
     {
+      "file": "assets/photography/milan-cathedral-2026-02-07.webp",
+      "year": "2026",
+      "date": "2026-02-07",
+      "width": 1800,
+      "height": 1350,
+      "alt": "Gothic cathedral spires viewed from beneath an awning, partly obscured by a stone column",
+      "title": "32"
+    },
+    {
+      "file": "assets/photography/pink-blossoms-2026-03-01.webp",
+      "year": "2026",
+      "date": "2026-03-01",
+      "width": 1152,
+      "height": 1536,
+      "alt": "Delicate pink blossoms and branching twigs against a clear blue spring sky",
+      "title": "33"
+    },
+    {
       "file": "assets/photography/fields-through-window-undated.webp",
       "width": 1800,
       "height": 1350,
       "alt": "Golden fields, distant farm buildings and a reflected vehicle window",
-      "title": "32"
+      "title": "34"
     },
     {
       "file": "assets/photography/rainbow-hill-undated.webp",
       "width": 1152,
       "height": 1536,
       "alt": "Two people walking across a green hillside beneath a rainbow and cloudy sky",
-      "title": "33"
+      "title": "35"
     },
     {
       "file": "assets/photography/rooftop-cross-undated.webp",
       "width": 1152,
       "height": 1536,
       "alt": "White cross rising above a terracotta roof against pale blue sky",
-      "title": "34"
+      "title": "36"
     },
     {
       "file": "assets/photography/two-on-cliff-undated.webp",
       "width": 1229,
       "height": 1536,
       "alt": "Two distant people standing on a grassy cliff beside a dark blue sea",
-      "title": "35"
+      "title": "37"
     },
     {
       "file": "assets/photography/beach-people-undated.webp",
       "width": 1536,
       "height": 1019,
       "alt": "Distant people standing in shallow water beneath a broad pale blue sky",
-      "title": "36"
+      "title": "38"
     },
     {
       "file": "assets/photography/wet-sand-pattern-undated.webp",
       "width": 1152,
       "height": 1536,
       "alt": "Fine branching stream patterns and small stones on wet sand",
-      "title": "37"
+      "title": "39"
     },
     {
       "file": "assets/photography/coral-fragments-undated.webp",
       "width": 1152,
       "height": 1536,
       "alt": "A scattered cluster of pale coral fragments on smooth wet sand",
-      "title": "38"
+      "title": "40"
     },
     {
       "file": "assets/photography/lone-coral-undated.webp",
       "width": 1536,
       "height": 1152,
       "alt": "A single white coral fragment resting on dark wet sand",
-      "title": "39"
+      "title": "41"
     }
   ]
 }
