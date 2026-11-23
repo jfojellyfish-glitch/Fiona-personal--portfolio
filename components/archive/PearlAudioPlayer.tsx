@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-type ReadingState = 'idle' | 'playing' | 'paused' | 'error';
+type ReadingState = 'idle' | 'starting' | 'playing' | 'paused' | 'error';
 type SpeechChunk = { text: string; language: 'en-GB' | 'zh-CN' };
 
 function cleanMarkdownParagraph(text: string): string {
@@ -80,9 +80,24 @@ export function PearlAudioPlayer({
   const [supported, setSupported] = useState(true);
   const [progress, setProgress] = useState({ current: 0, total: 0 });
   const runRef = useRef(0);
+  // Keep the current utterance alive (especially important for Mobile Safari).
+  const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+  const startTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const clearStartTimeout = () => {
+    if (startTimeoutRef.current !== null) {
+      clearTimeout(startTimeoutRef.current);
+      startTimeoutRef.current = null;
+    }
+  };
 
   const stop = useCallback(() => {
     runRef.current += 1;
+    if (startTimeoutRef.current !== null) {
+      clearTimeout(startTimeoutRef.current);
+      startTimeoutRef.current = null;
+    }
+    utteranceRef.current = null;
     if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
     }
@@ -101,6 +116,11 @@ export function PearlAudioPlayer({
     if (!active) stop();
     return () => {
       runRef.current += 1;
+      if (startTimeoutRef.current !== null) {
+        clearTimeout(startTimeoutRef.current);
+        startTimeoutRef.current = null;
+      }
+      utteranceRef.current = null;
       if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
         window.speechSynthesis.cancel();
       }
@@ -111,6 +131,10 @@ export function PearlAudioPlayer({
     if (!supported || !markdown || !active) return;
     const synth = window.speechSynthesis;
 
+    if (state === 'starting') {
+      stop();
+      return;
+    }
     if (state === 'playing') {
       synth.pause();
       setState('paused');
@@ -127,13 +151,18 @@ export function PearlAudioPlayer({
 
     runRef.current += 1;
     const run = runRef.current;
-    synth.cancel();
-    setState('playing');
-    setProgress({ current: 1, total: chunks.length });
+    clearStartTimeout();
+    // Safari may silently drop a speak() directly after an unnecessary cancel().
+    // Only clear a queue if the engine is actually occupied.
+    if (synth.speaking || synth.pending || synth.paused) synth.cancel();
+    setState('starting');
+    setProgress({ current: 0, total: chunks.length });
 
     const say = (index: number) => {
       if (runRef.current !== run) return;
       if (index >= chunks.length) {
+        clearStartTimeout();
+        utteranceRef.current = null;
         setProgress({ current: 0, total: 0 });
         setState('idle');
         return;
@@ -142,32 +171,63 @@ export function PearlAudioPlayer({
       const utterance = new SpeechSynthesisUtterance(chunk.text);
       utterance.lang = chunk.language;
       utterance.rate = 0.94;
+      utterance.volume = 1;
+      utteranceRef.current = utterance;
       const voice = chooseVoice(synth, chunk.language);
       if (voice) utterance.voice = voice;
       utterance.onstart = () => {
-        if (runRef.current === run) setProgress({ current: index + 1, total: chunks.length });
+        if (runRef.current !== run) return;
+        clearStartTimeout();
+        setState('playing');
+        setProgress({ current: index + 1, total: chunks.length });
       };
-      utterance.onend = () => say(index + 1);
+      utterance.onend = () => {
+        if (runRef.current === run) say(index + 1);
+      };
       utterance.onerror = () => {
-        if (runRef.current === run) {
-          setState('error');
-          setProgress({ current: 0, total: 0 });
-        }
+        if (runRef.current !== run) return;
+        clearStartTimeout();
+        utteranceRef.current = null;
+        setState('error');
+        setProgress({ current: 0, total: 0 });
       };
-      synth.speak(utterance);
+      // A silent browser failure often fires neither onstart nor onerror.
+      // Do not present it as successful playback.
+      if (index === 0) {
+        startTimeoutRef.current = setTimeout(() => {
+          if (runRef.current !== run) return;
+          if (!synth.speaking) {
+            runRef.current += 1;
+            utteranceRef.current = null;
+            synth.cancel();
+            setProgress({ current: 0, total: 0 });
+            setState('error');
+          }
+        }, 5000);
+      }
+      try {
+        synth.speak(utterance);
+      } catch {
+        clearStartTimeout();
+        utteranceRef.current = null;
+        setState('error');
+        setProgress({ current: 0, total: 0 });
+      }
     };
     say(0);
   };
 
-  const isReading = state === 'playing' || state === 'paused';
-  const label = state === 'playing' ? 'pause' : state === 'paused' ? 'resume' : 'listen';
+  const isReading = state === 'starting' || state === 'playing' || state === 'paused';
+  const label = state === 'starting' ? 'starting…'
+    : state === 'playing' ? 'pause' : state === 'paused' ? 'resume' : 'listen';
   return <div className="pearl-audio-controls" role="group" aria-label="Article audio">
     <button type="button" className="pearl-audio-button"
       onClick={toggle} disabled={!supported || !markdown || !active}
-      aria-label={state === 'playing' ? 'Pause article narration'
+      aria-label={state === 'starting' ? 'Cancel audio startup'
+        : state === 'playing' ? 'Pause article narration'
         : state === 'paused' ? 'Resume article narration' : 'Listen to this article'}
       aria-pressed={isReading}>
-      <span aria-hidden="true" className="pearl-audio-symbol">{state === 'playing' ? 'Ⅱ' : '▸'}</span>
+      <span aria-hidden="true" className="pearl-audio-symbol">{state === 'starting' ? '·' : state === 'playing' ? 'Ⅱ' : '▸'}</span>
       <span>{label}</span>
     </button>
     {isReading && <>
@@ -178,6 +238,6 @@ export function PearlAudioPlayer({
         onClick={stop} aria-label="Stop article narration">stop</button>
     </>}
     {!supported && <span className="pearl-audio-feedback" role="status">audio unavailable</span>}
-    {state === 'error' && <span className="pearl-audio-feedback" role="status">audio unavailable — try again</span>}
+    {state === 'error' && <span className="pearl-audio-feedback" role="status">No audio started. Try again in Safari and check device volume.</span>}
   </div>;
 }
