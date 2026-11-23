@@ -1,12 +1,28 @@
 {
   "entries": [
     {
-      "slug": "the-oriental-magpie-i-carry-on-my-left-shoulder",
-      "title": "The Oriental Magpie I Carry on My Left Shoulder",
-      "date": "2026-11",
-      "description": "On fortune sticks, becoming, and learning to live with change.",
+      "slug": "at-that-very-moment",
+      "title": "A “Love” Story",
+      "date": "2022-02",
+      "description": "Naomi and Emil, a confession of love, and the mine disaster.",
+      "category": "fiction",
+      "file": "content/pearls/at-that-very-moment.md"
+    },
+    {
+      "slug": "1-plus-1-equals-2",
+      "title": "1+1=2",
+      "date": "2023-11",
+      "description": "On love, motherland, illusion, and the certainty of an equation.",
+      "category": "fragment",
+      "file": "content/pearls/1-plus-1-equals-2.md"
+    },
+    {
+      "slug": "ten-thousand-rivers-ten-thousand-mountains",
+      "title": "Ten Thousand Rivers, Ten Thousand Mountains",
+      "date": "2023-12",
+      "description": "萬水千山 — On longing, distant places, and the people we leave behind.",
       "category": "essay",
-      "file": "content/pearls/the-oriental-magpie-i-carry-on-my-left-shoulder.md"
+      "file": "content/pearls/ten-thousand-rivers-ten-thousand-mountains.md"
     },
     {
       "slug": "twenty-four-inexplicably",
@@ -25,28 +41,12 @@
       "file": "content/pearls/nonsense-murmur-1.md"
     },
     {
-      "slug": "ten-thousand-rivers-ten-thousand-mountains",
-      "title": "Ten Thousand Rivers, Ten Thousand Mountains",
-      "date": "2023-12",
-      "description": "萬水千山 — On longing, distant places, and the people we leave behind.",
+      "slug": "the-oriental-magpie-i-carry-on-my-left-shoulder",
+      "title": "The Oriental Magpie I Carry on My Left Shoulder",
+      "date": "2026-11",
+      "description": "On fortune sticks, becoming, and learning to live with change.",
       "category": "essay",
-      "file": "content/pearls/ten-thousand-rivers-ten-thousand-mountains.md"
-    },
-    {
-      "slug": "1-plus-1-equals-2",
-      "title": "1+1=2",
-      "date": "2023-11",
-      "description": "On love, motherland, illusion, and the certainty of an equation.",
-      "category": "fragment",
-      "file": "content/pearls/1-plus-1-equals-2.md"
-    },
-    {
-      "slug": "at-that-very-moment",
-      "title": "A “Love” Story",
-      "date": "2022-02",
-      "description": "Naomi and Emil, a confession of love, and the mine disaster.",
-      "category": "fiction",
-      "file": "content/pearls/at-that-very-moment.md"
+      "file": "content/pearls/the-oriental-magpie-i-carry-on-my-left-shoulder.md"
     }
   ]
 }
