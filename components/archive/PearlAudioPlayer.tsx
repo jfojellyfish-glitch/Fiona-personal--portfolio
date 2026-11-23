@@ -65,12 +65,40 @@ function narrationChunks(title: string, markdown: string): SpeechChunk[] {
   );
 }
 
-function chooseVoice(synth: SpeechSynthesis, language: SpeechChunk['language']): SpeechSynthesisVoice | undefined {
+type VoiceOption = { id: string; name: string; lang: string };
+
+const preferredFemaleVoices: Record<SpeechChunk['language'], string[]> = {
+  'en-GB': ['serena', 'kate', 'martha', 'stephanie', 'samantha', 'karen', 'moira', 'tessa', 'ava', 'allison', 'victoria', 'fiona', 'zoe'],
+  'zh-CN': ['ting-ting', 'tingting', 'meijia', 'xiaoxiao', 'xiaoyi', 'xiaoyu', 'lili', 'yu-shu', 'sin-ji'],
+};
+
+function voiceId(voice: SpeechSynthesisVoice): string {
+  return voice.lang + '|' + voice.voiceURI + '|' + voice.name;
+}
+
+function chooseVoice(
+  synth: SpeechSynthesis,
+  language: SpeechChunk['language'],
+  selectedVoiceId: string,
+): SpeechSynthesisVoice | undefined {
   const voices = synth.getVoices();
-  const exact = voices.filter(voice => voice.lang.toLowerCase() === language.toLowerCase());
-  const sameLanguage = voices.filter(voice => voice.lang.toLowerCase().startsWith(language.slice(0, 2).toLowerCase()));
-  const options = exact.length ? exact : sameLanguage;
-  return options.find(voice => voice.localService) ?? options[0];
+  const requestedLanguage = language.slice(0, 2).toLowerCase();
+  const matching = voices.filter(voice => voice.lang.toLowerCase().startsWith(requestedLanguage));
+  if (selectedVoiceId !== 'auto') {
+    const picked = matching.find(voice => voiceId(voice) === selectedVoiceId);
+    if (picked) return picked;
+  }
+  // The browser exposes names and locales, but no reliable voice-gender field.
+  // Prefer familiar, gentle-sounding feminine voices where installed.
+  const names = preferredFemaleVoices[language];
+  for (const name of names) {
+    const best = matching.find(voice => voice.name.toLowerCase().includes(name));
+    if (best) return best;
+  }
+  return matching.find(voice => voice.lang.toLowerCase() === language.toLowerCase() && voice.localService)
+    ?? matching.find(voice => voice.lang.toLowerCase() === language.toLowerCase())
+    ?? matching.find(voice => voice.localService)
+    ?? matching[0];
 }
 
 export function PearlAudioPlayer({
@@ -79,6 +107,8 @@ export function PearlAudioPlayer({
   const [state, setState] = useState<ReadingState>('idle');
   const [supported, setSupported] = useState(true);
   const [progress, setProgress] = useState({ current: 0, total: 0 });
+  const [voices, setVoices] = useState<VoiceOption[]>([]);
+  const [selectedVoiceId, setSelectedVoiceId] = useState('auto');
   const runRef = useRef(0);
   // Keep the current utterance alive (especially important for Mobile Safari).
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
@@ -106,9 +136,19 @@ export function PearlAudioPlayer({
   }, []);
 
   useEffect(() => {
-    setSupported(typeof window !== 'undefined'
+    const available = typeof window !== 'undefined'
       && 'speechSynthesis' in window
-      && typeof SpeechSynthesisUtterance !== 'undefined');
+      && typeof SpeechSynthesisUtterance !== 'undefined';
+    setSupported(available);
+    if (!available) return;
+
+    const synth = window.speechSynthesis;
+    const refreshVoices = () => setVoices(synth.getVoices()
+      .filter(voice => /^(en|zh)(-|$)/i.test(voice.lang))
+      .map(voice => ({ id: voiceId(voice), name: voice.name, lang: voice.lang })));
+    refreshVoices();
+    synth.addEventListener('voiceschanged', refreshVoices);
+    return () => synth.removeEventListener('voiceschanged', refreshVoices);
   }, []);
 
   // Stop the voice when leaving the article, closing Pearls or switching languages.
@@ -170,10 +210,12 @@ export function PearlAudioPlayer({
       const chunk = chunks[index];
       const utterance = new SpeechSynthesisUtterance(chunk.text);
       utterance.lang = chunk.language;
-      utterance.rate = 0.94;
+      // A restrained pace is gentler than artificially raising the pitch.
+      utterance.rate = 0.89;
+      utterance.pitch = 1;
       utterance.volume = 1;
       utteranceRef.current = utterance;
-      const voice = chooseVoice(synth, chunk.language);
+      const voice = chooseVoice(synth, chunk.language, selectedVoiceId);
       if (voice) utterance.voice = voice;
       utterance.onstart = () => {
         if (runRef.current !== run) return;
@@ -218,6 +260,10 @@ export function PearlAudioPlayer({
   };
 
   const isReading = state === 'starting' || state === 'playing' || state === 'paused';
+  const hanCount = (markdown.match(/[\u3400-\u9fff]/g) ?? []).length;
+  const latinCount = (markdown.match(/[a-z]/gi) ?? []).length;
+  const primaryLanguage = hanCount > latinCount / 2 ? 'zh' : 'en';
+  const availableVoices = voices.filter(voice => voice.lang.toLowerCase().startsWith(primaryLanguage));
   const label = state === 'starting' ? 'starting…'
     : state === 'playing' ? 'pause' : state === 'paused' ? 'resume' : 'listen';
   return <div className="pearl-audio-controls" role="group" aria-label="Article audio">
@@ -230,6 +276,16 @@ export function PearlAudioPlayer({
       <span aria-hidden="true" className="pearl-audio-symbol">{state === 'starting' ? '·' : state === 'playing' ? 'Ⅱ' : '▸'}</span>
       <span>{label}</span>
     </button>
+    <select className="pearl-audio-voice" aria-label="Choose narration voice"
+      title="Choose the device narrator voice"
+      value={availableVoices.some(voice => voice.id === selectedVoiceId) ? selectedVoiceId : 'auto'}
+      onChange={event => { stop(); setSelectedVoiceId(event.target.value); }}
+      disabled={!supported || !markdown || !active}>
+      <option value="auto">soft voice</option>
+      {availableVoices.map(voice => <option key={voice.id} value={voice.id}>
+        {voice.name} ({voice.lang})
+      </option>)}
+    </select>
     {isReading && <>
       <span className="pearl-audio-progress" aria-hidden="true">
         {String(progress.current).padStart(2, '0')}/{String(progress.total).padStart(2, '0')}
