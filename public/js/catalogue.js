@@ -3,7 +3,12 @@ export function isRecord(value){return typeof value==='object'&&value!==null&&!A
 export function safePath(value){return typeof value==='string'&&!value.startsWith('/')&&!value.startsWith('\\')&&!value.includes('..')&&/^[a-zA-Z0-9_./-]+$/.test(value)&&!value.includes('//');}
 export function safeUrl(value){if(typeof value!=='string')return false;try{return new URL(value).protocol==='https:';}catch{return false;}}
 export function isValidDate(value){
- if(typeof value!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
+ if(typeof value!=='string')return false;
+ if(/^\d{4}-\d{2}$/.test(value)){
+  const m=Number(value.slice(5));
+  return m>=1&&m<=12;
+ }
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(value))return false;
  const [y,m,d]=value.split('-').map(Number),dt=new Date(Date.UTC(y,m-1,d));
  return dt.getUTCFullYear()===y&&dt.getUTCMonth()===m-1&&dt.getUTCDate()===d;
 }
