@@ -3,7 +3,6 @@ import {PlainArrow} from '@/components/PlainArrow';
 import { useEffect,useMemo,useState } from 'react';
 import { CollectionSearch } from './CollectionSearch';
 import { Markdown } from './Markdown';
-import { PearlAudioPlayer } from './PearlAudioPlayer';
 import { assetUrl,formatDate } from './types';
 import type { Pearl } from './types';
 
@@ -37,15 +36,11 @@ export function PearlsDrawer({entries,active,slug}:{entries:Pearl[];active:boole
          <a className="pearl-reader-back" href="#writing"><PlainArrow direction="left" /> all pearls</a>
          <div className="pearl-reader-meta">
            <p className="pearl-reader-date">{[formatDate(selected.date),selected.category].filter(Boolean).join(' / ')}</p>
-           <div className="pearl-reader-actions">
            {selected.englishFile&&<button type="button" className="pearl-language-switch"
              aria-label={language==='zh'?'Read in English':'切换到中文'}
              onClick={()=>setLanguageChoice({slug:selected.slug,language:language==='zh'?'en':'zh'})}>
              <span>{language==='zh'?'EN':'中文'}</span><span aria-hidden="true">↔</span>
            </button>}
-           <PearlAudioPlayer key={selected.slug + ':' + selectedPath}
-             title={selected.title} markdown={markdown} active={active && !loadError} />
-           </div>
          </div>
          <h2>{selected.title}</h2>
          <div className="pearl-reader-body" lang={selected.englishFile?(language==='zh'?'zh-Hans':'en'):undefined} data-language={selected.englishFile?language:undefined}>{loadError?<p>This pearl could not be opened. Please check its file path.</p>:
