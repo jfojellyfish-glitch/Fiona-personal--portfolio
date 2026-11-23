@@ -1,23 +1,13 @@
 {
   "photos": [
     {
-      "file": "assets/photography/snowy-carpark-2024-01-02.webp",
-      "date": "2024-01-02",
-      "year": "2024",
-      "width": 1151,
-      "height": 1536,
-      "alt": "Snowy mountains in soft blue daylight above parked cars",
-      "displaySize": "medium",
-      "title": "01"
-    },
-    {
       "file": "assets/photography/forest-car-window-2024-02-13.webp",
       "date": "2024-02-13",
       "year": "2024",
       "width": 1151,
       "height": 1536,
       "alt": "Trees seen through a slanted car window in winter light",
-      "title": "02",
+      "title": "01",
       "displaySize": "medium"
     },
     {
@@ -27,8 +17,17 @@
       "width": 1536,
       "height": 1152,
       "alt": "Three sunlit leafless trees with branching twigs against a pale blue sky",
-      "title": "03",
+      "title": "02",
       "displaySize": "small"
+    },
+    {
+      "file": "assets/photography/snowy-cemetery-2024-04-30.webp",
+      "year": "2024",
+      "date": "2024-04-30",
+      "width": 1152,
+      "height": 1536,
+      "alt": "Snow-covered cemetery with stone gravestones beneath a vivid blue winter sky",
+      "title": "03"
     },
     {
       "file": "assets/photography/turquoise-chair-2024-09-03.webp",
@@ -289,6 +288,34 @@
       "alt": "A car passing a gothic stone building at night while lit windows sparkle",
       "title": "29",
       "displaySize": "medium"
+    },
+    {
+      "file": "assets/photography/fields-through-window-undated.webp",
+      "width": 1800,
+      "height": 1350,
+      "alt": "Golden fields, distant farm buildings and a reflected vehicle window",
+      "title": "30"
+    },
+    {
+      "file": "assets/photography/rainbow-hill-undated.webp",
+      "width": 1152,
+      "height": 1536,
+      "alt": "Two people walking across a green hillside beneath a rainbow and cloudy sky",
+      "title": "31"
+    },
+    {
+      "file": "assets/photography/rooftop-cross-undated.webp",
+      "width": 1152,
+      "height": 1536,
+      "alt": "White cross rising above a terracotta roof against pale blue sky",
+      "title": "32"
+    },
+    {
+      "file": "assets/photography/two-on-cliff-undated.webp",
+      "width": 1229,
+      "height": 1536,
+      "alt": "Two distant people standing on a grassy cliff beside a dark blue sea",
+      "title": "33"
     }
   ]
 }

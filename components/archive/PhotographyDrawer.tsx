@@ -85,7 +85,7 @@ export function PhotographyDrawer({photos,active}:{photos:Photo[];active:boolean
          <img key={selectedPhoto.file} src={assetUrl(selectedPhoto.file)} alt={selectedPhoto.alt||selectedPhoto.title} width={selectedPhoto.width} height={selectedPhoto.height}/>
          <button type="button" aria-label="Next photograph" onClick={()=>setSelected(n=>n===null?null:(n+1)%photos.length)}><PlainArrow direction="right" /></button>
        </div>
-       <div className="photo-lightbox-caption"><span>{formatDate(selectedPhoto.date)||selectedPhoto.year}</span></div>
+       {(selectedPhoto.date||selectedPhoto.year)&&<div className="photo-lightbox-caption"><span>{formatDate(selectedPhoto.date)||selectedPhoto.year}</span></div>}
      </div>}
      <nav aria-label="Archive pages" className="archive-page-bottom"><a href="#objects"><PlainArrow direction="left" /> 3d objects</a><span>© 2026 Fiona Qian</span></nav>
    </div>
