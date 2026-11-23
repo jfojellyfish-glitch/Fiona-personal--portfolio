@@ -22,7 +22,7 @@ When Naomi was floating among the clouds, when she lay in his room one afternoon
 
 At that moment she really did love him, Naomi thought.
 
-Loved the bones of his brow, loved his eyelashes, so beautiful they looked almost fake, loved the way he talked and talked without stopping, loved that half the songs on his playlist were songs she liked. Loved his curly hair, his idealism, the Lenin tattoo on his arm. Loved that life was an ouroboros. Loved the way he brushed his teeth with his mouth crooked to one side, no different from a little boy. Loved how his slightly cool lips, damp with moisture, carried her into London at the end of May, still freezing.
+Loved the bones of his brow, loved his eyelashes, so beautiful they looked almost fake, loved the way he talked and talked without stopping, loved that half the songs on his playlist were songs she liked. Loved his curly hair, his idealism, the Lenin tattoo on his arm. Loved that life was an ouroboros. Loved the way he brushed his teeth with his mouth crooked to one side, no different from a little boy. Loved how his faintly cool lips, damp with moisture, carried her into London at the end of May, still freezing.
 
 Naomi kissed his almost nonexistent upper lip, just as she kissed the breakdown she had lived with for so long. That morning she took Plan B. She knew the mine disaster had already happened somewhere inside her.
 
