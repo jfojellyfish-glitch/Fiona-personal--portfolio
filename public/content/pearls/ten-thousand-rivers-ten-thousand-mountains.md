@@ -42,7 +42,7 @@ Perhaps that's what love is, I said. Passing through crowds, or places where the
 
 That village.
 
-To have crossed ten thousand rivers and mountains, only to arrive at last in my promised land.
+To have travelled ten thousand rivers and ten thousand mountains, only to arrive, at last, in my promised land.
 
 In this small town in northeast Scotland, people often asked if they'd ever come back. I could never tell whether they were asking me or themselves.
 
