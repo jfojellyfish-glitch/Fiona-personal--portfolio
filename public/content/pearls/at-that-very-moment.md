@@ -14,7 +14,7 @@ Bro, you know that's a lie, she said.
 
 He looked at her and said, but perhaps it was true at that very moment.
 
-Naomi treated I love you like *jiuniang*, sweet fermented rice wine. When she said it, she felt none of the embarrassment of saying it in her mother tongue. Drunk late at night, she would tell everyone she passed in the street, i love u.
+Naomi treated I love you like *jiǔ niàng*, sweet fermented rice wine. When she said it, she felt none of the embarrassment of saying it in her mother tongue. Drunk late at night, she would tell everyone she passed in the street, i love u.
 
 Love, how vast you are.
 
