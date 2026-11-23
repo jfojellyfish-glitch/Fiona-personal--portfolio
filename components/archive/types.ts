@@ -3,11 +3,14 @@ export type Photo={title:string;file:string;alt?:string;year?:string;date?:strin
 export type Model={title:string;file?:string;alt?:string;year?:string;description?:string;sketchfabId?:string;sketchfabUrl?:string;url?:string};
 export type Drawer='writing'|'objects'|'photography'|'none';
 export const BASE_PATH=process.env.NEXT_PUBLIC_BASE_PATH??'/Fiona-personal--portfolio';
-/** All public dates in the archive are shown as YYYY.MM, never day-level. */
+/** Display archive dates as EnglishMonth/YYYY with no day. */
 export function formatDate(s?:string):string{
  if(!s)return '';
  const match=/^(\d{4})-(\d{2})(?:-\d{2})?$/.exec(s);
- return match?match[1]+'.'+match[2]:s;
+ if(!match)return s;
+ const monthNames=['January','February','March','April','May','June','July','August','September','October','November','December'];
+ const month=Number(match[2]);
+ return month>=1&&month<=12?monthNames[month-1]+'/'+match[1]:s;
 }
 export function isSafeAsset(s?:string):s is string{
  return !!s&&/^[a-zA-Z0-9_./-]+$/.test(s)&&!s.startsWith('/')&&!s.includes('..');
