@@ -1,4 +1,4 @@
-There was a coolness in Amir's house. Naomi curled up in a chair, eating the food he had made for her. In Persian, he told her that to cook for someone was to spare their hands from harm. She curled her tongue, trying to echo the foreignness in his voice, but however she tried, the trilled *R* sounded ridiculous.
+Amir's house was freezing. Naomi curled up in a chair, eating the food he had made for her. In Persian, he told her that to cook for someone was to spare their hands from harm. She curled her tongue, trying to echo the foreignness in his voice, but however she tried, the trilled *R* sounded ridiculous.
 
 Naomi had come from Korea. She was of Chinese and Japanese descent. She was always telling him, you white assholes know nothing of our East Asian sorrow. Whenever she called him white, he frowned and said, I'm half. Once she told him she was trying to look at certain things without her East Asian blood getting in the way. He laughed a little. A good idea, he said, but you'll find there's no escaping it. In Beijing they thought he was American. In America they thought he was from Dubai. In England he was English.
 
