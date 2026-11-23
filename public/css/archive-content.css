@@ -471,3 +471,47 @@
   border-top:0;
   border-bottom:0;
 }
+
+/* Pearls: bilingual one-button switch for individual writing entries. */
+#writing-page .pearl-reader-meta {
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:20px;
+  margin:clamp(55px,8vw,108px) 0 26px;
+}
+#writing-page .pearl-reader-meta .pearl-reader-date {margin:0;}
+#writing-page .pearl-language-switch {
+  display:inline-flex;
+  align-items:center;
+  gap:10px;
+  flex-shrink:0;
+  border:0;
+  border-bottom:1px solid #aea59e;
+  padding:5px 0;
+  background:transparent;
+  color:#68615d;
+  font:400 11px/1.6 var(--pearl-english,"Courier New",monospace);
+  letter-spacing:.08em;
+  cursor:pointer;
+  transition:color .2s ease,border-color .2s ease;
+}
+#writing-page .pearl-language-switch:hover {color:#272320;border-bottom-color:#272320;}
+#writing-page .pearl-language-switch:focus-visible {outline:2px solid currentColor;outline-offset:4px;}
+#writing-page .pearl-language-switch span[aria-hidden="true"] {font-size:15px;letter-spacing:0;}
+#writing-page .pearl-reader-body[data-language="zh"] {
+  font-family:var(--pearl-chinese,"Noto Serif SC",serif)!important;
+  font-size:clamp(17px,1.4vw,19px);
+  line-height:2.12;
+  letter-spacing:.05em;
+}
+#writing-page .pearl-reader-body[data-language="zh"] > p:first-child {
+  font-size:inherit;
+  line-height:inherit;
+  letter-spacing:inherit;
+}
+@media(max-width:700px){
+  #writing-page .pearl-reader-meta {margin:58px 0 23px;}
+  #writing-page .pearl-language-switch {font-size:11px;}
+  #writing-page .pearl-reader-body[data-language="zh"] {font-size:17px;line-height:2.05;}
+}
