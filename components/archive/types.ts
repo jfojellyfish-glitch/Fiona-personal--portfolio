@@ -6,7 +6,14 @@ export const BASE_PATH=process.env.NEXT_PUBLIC_BASE_PATH??'/Fiona-personal--port
 export function formatDate(s?:string):string{
  if(!s)return '';
  const match=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
- return match?match[3]+'.'+match[2]+'.'+match[1]:s;
+ if(match)return match[3]+'.'+match[2]+'.'+match[1];
+ const month=/^(\d{4})-(\d{2})$/.exec(s);
+ if(month){
+  const names=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const n=Number(month[2]);
+  return n>=1&&n<=12?names[n-1]+' '+month[1]:s;
+ }
+ return s;
 }
 export function isSafeAsset(s?:string):s is string{
  return !!s&&/^[a-zA-Z0-9_./-]+$/.test(s)&&!s.startsWith('/')&&!s.includes('..');
